@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.robocraft999.traidingnetwork.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "TraidingNetwork.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
