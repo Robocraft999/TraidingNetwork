@@ -1,0 +1,7 @@
+// 1.20.1	2024-02-16T21:11:24.8295562	Registrate Provider for traidingnetwork [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+c8338ab01130bd730c2bc7021d4c8947878a5060 assets/traidingnetwork/blockstates/create_shredder.json
+70c72a3692c82165e91ceedf95ce0c491dc22250 assets/traidingnetwork/lang/en_ud.json
+63c346f2aa0b736d1eb1cccedb3bc88814fe7182 assets/traidingnetwork/lang/en_us.json
+72229591163003ee9d830f4691531d180260097b assets/traidingnetwork/models/block/create_shredder.json
+e4e153c626d8a11c753211d61132288bb2b555f8 assets/traidingnetwork/models/item/create_shredder.json
+d7ae793ab4f392a5fe89aafe351ae2303a14ff0a data/traidingnetwork/loot_tables/blocks/create_shredder.json
