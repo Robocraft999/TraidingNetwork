@@ -6,11 +6,12 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 
 public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
-    private static final ResourceLocation texture = TraidingNetwork.rl("textures/gui/shredder.png");
+    private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/shredder.png");
     private final ShredderInventory inv;
     public ShredderScreen(ShredderMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
@@ -22,8 +23,15 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics graphics, float v, int i, int i1) {
-        graphics.blit(texture, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+    protected void renderBg(@NotNull GuiGraphics graphics, float v, int i, int i1) {
+        renderBackground(graphics);
+        graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+    }
+
+    @Override
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override

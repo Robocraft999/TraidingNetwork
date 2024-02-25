@@ -1,16 +1,21 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
+import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
 import com.robocraft999.traidingnetwork.gui.slots.*;
+import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.registry.TNMenuTypes;
+import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -51,7 +56,12 @@ public class ShredderMenu extends TNContainerMenu {
                 BigInteger pointsBigInt = BigInteger.valueOf(points);
                 shredderInventory.addResourcePoints(pointsBigInt.multiply(BigInteger.valueOf(stackToInsert.getCount())));
                 TraidingNetwork.LOGGER.info("t"+shredderInventory.provider.getPoints());
-                shredderInventory.addItemToNetwork(stackToInsert);
+                player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(provider -> {
+                    if (provider.getSlotsHandler() instanceof RItemStackHandler handler){
+                        handler.put(stackToInsert);
+                    }
+                    provider.syncSlots((ServerPlayer) player, new ArrayList<>(), IResourceItemProvider.TargetUpdateType.ALL);
+                });
             }
             currentSlot.set(ItemStack.EMPTY);
         }

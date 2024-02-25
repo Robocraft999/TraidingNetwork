@@ -21,8 +21,6 @@ public class SlotConsume extends InventoryContainerSlot{
         if (inv.isServer() && !stack.isEmpty()) {
             //inv.handleKnowledge(stack);
             inv.addResourcePoints(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stack)).multiply(BigInteger.valueOf(stack.getCount())));
-            TraidingNetwork.LOGGER.info("TTTT");
-            inv.addItemToNetwork(stack);
             this.setChanged();
         }
     }
