@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "traidingnetwork:block/create_shredder/block"
+    },
+    "facing=north": {
+      "model": "traidingnetwork:block/create_shredder/block",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "traidingnetwork:block/create_shredder/block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "traidingnetwork:block/create_shredder/block",
+      "y": 180
+    }
+  }
+}
