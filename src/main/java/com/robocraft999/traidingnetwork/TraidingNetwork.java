@@ -2,16 +2,20 @@ package com.robocraft999.traidingnetwork;
 
 import com.mojang.logging.LogUtils;
 import com.robocraft999.traidingnetwork.api.capabilities.impl.ShredderOffline;
-import com.robocraft999.traidingnetwork.api.resourcepoints.ItemNetwork;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.registry.TNBlockEntities;
 import com.robocraft999.traidingnetwork.registry.TNBlocks;
 import com.robocraft999.traidingnetwork.registry.TNMenuTypes;
+import com.robocraft999.traidingnetwork.registry.TNPartials;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.tterrag.registrate.Registrate;
+import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.KineticStats;
+import com.simibubi.create.foundation.item.TooltipHelper;
+import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,6 +27,7 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -42,6 +47,11 @@ public class TraidingNetwork {
     //public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MODID));
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID);
 
+    static {
+        REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE)
+                .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
+    }
+
     public static final RegistryEntry<CreativeModeTab> testcreativetab = REGISTRATE.object("test_creative_mode_tab")
             .defaultCreativeTab(tab -> tab.withLabelColor(0xFF00AA00))
             .register();
@@ -60,6 +70,7 @@ public class TraidingNetwork {
         TNBlocks.register();
         TNBlockEntities.register();
         TNMenuTypes.register();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> TNPartials::init);
 
         PacketHandler.register();
 
@@ -95,13 +106,6 @@ public class TraidingNetwork {
     }
 
     @SubscribeEvent
-    public void onServerStopping(ServerStoppingEvent event){
-        for (Slot slot : ItemNetwork.INSTANCE.slots){
-            LOGGER.info(slot.getItem().toString());
-        }
-    }
-
-    @SubscribeEvent
     public void onServerStopped(ServerStoppedEvent event){
         ShredderOffline.clearAll();
     }
@@ -116,6 +120,9 @@ public class TraidingNetwork {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            RenderType cutout = RenderType.cutoutMipped();
+
+            ItemBlockRenderTypes.setRenderLayer(TNBlocks.CREATE_SHREDDER.get(), cutout);
         }
     }
 }

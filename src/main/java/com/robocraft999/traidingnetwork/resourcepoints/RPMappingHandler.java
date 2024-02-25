@@ -1,4 +1,4 @@
-package com.robocraft999.traidingnetwork.api.resourcepoints;
+package com.robocraft999.traidingnetwork.resourcepoints;
 
 import com.robocraft999.traidingnetwork.api.ItemInfo;
 import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;

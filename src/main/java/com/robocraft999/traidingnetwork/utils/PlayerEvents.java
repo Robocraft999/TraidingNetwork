@@ -63,11 +63,6 @@ public class PlayerEvents {
     }
 
     @SubscribeEvent
-    public static void registerCaps(RegisterCapabilitiesEvent event){
-        event.register(IResourcePointProvider.class);
-    }
-
-    @SubscribeEvent
     public static void playerConnect(PlayerEvent.PlayerLoggedInEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
         PacketHandler.sendFragmentedEmcPacket(player);
