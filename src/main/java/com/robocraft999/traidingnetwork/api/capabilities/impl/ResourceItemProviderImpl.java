@@ -1,19 +1,18 @@
 package com.robocraft999.traidingnetwork.api.capabilities.impl;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointStorage;
-import com.robocraft999.traidingnetwork.net.PacketHandler;
-import com.robocraft999.traidingnetwork.net.SyncInputsAndLocksPKT;
-import com.robocraft999.traidingnetwork.net.SyncProviderPKT;
-import com.robocraft999.traidingnetwork.net.SyncProviderResourcePointPKT;
+import com.robocraft999.traidingnetwork.net.*;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
+import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -24,109 +23,86 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResourcePointProviderImpl {
-    public static IResourcePointProvider getDefault() {
-        return new DefaultImpl(null);
+public class ResourceItemProviderImpl {
+
+    public static IResourceItemProvider getDefault() {
+        return new ResourceItemProviderImpl.DefaultImpl(null);
     }
 
-    public static class DefaultImpl implements IResourcePointProvider {
+    public static class DefaultImpl implements IResourceItemProvider{
+
         @Nullable
-        private final Player player;
-        private final ItemStackHandler inputLocks = new ItemStackHandler(9);
-        private BigInteger points = BigInteger.ZERO;
+        private final Level level;
+        private final RItemStackHandler slots = new RItemStackHandler();
 
-        private DefaultImpl(@Nullable Player player) {
-            this.player = player;
+        private DefaultImpl(@Nullable Level level) {
+            this.level = level;
         }
 
         @Override
-        public BigInteger getPoints() {
-            return points;
-        }
-
-        @Override
-        public void setPoints(BigInteger points) {
-            this.points = points;
-        }
-
-        @Override
-        public void syncPoints(@NotNull ServerPlayer player) {
-            PacketHandler.sendTo(new SyncProviderResourcePointPKT(getPoints()), player);
+        public IItemHandler getSlotsHandler() {
+            return this.slots;
         }
 
         @Override
         public void sync(@NotNull ServerPlayer player) {
-            PacketHandler.sendTo(new SyncProviderPKT(serializeNBT()), player);
+            PacketHandler.sendTo(new SyncItemProviderPKT(serializeNBT()), player);
         }
 
         @Override
-        public IItemHandler getInputAndLocks() {
-            return this.inputLocks;
-        }
-
-        @Override
-        public void syncInputAndLocks(@NotNull ServerPlayer player, List<Integer> slotsChanged, TargetUpdateType updateTargets) {
+        public void syncSlots(@NotNull ServerPlayer player, List<Integer> slotsChanged, TargetUpdateType updateTargets) {
             if (!slotsChanged.isEmpty()) {
-                int slots = inputLocks.getSlots();
+                int slots = this.slots.getSlots();
                 Map<Integer, ItemStack> stacksToSync = new HashMap<>();
                 for (int slot : slotsChanged) {
                     if (slot >= 0 && slot < slots) {
                         //Validate the slot is a valid index
-                        stacksToSync.put(slot, inputLocks.getStackInSlot(slot));
+                        stacksToSync.put(slot, this.slots.getStackInSlot(slot));
                     }
                 }
                 if (!stacksToSync.isEmpty()) {
                     //Validate it is not empty in case we were fed bad indices
-                    PacketHandler.sendTo(new SyncInputsAndLocksPKT(stacksToSync, updateTargets), player);
+                    PacketHandler.sendTo(new SyncSlotsPKT(stacksToSync, updateTargets), player);
                 }
             }
         }
 
         @Override
-        public void receiveInputsAndLocks(Map<Integer, ItemStack> changes) {
-            int slots = inputLocks.getSlots();
+        public void receiveSlots(Map<Integer, ItemStack> changes) {
+            int slots = this.slots.getSlots();
             for (Map.Entry<Integer, ItemStack> entry : changes.entrySet()) {
                 int slot = entry.getKey();
                 if (slot >= 0 && slot < slots) {
                     //Validate the slot is a valid index
-                    inputLocks.setStackInSlot(slot, entry.getValue());
+                    this.slots.setStackInSlot(slot, entry.getValue());
                 }
             }
         }
 
         @Override
         public CompoundTag serializeNBT() {
-            CompoundTag properties = new CompoundTag();
-            properties.putString("resourcepoints", points.toString());
-            properties.put("inputlock", inputLocks.serializeNBT());
-            return properties;
+            CompoundTag tag = new CompoundTag();
+            tag.put("slots", slots.serializeNBT());
+            return tag;
         }
 
         @Override
-        public void deserializeNBT(CompoundTag properties) {
-            String resourcePoints = properties.getString("resourcepoints");
-            points = resourcePoints.isEmpty() ? BigInteger.ZERO : new BigInteger(resourcePoints);
-
-            for (int i = 0; i < inputLocks.getSlots(); i++) {
-                inputLocks.setStackInSlot(i, ItemStack.EMPTY);
-            }
-            inputLocks.deserializeNBT(properties.getCompound("inputlock"));
-
+        public void deserializeNBT(CompoundTag nbt) {
+            slots.deserializeNBT(nbt.getCompound("slots"));
         }
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation NAME = new ResourceLocation(TraidingNetwork.MODID, "resourcepointprovider");
-        private final NonNullSupplier<IResourcePointProvider> supplier;
-        private LazyOptional<IResourcePointProvider> cachedCapability;
+        public static final ResourceLocation NAME = new ResourceLocation(TraidingNetwork.MODID, "rpslots");
+        private final NonNullSupplier<IResourceItemProvider> supplier;
+        private LazyOptional<IResourceItemProvider> cachedCapability;
 
-        public Provider(Player player){
-            IResourcePointProvider cap = new DefaultImpl(player);
+        public Provider(Level level){
+            IResourceItemProvider cap = new DefaultImpl(level);
             supplier = () -> cap;
         }
 
@@ -141,9 +117,8 @@ public class ResourcePointProviderImpl {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
-            if (capability == TNCapabilities.RESOURCE_POINT_CAPABILITY){
+            if (capability == TNCapabilities.RESOURCE_ITEM_CAPABILITY){
                 return getCapabilityUnchecked(capability, direction);
-                //return LazyOptional.of(() -> TNCapabilities.RESOURCE_POINT_CAPABILITY).cast();
             }
             return LazyOptional.empty();
         }
@@ -165,6 +140,4 @@ public class ResourcePointProviderImpl {
             supplier.get().deserializeNBT(compoundTag);
         }
     }
-
-    private ResourcePointProviderImpl(){}
 }
