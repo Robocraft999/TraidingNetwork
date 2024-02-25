@@ -1,7 +1,7 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.api.resourcepoints.RPMappingHandler;
+import com.robocraft999.traidingnetwork.resourcepoints.RPMappingHandler;
 import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,6 +32,8 @@ public class PacketHandler {
         registerServerToClient(SyncProviderResourcePointPKT.class, SyncProviderResourcePointPKT::decode);
         registerServerToClient(SyncInputsAndLocksPKT.class, SyncInputsAndLocksPKT::decode);
         registerServerToClient(SyncProviderPKT.class, SyncProviderPKT::decode);
+        registerServerToClient(SyncSlotsPKT.class, SyncSlotsPKT::decode);
+        registerServerToClient(SyncItemProviderPKT.class, SyncItemProviderPKT::decode);
     }
 
     private static <MSG extends ITNPacket> void registerClientToServer(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {
