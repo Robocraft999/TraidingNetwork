@@ -1,36 +1,41 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.gui.slots.ShopSlot;
+import com.robocraft999.traidingnetwork.blockentity.ShopBlockEntity;
+import com.robocraft999.traidingnetwork.gui.slots.shop.ShopSlot;
 import com.robocraft999.traidingnetwork.registry.TNMenuTypes;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopMenu extends TNContainerMenu {
-    //CombinedInvWrapper wrapper;
+public class ShopMenu extends TNContainerMenu{
     public final ShopInventory shopInventory;
+    public final ShopBlockEntity blockEntity;
 
     protected final List<Slot> itemSlots = new ArrayList<>();
 
-    public ShopMenu(Inventory playerInv, int i) {
+    public ShopMenu(Inventory playerInv, int i, Level level, BlockPos blockPos) {
         super(TNMenuTypes.SHOP_MENU.get(), playerInv, i);
         shopInventory = new ShopInventory(playerInv.player);
-        initSlots(playerInv.player);
+        TraidingNetwork.LOGGER.info("pos: " + blockPos + " level: " + level);
+        this.blockEntity = (ShopBlockEntity) level.getBlockEntity(blockPos);
+        initSlots();
     }
 
-    protected void initSlots(Player player) {
-        addPlayerInventory(8, 84);
-        addShopSlots();
+    protected void initSlots() {
+        //addPlayerInventory(8, 84);
+        addPlayerInventory(8, 174);
+        //addShopSlots();
     }
 
     private void addShopSlots(){
-        //NonNullList<ItemStack> stacks = handler.getStacks();
         int amount = shopInventory.getSlots();
         int i = 0;
         int xStart = 8;

@@ -15,7 +15,7 @@ public class TNMenuTypes {
             .register();
 
     public static final MenuEntry<ShopMenu> SHOP_MENU = REGISTRATE
-            .menu("shop_menu", (menuType, i, inventory) -> new ShopMenu(inventory, i), () -> ShopScreen::new)
+            .menu("shop_menu", (menuType, i, inventory, data) -> new ShopMenu(inventory, i, inventory.player.level(), data.readBlockPos()), () -> ShopScreen::new)
             .register();
 
     public static void register(){}

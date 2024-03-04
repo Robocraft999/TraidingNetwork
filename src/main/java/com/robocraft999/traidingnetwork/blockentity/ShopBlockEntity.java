@@ -1,63 +1,89 @@
 package com.robocraft999.traidingnetwork.blockentity;
 
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointStorage;
+import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.gui.menu.ShopMenu;
+import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.net.IShopNetworkSync;
 import com.robocraft999.traidingnetwork.registry.TNBlockEntities;
-import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.Range;
 
-public class ShopBlockEntity extends BlockEntity implements IResourcePointStorage{
-    private LazyOptional<IResourcePointStorage> rpStorageCapability;
+public class ShopBlockEntity extends BlockEntity implements IShopNetworkSync, MenuProvider {
+
+    private boolean downwards;
+    private EnumSortType sort = EnumSortType.NAME;
+    private boolean autoFocus = true;
 
     public ShopBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(TNBlockEntities.SHOP.get(), pos, state);
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == TNCapabilities.RESOURCE_POINT_STORAGE_CAPABILITY){
-            if (rpStorageCapability == null || !rpStorageCapability.isPresent()){
-                rpStorageCapability = LazyOptional.of(() -> this);
-            }
-            return rpStorageCapability.cast();
-        }
-        return super.getCapability(cap, side);
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        TraidingNetwork.LOGGER.info("Shop+load: " + compound);
+        autoFocus = compound.getBoolean("autoFocus");
+        setDownwards(compound.getBoolean("dir"));
+        setSort(EnumSortType.values()[compound.getInt("sort")]);
     }
 
     @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        if (rpStorageCapability != null && rpStorageCapability.isPresent()){
-            rpStorageCapability.invalidate();
-            rpStorageCapability = null;
-        }
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.putBoolean("dir", isDownwards());
+        compound.putInt("sort", getSort().ordinal());
+        compound.putBoolean("autoFocus", autoFocus);
+        TraidingNetwork.LOGGER.info("Shop+save: " + compound);
+    }
+
+
+
+    @Override
+    public boolean isDownwards() {
+        return downwards;
     }
 
     @Override
-    public @Range(from = 0, to = Long.MAX_VALUE) long getStoredPoints() {
-        return 0;
+    public void setDownwards(boolean downwards) {
+        this.downwards = downwards;
     }
 
     @Override
-    public @Range(from = 1, to = Long.MAX_VALUE) long getMaximumPoints() {
-        return 0;
+    public EnumSortType getSort() {
+        return sort;
     }
 
     @Override
-    public long extractPoints(long toExtract, RPAction action) {
-        return 0;
+    public void setSort(EnumSortType sort) {
+        this.sort = sort;
+    }
+
+    public boolean getAutoFocus() {
+        return autoFocus;
     }
 
     @Override
-    public long insertPoints(long toAccept, RPAction action) {
-        return 0;
+    public void setAutoFocus(boolean autoFocus) {
+        this.autoFocus = autoFocus;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("test_name2");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player player) {
+        return new ShopMenu(playerInventory, i, getLevel(), getBlockPos());
     }
 }

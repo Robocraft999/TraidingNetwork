@@ -39,22 +39,13 @@ public class ShopBlock extends Block implements IBE<ShopBlockEntity> {
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!level.isClientSide){
-            NetworkHooks.openScreen((ServerPlayer) player, new ShopMenuProvider(), b -> b.writeBoolean(false));
+            ShopBlockEntity blockEntity = getBlockEntity(level, pos);
+            //TODO sync settings
+            NetworkHooks.openScreen((ServerPlayer) player, blockEntity, b -> {
+                b.writeBlockPos(pos);
+                b.writeBoolean(false);
+            });
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
-    }
-
-    static class ShopMenuProvider implements MenuProvider {
-
-        @Override
-        public Component getDisplayName() {
-            return Component.literal("test_name2");
-        }
-
-        @Nullable
-        @Override
-        public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player player) {
-            return new ShopMenu(playerInventory, i);
-        }
     }
 }

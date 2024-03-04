@@ -1,4 +1,4 @@
-package com.robocraft999.traidingnetwork.gui.slots;
+package com.robocraft999.traidingnetwork.gui.slots.shop;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;

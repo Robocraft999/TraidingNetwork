@@ -6,6 +6,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ShopInventory extends TNInventory {
@@ -17,6 +19,7 @@ public class ShopInventory extends TNInventory {
         this.provider = player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new);
         if (isServer()){
             provider.sync((ServerPlayer) player);
+            syncChangedSlots(Arrays.asList(1), IResourceItemProvider.TargetUpdateType.ALL);
         }
     }
 
