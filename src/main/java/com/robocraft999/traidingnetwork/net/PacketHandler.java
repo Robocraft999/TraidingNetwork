@@ -1,6 +1,7 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.traidingnetwork.resourcepoints.RPMappingHandler;
 import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import io.netty.buffer.Unpooled;
@@ -34,6 +35,7 @@ public class PacketHandler {
         registerServerToClient(SyncProviderPKT.class, SyncProviderPKT::decode);
         registerServerToClient(SyncSlotsPKT.class, SyncSlotsPKT::decode);
         registerServerToClient(SyncItemProviderPKT.class, SyncItemProviderPKT::decode);
+        registerClientToServer(SyncSettingsPKT.class, SyncSettingsPKT::decode);
     }
 
     private static <MSG extends ITNPacket> void registerClientToServer(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {
@@ -91,5 +93,12 @@ public class PacketHandler {
         if (!(player instanceof FakePlayer)) {
             HANDLER.send(PacketDistributor.PLAYER.with(() -> player), msg);
         }
+    }
+
+    /**
+     * Send a packet to the server.
+     */
+    public static <MSG extends ITNPacket> void sendToServer(MSG msg) {
+        HANDLER.sendToServer(msg);
     }
 }
