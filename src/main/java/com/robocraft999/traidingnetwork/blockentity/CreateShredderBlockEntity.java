@@ -72,11 +72,12 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
             return;
         }
 
-        timer = Config.shredderProcessTicks;
+        timer = Config.SHREDDER_PROCESS_TICKS.get();
     }
 
     private void process() {
         if(getLevel() == null) return;
+
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (!canProcess(stackInSlot)) return;
@@ -93,7 +94,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                             handler.enlarge();
                         }
                         ItemHandlerHelper.insertItemStacked(cap2.getSlotsHandler(), stackInSlot.copyWithCount(1), false);
-                        //cap2.sync(player); //seems not to be needed
+                        cap2.sync(player); //seems not to be needed
                     });
                     stackInSlot.shrink(1);
                 });

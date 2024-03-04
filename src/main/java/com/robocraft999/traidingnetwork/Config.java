@@ -37,7 +37,7 @@ public class Config
             .comment("A list of items to log on common setup.")
             .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
 
-    private static final ForgeConfigSpec.IntValue SHREDDER_PROCESS_TICKS = BUILDER
+    public static final ForgeConfigSpec.IntValue SHREDDER_PROCESS_TICKS = BUILDER
             .comment("How many ticks the shredder needs at default speed to crush one item")
             .defineInRange("shredderProcessTicks", 200, 0, Integer.MAX_VALUE);
 
@@ -47,7 +47,6 @@ public class Config
     public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
-    public static int shredderProcessTicks;
 
     private static boolean validateItemName(final Object obj)
     {
@@ -65,6 +64,5 @@ public class Config
         items = ITEM_STRINGS.get().stream()
                 .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
                 .collect(Collectors.toSet());
-        shredderProcessTicks = SHREDDER_PROCESS_TICKS.get();
     }
 }
