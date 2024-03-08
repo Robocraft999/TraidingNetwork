@@ -7,6 +7,9 @@ import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSearchPrefix;
 import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.gui.slots.shop.ItemSlotNetwork;
 import com.robocraft999.traidingnetwork.gui.slots.shop.ShopButton;
+import com.robocraft999.traidingnetwork.net.PacketHandler;
+import com.robocraft999.traidingnetwork.net.packets.shop.ShopRequestPKT;
+import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.utils.ItemHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -43,6 +46,9 @@ public class ShopWidget {
     private int maxPage = 1;
     private int lines = 4;
     private final int columns = 9;
+
+    public static final int MOUSE_BTN_LEFT = 0;
+    public static final int MOUSE_BTN_RIGHT = 1;
 
 
     public ShopWidget(IShopGui gui){
@@ -275,7 +281,7 @@ public class ShopWidget {
         searchBar.setFocused(false);
         if (inSearchBar(mouseX, mouseY)) {
             searchBar.setFocused(true);
-            if (mouseButton == 1) {
+            if (mouseButton == MOUSE_BTN_RIGHT) {
                 clearSearch();
                 return;
             }
@@ -285,15 +291,15 @@ public class ShopWidget {
             return;
         }
         ItemStack stackCarriedByMouse = player.containerMenu.getCarried();
-        /*if (!stackUnderMouse.isEmpty()
-                && (mouseButton == UtilTileEntity.MOUSE_BTN_LEFT || mouseButton == UtilTileEntity.MOUSE_BTN_RIGHT)
+
+        if (!stackUnderMouse.isEmpty()
+                && (mouseButton == MOUSE_BTN_LEFT || mouseButton == MOUSE_BTN_RIGHT)
                 && stackCarriedByMouse.isEmpty() &&
                 this.canClick()) {
-            PacketRegistry.INSTANCE.sendToServer(new RequestMessage(mouseButton, this.stackUnderMouse.copy(), Screen.hasShiftDown(),
-                    Screen.hasAltDown() || Screen.hasControlDown()));
+            PacketHandler.sendToServer(new ShopRequestPKT(mouseButton, this.stackUnderMouse.copy(), Screen.hasShiftDown(), Screen.hasControlDown()));
             this.lastClick = System.currentTimeMillis();
         }
-        else*/ if (!stackCarriedByMouse.isEmpty() && inField((int) mouseX, (int) mouseY) &&
+        else if (!stackCarriedByMouse.isEmpty() && inField((int) mouseX, (int) mouseY) &&
                 this.canClick()) {
             //0 isd getDim()
             //PacketRegistry.INSTANCE.sendToServer(new InsertMessage(0, mouseButton));
