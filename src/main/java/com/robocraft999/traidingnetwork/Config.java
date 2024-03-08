@@ -39,7 +39,7 @@ public class Config
 
     public static final ForgeConfigSpec.IntValue SHREDDER_PROCESS_TICKS = BUILDER
             .comment("How many ticks the shredder needs at default speed to crush one item")
-            .defineInRange("shredderProcessTicks", 200, 0, Integer.MAX_VALUE);
+            .defineInRange("shredderProcessTicks", 200, 1, Integer.MAX_VALUE);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
