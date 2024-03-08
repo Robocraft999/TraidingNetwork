@@ -64,7 +64,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
             emcAmount.set(cap.getPoints());
         });
         Component emc = Component.literal(emcAmount.toString());
-        graphics.drawString(font, emc, 46, widget.searchBar.getY() + 8, 0x404040, false);
+        graphics.drawString(font, emc, 46, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
     }
 
     @Override

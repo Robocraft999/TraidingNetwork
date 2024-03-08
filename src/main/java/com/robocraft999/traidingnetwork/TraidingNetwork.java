@@ -3,10 +3,7 @@ package com.robocraft999.traidingnetwork;
 import com.mojang.logging.LogUtils;
 import com.robocraft999.traidingnetwork.api.capabilities.impl.ShredderOffline;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
-import com.robocraft999.traidingnetwork.registry.TNBlockEntities;
-import com.robocraft999.traidingnetwork.registry.TNBlocks;
-import com.robocraft999.traidingnetwork.registry.TNMenuTypes;
-import com.robocraft999.traidingnetwork.registry.TNPartials;
+import com.robocraft999.traidingnetwork.registry.*;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
@@ -73,6 +70,7 @@ public class TraidingNetwork {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> TNPartials::init);
 
         PacketHandler.register();
+        TNLang.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
