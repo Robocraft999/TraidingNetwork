@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.net.packets.shop;
 
+import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
 import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.net.IShopNetworkSync;
@@ -36,6 +37,7 @@ public class SyncSettingsPKT implements ITNPacket {
             if (targetTileEntity){
                 BlockEntity blockEntity = player.level().getBlockEntity(pos);
                 if (blockEntity instanceof IShopNetworkSync sync){
+                    TraidingNetwork.LOGGER.info("handle sync settings");
                     sync.setSort(sort);
                     sync.setDownwards(direction);
                     sync.setAutoFocus(autoFocus);

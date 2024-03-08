@@ -94,11 +94,11 @@ public class RItemStackHandler extends ItemStackHandler {
             if (slot >= 0 && slot < this.stacks.size()) {
                 ItemStack desItemStack = ItemStack.of(itemTags);
                 desItemStack.setCount(itemTags.getInt("RealCount"));
-                TraidingNetwork.LOGGER.info("stack: "+desItemStack);
+                //TraidingNetwork.LOGGER.info("stack: "+desItemStack);
                 this.stacks.set(slot, desItemStack);
             }
         }
-        TraidingNetwork.LOGGER.info("des stacks: "+stacks);
+        //TraidingNetwork.LOGGER.info("des stacks: "+stacks);
 
         this.onLoad();
     }
