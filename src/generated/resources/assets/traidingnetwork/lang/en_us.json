@@ -1,5 +1,16 @@
 {
   "block.traidingnetwork.create_shredder": "Create Shredder",
   "block.traidingnetwork.shop": "Shop",
+  "gui.traidingnetwork.autofocus.sort.false": "Autofocus disabled",
+  "gui.traidingnetwork.autofocus.sort.true": "Autofocus enabled",
+  "gui.traidingnetwork.direction": "Sort Direction",
+  "gui.traidingnetwork.fil.tooltip_clear": "Clear text with right-click",
+  "gui.traidingnetwork.fil.tooltip_mod": "Prefix @: mod",
+  "gui.traidingnetwork.fil.tooltip_tags": "Prefix $: tag",
+  "gui.traidingnetwork.fil.tooltip_tooltip": "Prefix #: tooltip",
+  "gui.traidingnetwork.req.sort_amount": "Sort by amount",
+  "gui.traidingnetwork.req.sort_mod": "Sort by mod",
+  "gui.traidingnetwork.req.sort_name": "Sort by name",
+  "gui.traidingnetwork.shift": "Hold shift for more information",
   "itemGroup.traidingnetwork.test_creative_mode_tab": "Test Creative Mode Tab"
 }

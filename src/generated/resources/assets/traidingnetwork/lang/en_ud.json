@@ -1,5 +1,16 @@
 {
   "block.traidingnetwork.create_shredder": "ɹǝppǝɹɥS ǝʇɐǝɹƆ",
   "block.traidingnetwork.shop": "doɥS",
+  "gui.traidingnetwork.autofocus.sort.false": "pǝןqɐsıp snɔoɟoʇnⱯ",
+  "gui.traidingnetwork.autofocus.sort.true": "pǝןqɐuǝ snɔoɟoʇnⱯ",
+  "gui.traidingnetwork.direction": "uoıʇɔǝɹıᗡ ʇɹoS",
+  "gui.traidingnetwork.fil.tooltip_clear": "ʞɔıןɔ-ʇɥbıɹ ɥʇıʍ ʇxǝʇ ɹɐǝןƆ",
+  "gui.traidingnetwork.fil.tooltip_mod": "poɯ :@ xıɟǝɹԀ",
+  "gui.traidingnetwork.fil.tooltip_tags": "bɐʇ :$ xıɟǝɹԀ",
+  "gui.traidingnetwork.fil.tooltip_tooltip": "dıʇןooʇ :# xıɟǝɹԀ",
+  "gui.traidingnetwork.req.sort_amount": "ʇunoɯɐ ʎq ʇɹoS",
+  "gui.traidingnetwork.req.sort_mod": "poɯ ʎq ʇɹoS",
+  "gui.traidingnetwork.req.sort_name": "ǝɯɐu ʎq ʇɹoS",
+  "gui.traidingnetwork.shift": "uoıʇɐɯɹoɟuı ǝɹoɯ ɹoɟ ʇɟıɥs pןoH",
   "itemGroup.traidingnetwork.test_creative_mode_tab": "qɐ⟘ ǝpoW ǝʌıʇɐǝɹƆ ʇsǝ⟘"
 }
