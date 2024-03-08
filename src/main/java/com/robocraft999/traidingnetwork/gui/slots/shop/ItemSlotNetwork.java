@@ -36,7 +36,7 @@ public class ItemSlotNetwork {
         return parent.isInRegion(x - guiLeft, y - guiTop, 16, 16, mouseX, mouseY);
     }
 
-    public void drawSlot(GuiGraphics poseStack, Font font, int mx, int my) {
+    public void drawSlot(GuiGraphics poseStack, Font font, int mx, int my, boolean selected) {
         if (!getStack().isEmpty()) {
             //      poseStack.pushPose();
             String amount;
@@ -65,7 +65,16 @@ public class ItemSlotNetwork {
                 int k1 = y;
                 RenderSystem.colorMask(true, true, true, false);
                 poseStack.fillGradient(j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433);
+                //poseStack.renderOutline(j1, k1, 16, 16, -2130706433);
                 //        parent.drawGradient(poseStack, j1, k1, j1 + 16, k1 + 16, -2130706433, -2130706433);
+                RenderSystem.colorMask(true, true, true, true);
+            }
+
+            if (selected) {
+                int j1 = x;
+                int k1 = y;
+                RenderSystem.colorMask(true, true, true, false);
+                poseStack.renderOutline(j1, k1, 16, 16, -2130706433);
                 RenderSystem.colorMask(true, true, true, true);
             }
             poseStack.renderItem(stack, x, y);

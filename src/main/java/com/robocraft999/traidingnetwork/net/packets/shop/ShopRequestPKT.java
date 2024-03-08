@@ -18,6 +18,8 @@ import net.minecraftforge.network.NetworkEvent;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.robocraft999.traidingnetwork.gui.menu.ShopWidget.MOUSE_BTN_RIGHT;
+
 /** Packet that is sent when an Item is requested through ui e.g. a button or click on slot
  *
  */
@@ -31,7 +33,9 @@ public class ShopRequestPKT implements ITNPacket {
     public ShopRequestPKT(int mouseButton, ItemStack stack, boolean shift, boolean ctrl) {
         this.mouseButton = mouseButton;
         this.stack = stack.copy();
-        if (this.stack.getCount() > stack.getMaxStackSize()) {
+        if (mouseButton == MOUSE_BTN_RIGHT){
+            this.stack.setCount(1);
+        } else if (this.stack.getCount() > stack.getMaxStackSize()) {
             this.stack.setCount(stack.getMaxStackSize()); //important or it will be killed by a filter
         }
         this.shift = shift;

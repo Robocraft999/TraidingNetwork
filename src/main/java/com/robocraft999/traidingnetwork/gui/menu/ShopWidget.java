@@ -4,12 +4,11 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSearchPrefix;
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.gui.slots.shop.ItemSlotNetwork;
 import com.robocraft999.traidingnetwork.gui.slots.shop.ShopButton;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shop.ShopRequestPKT;
-import com.robocraft999.traidingnetwork.registry.TNCapabilities;
+import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.robocraft999.traidingnetwork.utils.ItemHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -21,7 +20,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.*;
@@ -33,6 +34,7 @@ public class ShopWidget {
     };
 
     public ItemStack stackUnderMouse = ItemStack.EMPTY;
+    public Item selected = Items.AIR;
     public List<ItemStack> stacks;
     public EditBox searchBar;
     public ShopButton directionBtn;
@@ -225,25 +227,26 @@ public class ShopWidget {
         //
         MutableComponent tooltip = null;
         if (directionBtn != null && directionBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable("gui.storagenetwork.sort");
+            tooltip = Component.translatable(TNLang.KEY_GUI_DIRECTION_BUTTON);
         }
         else if (sortBtn != null && sortBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable("gui.storagenetwork.req.tooltip_" + gui.getSort().name().toLowerCase());
+            tooltip = Component.translatable(TNLang.sortButtonFromSortType(gui.getSort()));
         }
         else if (focusBtn != null && focusBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable("gui.storagenetwork.autofocus.tooltip." + gui.getAutoFocus());
+            tooltip = Component.translatable(TNLang.autofocusButtonFromBoolean(gui.getAutoFocus()));
         }
         else if (this.inSearchBar(mouseX, mouseY)) {
             //tooltip = new TranslationTextComponent("gui.storagenetwork.fil.tooltip_clear");
             if (!Screen.hasShiftDown()) {
-                tooltip = Component.translatable("gui.storagenetwork.shift");
+                tooltip = Component.translatable(TNLang.KEY_GUI_SHIFT);
             }
             else {
                 List<Component> lis = Lists.newArrayList();
-                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_mod")); //@
-                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_tooltip")); //#
-                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_tags")); //$
-                lis.add(Component.translatable("gui.storagenetwork.fil.tooltip_clear")); //clear
+                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_MOD)); //@
+                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_TOOLTIP)); //#
+                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_TAGS)); //$
+                //lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_CLEAR)); //clear
+                //TraidingNetwork.LOGGER.debug(lis.toString());
                 //        Screen screen = ((Screen) gui);
                 ms.renderTooltip(font, lis, Optional.empty(), mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
                 return; // all done, we have our tts rendered
@@ -259,7 +262,7 @@ public class ShopWidget {
     public void renderItemSlots(GuiGraphics ms, int mouseX, int mouseY, Font font) {
         stackUnderMouse = ItemStack.EMPTY;
         for (ItemSlotNetwork slot : slots) {
-            slot.drawSlot(ms, font, mouseX, mouseY);
+            slot.drawSlot(ms, font, mouseX, mouseY, slot.getStack().getItem() == selected);
             if (slot.isMouseOverSlot(mouseX, mouseY)) {
                 stackUnderMouse = slot.getStack();
             }
@@ -296,8 +299,17 @@ public class ShopWidget {
                 && (mouseButton == MOUSE_BTN_LEFT || mouseButton == MOUSE_BTN_RIGHT)
                 && stackCarriedByMouse.isEmpty() &&
                 this.canClick()) {
-            PacketHandler.sendToServer(new ShopRequestPKT(mouseButton, this.stackUnderMouse.copy(), Screen.hasShiftDown(), Screen.hasControlDown()));
+            if (selected != stackUnderMouse.getItem()){
+                selected = stackUnderMouse.getItem();
+            }
+            else {
+                PacketHandler.sendToServer(new ShopRequestPKT(mouseButton, this.stackUnderMouse.copy(), Screen.hasShiftDown(), Screen.hasControlDown()));
+            }
+
             this.lastClick = System.currentTimeMillis();
+        }
+        else if (stackUnderMouse.isEmpty()){
+            selected = Items.AIR;
         }
         else if (!stackCarriedByMouse.isEmpty() && inField((int) mouseX, (int) mouseY) &&
                 this.canClick()) {
