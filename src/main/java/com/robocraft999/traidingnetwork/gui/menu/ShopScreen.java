@@ -15,20 +15,16 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements IShopGui{
 
@@ -62,6 +58,13 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
     @Override
     protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
         widget.drawGuiContainerForegroundLayer(graphics, mouseX, mouseY, font);
+
+        AtomicReference<BigInteger> emcAmount = new AtomicReference<>(BigInteger.ONE);
+        this.menu.shopInventory.player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
+            emcAmount.set(cap.getPoints());
+        });
+        Component emc = Component.literal(emcAmount.toString());
+        graphics.drawString(font, emc, 46, widget.searchBar.getY() + 8, 0x404040, false);
     }
 
     @Override
@@ -158,8 +161,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         if (this.getAutoFocus()) {
             widget.searchBar.setFocused(true);
         }
-
-        TraidingNetwork.LOGGER.info("init getStacks: "+getStacks());
     }
 
     @Override
