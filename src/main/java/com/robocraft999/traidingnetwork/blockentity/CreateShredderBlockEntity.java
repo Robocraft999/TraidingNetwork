@@ -60,6 +60,10 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         if (getSpeed() == 0)
             return;
 
+        ItemStack stackInSlot = inputInv.getStackInSlot(0);
+        if (stackInSlot.isEmpty())
+            return;
+
         if (timer > 0) {
             timer -= getProcessingSpeed();
 
