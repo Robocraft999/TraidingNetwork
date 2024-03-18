@@ -13,7 +13,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
-    //id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.+"
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -172,7 +173,6 @@ dependencies {
 
     implementation fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:slim"){transitive = false}
     implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}")
-
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
