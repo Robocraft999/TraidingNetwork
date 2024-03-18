@@ -27,7 +27,7 @@ public interface IResourceItemProvider extends INBTSerializable<CompoundTag> {
     }
     IItemHandler getSlotsHandler();
 
-    void sync(@NotNull ServerPlayer player);
+    void sync();
 
     void syncSlots(@NotNull ServerPlayer player, List<Integer> slotsChanged, TargetUpdateType updateTargets);
 

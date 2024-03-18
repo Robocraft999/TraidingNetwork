@@ -24,7 +24,7 @@ public class ShopMenu extends TNContainerMenu{
     public ShopMenu(Inventory playerInv, int i, Level level, BlockPos blockPos) {
         super(TNMenuTypes.SHOP_MENU.get(), playerInv, i);
         shopInventory = new ShopInventory(playerInv.player);
-        TraidingNetwork.LOGGER.info("pos: " + blockPos + " level: " + level);
+        //TraidingNetwork.LOGGER.info("pos: " + blockPos + " level: " + level);
         this.blockEntity = (ShopBlockEntity) level.getBlockEntity(blockPos);
         initSlots();
     }

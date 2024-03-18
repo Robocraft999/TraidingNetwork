@@ -12,17 +12,4 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ShredderBlock {
 
-    class ShredderMenuProvider implements MenuProvider {
-
-        @Override
-        public AbstractContainerMenu createMenu(int windowId, @NotNull Inventory playerInventory, @NotNull Player player) {
-            return new ShredderMenu(playerInventory, windowId);
-        }
-
-        @NotNull
-        @Override
-        public Component getDisplayName() {
-            return Component.literal("test_name");//PELang.TRANSMUTATION_TRANSMUTE.translate();
-        }
-    }
 }

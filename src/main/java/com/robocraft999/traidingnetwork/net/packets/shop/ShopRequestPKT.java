@@ -68,7 +68,7 @@ public class ShopRequestPKT implements ITNPacket {
                         }
                         cap2.setPoints(cap2.getPoints().subtract(BigInteger.valueOf(ResourcePointHelper.getResourcePointValue(this.stack) * newDecrement.get())));
                         cap2.syncPoints(player);
-                        cap.sync(player);
+                        cap.sync();
                     });
 
                     break;

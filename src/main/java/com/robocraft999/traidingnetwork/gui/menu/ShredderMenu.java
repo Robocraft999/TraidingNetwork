@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -24,10 +25,12 @@ import java.util.List;
 public class ShredderMenu extends TNContainerMenu {
     public final ShredderInventory shredderInventory;
     protected final List<Slot> inputSlots = new ArrayList<>();
+    public final BlockPos blockPos;
 
-    public ShredderMenu(Inventory playerInv, int i) {
+    public ShredderMenu(Inventory playerInv, int i, BlockPos blockPos) {
         super(TNMenuTypes.SHREDDER_MENU.get(), playerInv, i);
         this.shredderInventory = new ShredderInventory(playerInv.player);
+        this.blockPos = blockPos;
         initSlots();
     }
 
@@ -57,10 +60,15 @@ public class ShredderMenu extends TNContainerMenu {
                 shredderInventory.addResourcePoints(pointsBigInt.multiply(BigInteger.valueOf(stackToInsert.getCount())));
                 TraidingNetwork.LOGGER.info("t"+shredderInventory.provider.getPoints());
                 player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(provider -> {
-                    if (provider.getSlotsHandler() instanceof RItemStackHandler handler){
+                    /*if (provider.getSlotsHandler() instanceof RItemStackHandler handler){
                         handler.put(stackToInsert);
                     }
-                    provider.syncSlots((ServerPlayer) player, new ArrayList<>(), IResourceItemProvider.TargetUpdateType.ALL);
+                    provider.syncSlots((ServerPlayer) player, new ArrayList<>(), IResourceItemProvider.TargetUpdateType.ALL);*/
+                    if (provider.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackToInsert)){
+                        handler.enlarge();
+                    }
+                    ItemHandlerHelper.insertItemStacked(provider.getSlotsHandler(), stackToInsert.copy(), false);
+                    provider.sync();
                 });
             }
             currentSlot.set(ItemStack.EMPTY);

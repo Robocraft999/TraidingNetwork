@@ -1,8 +1,12 @@
 package com.robocraft999.traidingnetwork.blockentity;
 
+import com.mojang.authlib.GameProfile;
 import com.robocraft999.traidingnetwork.Config;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.block.CreateShredderBlock;
+import com.robocraft999.traidingnetwork.gui.menu.ShredderMenu;
+import com.robocraft999.traidingnetwork.net.PacketHandler;
+import com.robocraft999.traidingnetwork.net.packets.shredder.SyncOwnerNamePKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
@@ -17,9 +21,13 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,13 +38,15 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
+import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
-public class CreateShredderBlockEntity extends KineticBlockEntity implements IOwnedBlockEntity{
+public class CreateShredderBlockEntity extends KineticBlockEntity implements IOwnedBlockEntity, MenuProvider {
     protected UUID ownerId;
+    protected String cachedOwnerName;
     private ItemStackHandler inputInv;
     public int timer;
     private LazyOptional<IItemHandler> capability;
@@ -93,16 +103,19 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                     TraidingNetwork.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
                     cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
                     cap.syncPoints(player);
-                    getLevel().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
-                        if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
-                            handler.enlarge();
-                        }
-                        ItemHandlerHelper.insertItemStacked(cap2.getSlotsHandler(), stackInSlot.copyWithCount(1), false);
-                        cap2.sync(player); //seems not to be needed
-                    });
-                    stackInSlot.shrink(1);
                 });
             }
+            var ow = getLevel().getServer().getPlayerList().getPlayer(getOwnerId());
+            var ow2 = getLevel().getServer().getProfileCache().get(getOwnerId());
+            TraidingNetwork.LOGGER.info("owner: '" + ow + "'" + " cache: '" + ow2 + "' name: " + (ow2.isPresent() ? ow2.get().getName(): "empty"));
+            getLevel().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
+                if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
+                    handler.enlarge();
+                }
+                ItemHandlerHelper.insertItemStacked(cap2.getSlotsHandler(), stackInSlot.copyWithCount(1), false);
+                cap2.sync();
+            });
+            stackInSlot.shrink(1);
         }
 
         inputInv.setStackInSlot(0, stackInSlot);
@@ -160,6 +173,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         compound.putInt("Timer", timer);
         compound.put("InputInventory", inputInv.serializeNBT());
         compound.putUUID("ownerID", getOwnerId());
+        compound.putString("ownerName", cachedOwnerName);
         super.write(compound, clientPacket);
     }
 
@@ -168,6 +182,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         timer = compound.getInt("Timer");
         inputInv.deserializeNBT(compound.getCompound("InputInventory"));
         setOwner(compound.getUUID("ownerID"));
+        cachedOwnerName = compound.getString("ownerName");
         super.read(compound, clientPacket);
     }
 
@@ -186,11 +201,24 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     @Override
     public void setOwner(UUID ownerId) {
         this.ownerId = ownerId;
+        if (getLevel() != null && !getLevel().isClientSide){
+            this.cachedOwnerName = getLevel().getServer().getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
+            PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+        }
+
     }
 
-    @Override
+    /*@Override
     public boolean canPlayerUse(Player player) {
         return player.getUUID().equals(getOwnerId());
+    }*/
+
+    public String getOwnerName(){
+        return this.cachedOwnerName;
+    }
+
+    public void setOwnerName(String name){
+        this.cachedOwnerName = name;
     }
 
     public int getProcessingSpeed() {
@@ -199,6 +227,17 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
     public boolean canProcess(ItemStack stack) {
         return ResourcePointHelper.doesItemHaveRP(stack);
+    }
+
+    @Override
+    public AbstractContainerMenu createMenu(int windowId, @NotNull Inventory playerInventory, @NotNull Player player) {
+        return new ShredderMenu(playerInventory, windowId, getBlockPos());
+    }
+
+    @NotNull
+    @Override
+    public Component getDisplayName() {
+        return Component.literal("test_name");//PELang.TRANSMUTATION_TRANSMUTE.translate();
     }
 
     private class ShredderInventoryHandler extends CombinedInvWrapper {

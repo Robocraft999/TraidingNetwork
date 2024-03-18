@@ -2,23 +2,29 @@ package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.blockentity.ShopBlockEntity;
 import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.api.capabilities.IShopNetworkSync;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
+import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
+import com.robocraft999.traidingnetwork.utils.ItemHelper;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -29,13 +35,15 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements IShopGui{
 
     final ShopWidget widget;
-    final ShopBlockEntity blockEntity;
+
+    private IShopNetworkSync provider;
 
     private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/inventory.png");
 
     public ShopScreen(ShopMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
-        this.blockEntity = menu.blockEntity;
+        Player player = menu.shopInventory.player;
+        this.provider = player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).orElseThrow(NullPointerException::new);
         this.widget = new ShopWidget(this);
         widget.setLines(8);
         imageWidth = 176;
@@ -63,8 +71,16 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         this.menu.shopInventory.player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
             emcAmount.set(cap.getPoints());
         });
-        Component emc = Component.literal(emcAmount.toString());
-        graphics.drawString(font, emc, 46, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
+
+        //Component emc = Component.literal(emcAmount.toString());
+        int raw_amount = emcAmount.get().intValue();
+        Component emc = Component.literal(raw_amount > 99999 ? ItemHelper.formatLargeNumber(raw_amount, false) : String.valueOf(raw_amount));
+        //graphics.drawCenteredString(font, emc, 46, widget.searchBar.getY() - getGuiTop(), 0x404040);
+
+        FormattedCharSequence formattedcharsequence = emc.getVisualOrderText();
+        graphics.drawString(font, formattedcharsequence, 58 - font.width(formattedcharsequence) / 2, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
+
+        //graphics.drawString(font, emc, 38, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
     }
 
     @Override
@@ -180,7 +196,14 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         /*if (!tooltip.get(tooltip.size() - 1).getString().isEmpty()){
             tooltip.add(tooltip.size() - 1, Component.empty());
         }*/
-        tooltip.add(Component.literal("Cost: " + ResourcePointHelper.getRPSellValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        if (!Screen.hasShiftDown()){
+            tooltip.add(Component.translatable(TNLang.KEY_GUI_SHIFT).withStyle(ChatFormatting.ITALIC, ChatFormatting.DARK_GRAY));
+        } else {
+            tooltip.add(Component.literal("Cost: " + ResourcePointHelper.getResourcePointValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+            tooltip.add(Component.literal("Amount: " + stack.getCount()).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        }
+
+
         //stack.getItem().appendHoverText(stack, minecraft.level, tooltip, TooltipFlag.NORMAL);
 
         graphics.renderTooltip(font, tooltip, stack.getTooltipImage(), i, j);
@@ -215,38 +238,38 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     @Override
     public boolean getDownwards() {
-        return blockEntity.isDownwards();
+        return provider.isDownwards();
     }
 
     @Override
     public void setDownwards(boolean val) {
         TraidingNetwork.LOGGER.info("Downwards new: " + val);
-        blockEntity.setDownwards(val);
+        provider.setDownwards(val);
     }
 
     @Override
     public EnumSortType getSort() {
-        return blockEntity.getSort();
+        return provider.getSort();
     }
 
     @Override
     public void setSort(EnumSortType val) {
         TraidingNetwork.LOGGER.info("Sort new: " + val.name());
-        blockEntity.setSort(val);
+        provider.setSort(val);
     }
 
     @Override
     public void syncDataToServer() {
-        PacketHandler.sendToServer(new SyncSettingsPKT(blockEntity.getBlockPos(), getDownwards(), getSort(), getAutoFocus()));
+        PacketHandler.sendToServer(new SyncSettingsPKT(getDownwards(), getSort(), getAutoFocus()));
     }
 
     @Override
     public boolean getAutoFocus() {
-        return blockEntity.getAutoFocus();
+        return provider.getAutoFocus();
     }
 
     @Override
     public void setAutoFocus(boolean b) {
-        blockEntity.setAutoFocus(b);
+        provider.setAutoFocus(b);
     }
 }

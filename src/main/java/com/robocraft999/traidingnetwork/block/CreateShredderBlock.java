@@ -71,7 +71,11 @@ public class CreateShredderBlock extends HorizontalKineticBlock implements Shred
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!level.isClientSide){
-            NetworkHooks.openScreen((ServerPlayer) player, new ShredderMenuProvider(), b -> b.writeBoolean(false));
+            CreateShredderBlockEntity blockEntity = getBlockEntity(level, pos);
+            NetworkHooks.openScreen((ServerPlayer) player, blockEntity, b -> {
+                b.writeBlockPos(pos);
+                b.writeBoolean(false);
+            });
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }

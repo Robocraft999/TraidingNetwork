@@ -18,7 +18,7 @@ public class ShopInventory extends TNInventory {
         super(player, (IItemHandlerModifiable) player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new).getSlotsHandler());
         this.provider = player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new);
         if (isServer()){
-            provider.sync((ServerPlayer) player);
+            provider.sync();
             syncChangedSlots(Arrays.asList(1), IResourceItemProvider.TargetUpdateType.ALL);
         }
     }

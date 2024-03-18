@@ -30,7 +30,6 @@ public record SyncItemProviderPKT(CompoundTag nbt) implements ITNPacket {
                     if (player.containerMenu instanceof ShopMenu container) {
                         container.shopInventory.updateClientTargets();
                     }
-                    TraidingNetwork.LOGGER.info("stacksnbt: " +nbt);
                 });
             }
         });
