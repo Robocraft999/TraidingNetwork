@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.api;
 
+import com.robocraft999.traidingnetwork.resourcepoints.nss.NSSItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -56,7 +57,7 @@ public class ItemInfo {
      *
      * @return An {@link ItemInfo} object from a given {@link NSSItem}, or null if the given {@link NSSItem} represents a tag or the item it represents is not registered
      */
-    /*@Nullable
+    @Nullable
     public static ItemInfo fromNSS(@NotNull NSSItem stack) {
         if (stack.representsTag()) {
             return null;
@@ -66,7 +67,7 @@ public class ItemInfo {
             return null;
         }
         return fromItem(item, stack.getNBT());
-    }*/
+    }
 
     /**
      * Reads an {@link ItemInfo} from the given {@link CompoundTag}.
