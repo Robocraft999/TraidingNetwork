@@ -1,21 +1,14 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.gui.menu.IShopGui;
 import com.robocraft999.traidingnetwork.gui.menu.ShopMenu;
-import com.robocraft999.traidingnetwork.gui.menu.ShredderMenu;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
-import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public record SyncItemProviderPKT(CompoundTag nbt) implements ITNPacket {
 

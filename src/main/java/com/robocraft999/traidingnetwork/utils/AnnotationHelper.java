@@ -5,7 +5,6 @@ import com.robocraft999.traidingnetwork.api.mapper.RPMapper;
 import com.robocraft999.traidingnetwork.api.mapper.RecipeTypeMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.IRPMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.recipe.IRecipeTypeMapper;
-
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NormalizedSimpleStack;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.language.ModFileScanData;

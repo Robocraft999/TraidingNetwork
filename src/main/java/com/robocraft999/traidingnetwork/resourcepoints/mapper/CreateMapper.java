@@ -5,23 +5,23 @@ import com.robocraft999.traidingnetwork.api.mapper.RecipeTypeMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.IngredientMap;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.IMappingCollector;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.recipe.BaseRecipeTypeMapper;
-import com.robocraft999.traidingnetwork.resourcepoints.nss.NSSItem;
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NormalizedSimpleStack;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.ItemApplicationRecipe;
 import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
-import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CreateMapper {
     private abstract static class CreateProcessingRecipeMapper<R extends ProcessingRecipe<?>> extends BaseRecipeTypeMapper<R> {

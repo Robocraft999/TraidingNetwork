@@ -1,6 +1,5 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.blockentity.ShopBlockEntity;
 import com.robocraft999.traidingnetwork.gui.slots.shop.ShopSlot;
 import com.robocraft999.traidingnetwork.registry.TNMenuTypes;

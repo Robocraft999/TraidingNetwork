@@ -1,6 +1,5 @@
 package com.robocraft999.traidingnetwork.resourcepoints;
 
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

@@ -3,14 +3,12 @@ package com.robocraft999.traidingnetwork.gui.menu;
 import com.robocraft999.traidingnetwork.gui.slots.HotBarSlot;
 import com.robocraft999.traidingnetwork.gui.slots.InventoryContainerSlot;
 import com.robocraft999.traidingnetwork.gui.slots.MainInventorySlot;
-import com.robocraft999.traidingnetwork.gui.slots.SlotInput;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

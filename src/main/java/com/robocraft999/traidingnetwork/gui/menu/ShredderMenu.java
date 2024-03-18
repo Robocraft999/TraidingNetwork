@@ -1,16 +1,13 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
-import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
-import com.robocraft999.traidingnetwork.gui.slots.*;
+import com.robocraft999.traidingnetwork.gui.slots.SlotConsume;
+import com.robocraft999.traidingnetwork.gui.slots.SlotInput;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.registry.TNMenuTypes;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;

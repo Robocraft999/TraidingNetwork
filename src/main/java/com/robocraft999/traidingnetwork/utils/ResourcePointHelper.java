@@ -3,7 +3,6 @@ package com.robocraft999.traidingnetwork.utils;
 import com.robocraft999.traidingnetwork.api.ItemInfo;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.RPMappingHandler;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

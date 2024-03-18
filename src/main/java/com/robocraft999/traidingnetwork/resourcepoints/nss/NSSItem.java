@@ -2,7 +2,6 @@ package com.robocraft999.traidingnetwork.resourcepoints.nss;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Either;
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet.Named;
 import net.minecraft.core.Registry;

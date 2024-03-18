@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.net;
 
+import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider.TargetUpdateType;
 import com.robocraft999.traidingnetwork.gui.menu.ShredderInventory;
 import com.robocraft999.traidingnetwork.gui.menu.ShredderMenu;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
@@ -7,11 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider.TargetUpdateType;
-import net.minecraftforge.network.NetworkEvent;
 
 public record SyncInputsAndLocksPKT(Map<Integer, ItemStack> stacksToSync, TargetUpdateType updateTargets) implements ITNPacket {
 

@@ -6,8 +6,8 @@ import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.network.NetworkEvent;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 public record SyncProviderPKT(CompoundTag nbt) implements ITNPacket {
 

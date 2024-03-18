@@ -6,7 +6,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

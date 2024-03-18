@@ -9,12 +9,8 @@ import com.robocraft999.traidingnetwork.api.capabilities.impl.ResourceItemProvid
 import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.resourcepoints.PregeneratedRP;
-import com.robocraft999.traidingnetwork.resourcepoints.conversion.CustomConversionMapper;
-import com.robocraft999.traidingnetwork.resourcepoints.mapper.IRPMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.arithmetic.HiddenBigFractionArithmetic;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.arithmetic.IValueArithmetic;
-import com.robocraft999.traidingnetwork.resourcepoints.mapper.SimpleGraphMapper;
-import com.robocraft999.traidingnetwork.resourcepoints.mapper.TagMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.DumpToFileCollector;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.IExtendedMappingCollector;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.LongToBigFractionCollector;

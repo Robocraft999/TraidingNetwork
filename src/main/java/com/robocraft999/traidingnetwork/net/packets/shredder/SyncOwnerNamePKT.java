@@ -1,9 +1,7 @@
 package com.robocraft999.traidingnetwork.net.packets.shredder;
 
 import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.net.ITNPacket;
-import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

@@ -4,7 +4,6 @@ import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
 import com.robocraft999.traidingnetwork.api.capabilities.impl.ResourceItemProviderImpl;
-import com.robocraft999.traidingnetwork.api.capabilities.impl.ResourcePointProviderImpl;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;

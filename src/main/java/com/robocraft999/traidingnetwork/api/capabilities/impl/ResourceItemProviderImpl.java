@@ -2,15 +2,15 @@ package com.robocraft999.traidingnetwork.api.capabilities.impl;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
-import com.robocraft999.traidingnetwork.net.*;
+import com.robocraft999.traidingnetwork.net.PacketHandler;
+import com.robocraft999.traidingnetwork.net.SyncItemProviderPKT;
+import com.robocraft999.traidingnetwork.net.SyncSlotsPKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
@@ -19,7 +19,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

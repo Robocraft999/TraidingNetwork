@@ -1,9 +1,6 @@
 package com.robocraft999.traidingnetwork.net.packets.shop;
 
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.net.ITNPacket;
-import com.robocraft999.traidingnetwork.net.PacketHandler;
-import com.robocraft999.traidingnetwork.net.SyncItemProviderPKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
@@ -11,7 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.network.NetworkEvent;
 

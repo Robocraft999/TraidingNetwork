@@ -2,8 +2,8 @@ package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.api.capabilities.IShopNetworkSync;
+import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
@@ -24,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;

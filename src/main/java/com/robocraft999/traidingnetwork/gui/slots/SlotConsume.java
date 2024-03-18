@@ -1,6 +1,5 @@
 package com.robocraft999.traidingnetwork.gui.slots;
 
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.gui.menu.ShredderInventory;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import net.minecraft.world.item.ItemStack;

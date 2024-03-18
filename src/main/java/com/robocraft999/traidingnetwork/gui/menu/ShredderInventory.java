@@ -1,9 +1,7 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 /**

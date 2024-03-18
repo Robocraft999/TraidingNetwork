@@ -1,7 +1,6 @@
 package com.robocraft999.traidingnetwork.resourcepoints.mapper;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.IMappingCollector;
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NSSItem;
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NormalizedSimpleStack;

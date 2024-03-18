@@ -1,12 +1,12 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import com.robocraft999.traidingnetwork.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.traidingnetwork.net.packets.shredder.SyncOwnerNamePKT;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.RPMappingHandler;
-import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

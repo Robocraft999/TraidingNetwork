@@ -1,5 +1,7 @@
 package com.robocraft999.traidingnetwork.resourcepoints.mapper.collector;
 
+import com.robocraft999.traidingnetwork.resourcepoints.mapper.arithmetic.IValueArithmetic;
+
 import java.util.Map;
 
 /**

@@ -3,11 +3,9 @@ package com.robocraft999.traidingnetwork.resourcepoints.nss;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.robocraft999.traidingnetwork.TraidingNetwork;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.InterModComms;
 
 import java.lang.reflect.Type;
 import java.util.Collections;
