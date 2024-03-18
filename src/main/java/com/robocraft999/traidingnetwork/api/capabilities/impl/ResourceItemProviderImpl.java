@@ -49,8 +49,8 @@ public class ResourceItemProviderImpl {
         }
 
         @Override
-        public void sync(@NotNull ServerPlayer player) {
-            PacketHandler.sendTo(new SyncItemProviderPKT(serializeNBT()), player);
+        public void sync() {
+            PacketHandler.sendToAll(new SyncItemProviderPKT(serializeNBT()));
         }
 
         @Override

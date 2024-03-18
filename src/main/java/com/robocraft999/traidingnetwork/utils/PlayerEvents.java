@@ -1,18 +1,14 @@
 package com.robocraft999.traidingnetwork.utils;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
 import com.robocraft999.traidingnetwork.api.capabilities.impl.ResourcePointProviderImpl;
-import com.robocraft999.traidingnetwork.api.capabilities.impl.ShredderOffline;
+import com.robocraft999.traidingnetwork.api.capabilities.impl.ShopSettingsProviderImpl;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -33,6 +29,10 @@ public class PlayerEvents {
             CompoundTag knowledge = old.serializeNBT();
             event.getEntity().getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.deserializeNBT(knowledge));
         });
+        original.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(old -> {
+            CompoundTag tag = old.serializeNBT();
+            event.getEntity().getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
+        });
         //Re-invalidate the player's caps now that we copied ours over
         original.invalidateCaps();
     }
@@ -42,6 +42,7 @@ public class PlayerEvents {
     public static void respawnEvent(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
         }
     }
 
@@ -50,15 +51,20 @@ public class PlayerEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             // Sync to the client for "normal" interdimensional teleports (nether portal, etc.)
             player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
         }
     }
 
     @SubscribeEvent
     public static void attachCaps(AttachCapabilitiesEvent<Entity> evt) {
         if (evt.getObject() instanceof Player player) {
-            var cap = new ResourcePointProviderImpl.Provider(player);
-            evt.addCapability(ResourcePointProviderImpl.Provider.NAME, cap);
-            evt.addListener(cap::invalidateAll);
+            var cap1 = new ResourcePointProviderImpl.Provider(player);
+            evt.addCapability(ResourcePointProviderImpl.Provider.NAME, cap1);
+            evt.addListener(cap1::invalidateAll);
+
+            var cap2 = new ShopSettingsProviderImpl.Provider(player);
+            evt.addCapability(ShopSettingsProviderImpl.Provider.NAME, cap2);
+            evt.addListener(cap2::invalidateAll);
         }
     }
 
@@ -73,6 +79,11 @@ public class PlayerEvents {
             //PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_EMC, knowledge.getEmc());
         });
 
+        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
+            shop.sync(player);
+            TraidingNetwork.LOGGER.info("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
+        });
+
         TraidingNetwork.LOGGER.debug("Sent knowledge and bag data to {}", player.getName());
     }
 
@@ -82,13 +93,15 @@ public class PlayerEvents {
         player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(knowledge -> {
             TraidingNetwork.LOGGER.info("pp"+knowledge.getPoints());
         });
+        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
+            TraidingNetwork.LOGGER.info("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
+        });
     }
 
     @SubscribeEvent
     public static void onConstruct(EntityEvent.EntityConstructing evt) {
         if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER // No world to check yet
                 && evt.getEntity() instanceof Player && !(evt.getEntity() instanceof FakePlayer)) {
-            ShredderOffline.clear(evt.getEntity().getUUID());
             TraidingNetwork.LOGGER.debug("Clearing offline data cache in preparation to load online data");
         }
     }

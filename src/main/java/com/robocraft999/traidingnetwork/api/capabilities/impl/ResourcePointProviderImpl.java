@@ -2,7 +2,6 @@ package com.robocraft999.traidingnetwork.api.capabilities.impl;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
-import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointStorage;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.SyncInputsAndLocksPKT;
 import com.robocraft999.traidingnetwork.net.SyncProviderPKT;

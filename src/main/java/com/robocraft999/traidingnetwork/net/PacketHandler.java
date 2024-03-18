@@ -2,13 +2,17 @@ package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.net.packets.shop.ShopRequestPKT;
+import com.robocraft999.traidingnetwork.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncSettingsPKT;
-import com.robocraft999.traidingnetwork.resourcepoints.RPMappingHandler;
+import com.robocraft999.traidingnetwork.net.packets.shredder.SyncOwnerNamePKT;
+import com.robocraft999.traidingnetwork.resourcepoints.mapper.RPMappingHandler;
 import com.robocraft999.traidingnetwork.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import io.netty.buffer.Unpooled;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -36,6 +40,10 @@ public class PacketHandler {
         registerServerToClient(SyncProviderPKT.class, SyncProviderPKT::decode);
         registerServerToClient(SyncSlotsPKT.class, SyncSlotsPKT::decode);
         registerServerToClient(SyncItemProviderPKT.class, SyncItemProviderPKT::decode);
+        registerServerToClient(SyncClientSettingsPKT.class, SyncClientSettingsPKT::decode);
+
+        registerServerToClient(SyncOwnerNamePKT.class, SyncOwnerNamePKT::decode);
+
         registerClientToServer(SyncSettingsPKT.class, SyncSettingsPKT::decode);
         registerClientToServer(ShopRequestPKT.class, ShopRequestPKT::decode);
     }
@@ -96,6 +104,25 @@ public class PacketHandler {
             HANDLER.send(PacketDistributor.PLAYER.with(() -> player), msg);
         }
     }
+
+    public static <MSG extends ITNPacket> void sendToNear(MSG msg, ServerPlayer player) {
+        if (player.level() != null){
+            HANDLER.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(player.getX(), player.getY(), player.getZ(), 25, player.level().dimension())), msg);
+        }
+    }
+
+    public static <MSG extends ITNPacket> void sendToNear(MSG msg, BlockPos pos, Level level) {
+        if (level != null){
+            HANDLER.send(PacketDistributor.NEAR.with(PacketDistributor.TargetPoint.p(pos.getX(), pos.getY(), pos.getZ(), 25, level.dimension())), msg);
+        }
+    }
+
+
+    public static <MSG extends ITNPacket> void sendToAll(MSG msg) {
+        HANDLER.send(PacketDistributor.ALL.noArg(), msg);
+    }
+
+
 
     /**
      * Send a packet to the server.
