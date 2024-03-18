@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.utils;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
@@ -30,24 +31,37 @@ public class ItemHelper {
         return lowercaseModId;
     }
 
-    public static String formatLargeNumber(int size) {
+    public static ResourceLocation getName(Item item){
+        return ForgeRegistries.ITEMS.getKey(item);
+    }
+
+
+    public static String formatLargeNumber(int size){
+        return formatLargeNumber(size, true);
+    }
+
+    public static String formatLargeNumber(int size, boolean roundFull) {
         if (size < Math.pow(10, 3)) {
             return size + "";
         }
         else if (size < Math.pow(10, 6)) {
             //      float r = (size) / 1000.0F;
-            float rounded = Math.round(size / 100.0F) / 10F; //so 1600 => 1.6 and then rounded to become 2.
+            String rounded = roundWithExponent(size, 3, !roundFull); //so 1600 => 1.6 and then rounded to become 2.
             return rounded + "K";
         }
         else if (size < Math.pow(10, 9)) {
-            int rounded = Math.round(size / (float) Math.pow(10, 6));
+            String rounded = roundWithExponent(size, 6, !roundFull);
             return rounded + "M";
         }
         else if (size < Math.pow(10, 12)) {
-            int rounded = Math.round(size / (float) Math.pow(10, 9));
+            String rounded = roundWithExponent(size, 9, !roundFull);
             return rounded + "B";
         }
         return size + "";
+    }
+
+    private static String roundWithExponent(int num, int exponent, boolean oneDecimal){
+        return oneDecimal ? String.valueOf(Math.round(num / (float) Math.pow(10, exponent-1)) / 10F) : String.valueOf(Math.round(num / Math.pow(10, exponent)));
     }
 
     public static IItemHandlerModifiable immutableCopy(IItemHandler toCopy) {

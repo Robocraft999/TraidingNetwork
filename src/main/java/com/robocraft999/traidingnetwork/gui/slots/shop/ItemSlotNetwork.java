@@ -3,11 +3,11 @@ package com.robocraft999.traidingnetwork.gui.slots.shop;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.robocraft999.traidingnetwork.gui.menu.IShopGui;
-import com.robocraft999.traidingnetwork.gui.menu.ShopWidget;
 import com.robocraft999.traidingnetwork.utils.ItemHelper;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemSlotNetwork {
@@ -42,16 +42,25 @@ public class ItemSlotNetwork {
             String amount;
             //cant sneak in gui
             //default to short form, show full amount if sneak
-            if (Screen.hasShiftDown()) {
+            if (false && Screen.hasShiftDown()) {
                 amount = size + "";
             }
             else {
                 amount = ItemHelper.formatLargeNumber(size);
             }
-            final float scale = 0.85F;
+
+            //final float scale = 0.85F;
+            boolean p = (Screen.hasShiftDown() && amount.length() > 3) || amount.length() > 4;
+            p = amount.length() > 4;
+            float scale = Mth.lerp(p ? -0.08F*(amount.length()-1)+1 : 1, 0.45F, 0.85F);
+            scale = p ? 0.75F : 0.85F;
+            //TraidingNetwork.LOGGER.info(""+scale);
+            float offset = Mth.lerp(p ? -0.2F*(amount.length()-1)+1 : 1, 3, 0);
+            offset = p ? 2 : 0;
             PoseStack viewModelPose = RenderSystem.getModelViewStack();
             viewModelPose.pushPose();
-            viewModelPose.translate(x + 3, y + 3, 0);
+            //viewModelPose.translate(x + 3 + offset, y + 3 + 1.5*offset, 0);
+            viewModelPose.translate(x + 3 + offset, y + 3 + 0.8*offset, 0);
             viewModelPose.scale(scale, scale, scale);
             viewModelPose.translate(-1 * x, -1 * y, 0);
             RenderSystem.applyModelViewMatrix();

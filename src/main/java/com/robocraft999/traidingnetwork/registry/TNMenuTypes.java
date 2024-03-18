@@ -11,7 +11,7 @@ import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;
 public class TNMenuTypes {
 
     public static final MenuEntry<ShredderMenu> SHREDDER_MENU = REGISTRATE
-            .menu("shredder_menu", (menuType, i, inventory) -> new ShredderMenu(inventory, i), () -> ShredderScreen::new)
+            .menu("shredder_menu", (menuType, i, inventory, data) -> new ShredderMenu(inventory, i, data.readBlockPos()), () -> ShredderScreen::new)
             .register();
 
     public static final MenuEntry<ShopMenu> SHOP_MENU = REGISTRATE

@@ -1,11 +1,13 @@
 package com.robocraft999.traidingnetwork.gui.menu;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
@@ -41,5 +43,10 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         //graphics.drawString(font, PELang.EMC_TOOLTIP.translate(""), 6, this.imageHeight - 104, 0x404040, false);
         Component emc = Component.literal(emcAmount.toString());
         graphics.drawString(font, emc, 6, this.imageHeight - 94, 0x404040, false);
+
+        Level level = menu.playerInv.player.level();
+        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity && blockEntity != null){
+            graphics.drawString(font, Component.literal(blockEntity.getOwnerName()), 6, this.imageHeight - 104, 0x404040, false);
+        }
     }
 }
