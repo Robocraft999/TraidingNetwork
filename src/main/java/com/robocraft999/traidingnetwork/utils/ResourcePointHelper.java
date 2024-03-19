@@ -53,7 +53,8 @@ public class ResourcePointHelper {
     public static long getRPSellValue(ItemStack stack){
         if (stack.isEmpty())
             return 0;
-        return 10;
+        long value = getResourcePointValue(stack);
+        return value == 1? 1 : value/2;
     }
 
     public static boolean doesItemHaveRP(ItemStack stack){

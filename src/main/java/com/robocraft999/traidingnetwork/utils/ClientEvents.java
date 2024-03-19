@@ -21,7 +21,7 @@ public class ClientEvents {
                 //tooltip.add(Component.translatable(TNLang.KEY_GUI_SHIFT).withStyle(ChatFormatting.ITALIC, ChatFormatting.DARK_GRAY));
             } else {
                 //tooltip.add(Component.literal("Value: " + ResourcePointHelper.getRPSellValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
-                tooltip.add(Component.literal("Value: " + ResourcePointHelper.getResourcePointValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+                tooltip.add(Component.literal("Value: " + ResourcePointHelper.getRPSellValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
             }
         }
     }
