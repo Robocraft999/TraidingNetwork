@@ -7,11 +7,22 @@ import com.robocraft999.traidingnetwork.resourcepoints.mapper.collector.IMapping
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.recipe.BaseRecipeTypeMapper;
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NormalizedSimpleStack;
 import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
+import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
+import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.deployer.ItemApplicationRecipe;
+import com.simibubi.create.content.kinetics.fan.processing.HauntingRecipe;
+import com.simibubi.create.content.kinetics.fan.processing.SplashingRecipe;
 import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.content.kinetics.mixer.CompactingRecipe;
+import com.simibubi.create.content.kinetics.mixer.MixingRecipe;
+import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.kinetics.saw.CuttingRecipe;
+import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.Tuple;
@@ -21,6 +32,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class CreateMapper {
@@ -87,7 +99,34 @@ public class CreateMapper {
         }
     }
 
-    @RecipeTypeMapper(/*requiredMods = "create"*/)
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateBasinMapper extends CreateProcessingRecipeMapper<BasinRecipe> {
+
+        @Override
+        public String getName() {
+            return "BasinMapper";//1229
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.BASIN.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateCompactingMapper extends CreateProcessingRecipeMapper<CompactingRecipe> {
+        @Override
+        public String getName() {
+            return "CompactingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.COMPACTING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
     public static class CreateCrushingMapper extends CreateProcessingRecipeMapper<CrushingRecipe>{
 
         @Override
@@ -102,6 +141,34 @@ public class CreateMapper {
     }
 
     @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateCuttingMapper extends CreateProcessingRecipeMapper<CuttingRecipe>{
+
+        @Override
+        public String getName() {
+            return "CuttingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.CUTTING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateHauntingMapper extends CreateProcessingRecipeMapper<HauntingRecipe>{
+
+        @Override
+        public String getName() {
+            return "HauntingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.HAUNTING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
     public static class CreateMillingMapper extends CreateProcessingRecipeMapper<MillingRecipe>{
 
         @Override
@@ -112,6 +179,133 @@ public class CreateMapper {
         @Override
         public boolean canHandle(RecipeType<?> recipeType) {
             return recipeType == AllRecipeTypes.MILLING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateMixingMapper extends CreateProcessingRecipeMapper<MixingRecipe>{
+
+        @Override
+        public String getName() {
+            return "MixingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.MIXING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreatePressingMapper extends CreateProcessingRecipeMapper<PressingRecipe>{
+
+        @Override
+        public String getName() {
+            return "PressingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.PRESSING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateSplashingMapper extends CreateProcessingRecipeMapper<SplashingRecipe>{
+
+        @Override
+        public String getName() {
+            return "SplashingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.SPLASHING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateDeployerApplicationMapper extends CreateProcessingRecipeMapper<DeployerApplicationRecipe>{
+
+        @Override
+        public String getName() {
+            return "DeployerApplicationMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.DEPLOYING.getType();
+        }
+    }
+
+    /*@RecipeTypeMapper(requiredMods = "create")
+    public static class CreateMechanicalCrafterMapper extends BaseRecipeTypeMapper<MechanicalCraftingRecipe>{
+
+        @Override
+        public String getName() {
+            return "MechanicalCraftingMapper";
+        }
+
+        @Override
+        public String getDescription() {
+            return "Mechanical Crafting Recipe Mapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.MECHANICAL_CRAFTING.getType();
+        }
+    }*/
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateItemApplicationMapper extends CreateProcessingRecipeMapper<ItemApplicationRecipe>{
+
+        @Override
+        public String getName() {
+            return "ItemApplicationMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.ITEM_APPLICATION.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateSequencedAssemblyMapper extends BaseRecipeTypeMapper<SequencedAssemblyRecipe>{
+
+        @Override
+        public String getName() {
+            return "ItemApplicationMapper";
+        }
+
+        @Override
+        public String getDescription() {
+            return "Sequenced Assembly Recipe Mapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.SEQUENCED_ASSEMBLY.getType();
+        }
+
+        @Override
+        protected Collection<Ingredient> getIngredients(SequencedAssemblyRecipe recipe) {
+            return Collections.singletonList(recipe.getIngredient());
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateSandPaperPolishingMapper extends CreateProcessingRecipeMapper<SandPaperPolishingRecipe>{
+
+        @Override
+        public String getName() {
+            return "SandPaperPolishingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.SANDPAPER_POLISHING.getType();
         }
     }
 }
