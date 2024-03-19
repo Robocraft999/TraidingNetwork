@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public abstract class MappingCollector<T, V extends Comparable<V>, A extends IValueArithmetic<V>> extends AbstractMappingCollector<T, V, A> {
 
-    private static final boolean DEBUG_GRAPHMAPPER = true;
+    private static final boolean DEBUG_GRAPHMAPPER = false;
 
     protected final A arithmetic;
 

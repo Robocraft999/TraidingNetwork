@@ -48,9 +48,6 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
             // mapper would fail as well due to it being an invalid recipe
             return true;
         }
-        if(recipeOutput.getItem() == Items.MELON){
-            int x = 0;
-        }
         ResourceLocation recipeID = recipe.getId();
         List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> dummyGroupInfos = new ArrayList<>();
         IngredientMap<NormalizedSimpleStack> ingredientMap = new IngredientMap<>();
@@ -123,7 +120,7 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
         }
         /*TraidingNetwork.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {}) and output: ({})", recipe.getId(),
                 ingredientMap.getMap().keySet().stream().map(NormalizedSimpleStack::toString).toList(), recipeOutput);*/
-        TraidingNetwork.LOGGER.debug("T {} {} {}", recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
+        //TraidingNetwork.LOGGER.debug("T {} {} {}", recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
         mapper.addConversion(recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
         return addConversionsAndReturn(mapper, dummyGroupInfos, true);
     }
@@ -191,6 +188,9 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
      */
     protected boolean addConversionsAndReturn(IMappingCollector<NormalizedSimpleStack, Long> mapper,
                                             List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> dummyGroupInfos, boolean returnValue) {
+        if (dummyGroupInfos == null){
+            return false;
+        }
         //If we have any conversions make sure to add them even if we are returning early
         for (Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>> dummyGroupInfo : dummyGroupInfos) {
             for (IngredientMap<NormalizedSimpleStack> groupIngredientMap : dummyGroupInfo.getB()) {
