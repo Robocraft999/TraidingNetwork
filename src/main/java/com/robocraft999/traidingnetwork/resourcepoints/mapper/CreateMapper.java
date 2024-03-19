@@ -8,7 +8,6 @@ import com.robocraft999.traidingnetwork.resourcepoints.mapper.recipe.BaseRecipeT
 import com.robocraft999.traidingnetwork.resourcepoints.nss.NormalizedSimpleStack;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
-import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.deployer.ItemApplicationRecipe;
