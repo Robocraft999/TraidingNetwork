@@ -1,9 +1,6 @@
 package com.robocraft999.traidingnetwork.registry;
 
-import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
-import com.robocraft999.traidingnetwork.blockentity.CreateShredderCogInstance;
-import com.robocraft999.traidingnetwork.blockentity.CreateShredderRenderer;
-import com.robocraft999.traidingnetwork.blockentity.ShopBlockEntity;
+import com.robocraft999.traidingnetwork.blockentity.*;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;
@@ -19,7 +16,9 @@ public class TNBlockEntities {
 
     public static final BlockEntityEntry<ShopBlockEntity> SHOP = REGISTRATE
             .blockEntity("shop", ShopBlockEntity::new)
+            .instance(() -> ShopCogInstance::new)
             .validBlocks(TNBlocks.SHOP)
+            .renderer(() -> ShopRenderer::new)
             .register();
 
 

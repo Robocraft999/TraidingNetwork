@@ -28,7 +28,8 @@ public class TNBlocks {
     public static final BlockEntry<? extends ShopBlock> SHOP = REGISTRATE
             .block("shop", ShopBlock::new)
             .initialProperties(SharedProperties::stone)
-            .transform(BlockStressDefaults.setNoImpact())
+            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
+            .transform(BlockStressDefaults.setImpact(16))
             .item()
             .transform(customItemModel())
             .register();

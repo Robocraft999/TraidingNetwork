@@ -1,9 +1,8 @@
-// 1.20.1	2024-03-08T20:22:46.815828837	Registrate Provider for traidingnetwork [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2024-03-23T13:30:14.3407111	Registrate Provider for traidingnetwork [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 403d911e93753069e55ae5abc119ff2b0c8894ab assets/traidingnetwork/blockstates/create_shredder.json
-0eebf79c5a26acd5d9bf5fc79cecdabfd7c9520d assets/traidingnetwork/blockstates/shop.json
+ecfb6419f9d4d3f909e1c264b849a9ba9b9f3f4f assets/traidingnetwork/blockstates/shop.json
 6956f493495b041a1e38608735ed354aa9565f5a assets/traidingnetwork/lang/en_ud.json
 12c7807e2dbf42cff992a1ae52cbf34c05d824a4 assets/traidingnetwork/lang/en_us.json
-c539559360061fcf77b0f9463f023cdda987a6c7 assets/traidingnetwork/models/block/shop.json
 e4e153c626d8a11c753211d61132288bb2b555f8 assets/traidingnetwork/models/item/create_shredder.json
 2e0de3ea5d1380abb3d592934508c66326ede774 assets/traidingnetwork/models/item/shop.json
 972722e663ed7125879b006a921fb074be90ad7a data/minecraft/tags/blocks/mineable/pickaxe.json

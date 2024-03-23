@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "traidingnetwork:block/shop"
+    "facing=east": {
+      "model": "traidingnetwork:block/shop/block"
+    },
+    "facing=north": {
+      "model": "traidingnetwork:block/shop/block",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "traidingnetwork:block/shop/block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "traidingnetwork:block/shop/block",
+      "y": 180
     }
   }
 }
