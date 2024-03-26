@@ -99,14 +99,6 @@ public class TraidingNetwork {
 
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        if (Config.logDirtBlock)
-            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-
-        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-
-        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
     public static ResourceLocation rl(String name){
@@ -208,7 +200,6 @@ public class TraidingNetwork {
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
             RenderType cutout = RenderType.cutoutMipped();
 
             ItemBlockRenderTypes.setRenderLayer(TNBlocks.CREATE_SHREDDER.get(), cutout);
