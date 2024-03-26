@@ -51,7 +51,7 @@ public class ShopRequestPKT implements ITNPacket {
                 if (serverStack.is(this.stack.getItem())){
                     AtomicLong newDecrement = new AtomicLong();
                     player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap2 -> {
-                        newDecrement.set(Math.min(this.stack.getCount(), cap2.getPoints().longValue() / ResourcePointHelper.getResourcePointValue(this.stack)));
+                        newDecrement.set(Math.min(this.stack.getCount(), cap2.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(this.stack)));
                     });
 
                     ItemStack extracted = handler.extractItem(i, newDecrement.intValue(), false);
@@ -62,7 +62,7 @@ public class ShopRequestPKT implements ITNPacket {
                             player.containerMenu.setCarried(extracted);
                             player.containerMenu.broadcastChanges();
                         }
-                        cap2.setPoints(cap2.getPoints().subtract(BigInteger.valueOf(ResourcePointHelper.getResourcePointValue(this.stack) * newDecrement.get())));
+                        cap2.setPoints(cap2.getPoints().subtract(BigInteger.valueOf(ResourcePointHelper.getRPBuyCost(this.stack) * newDecrement.get())));
                         cap2.syncPoints(player);
                         cap.sync();
                     });

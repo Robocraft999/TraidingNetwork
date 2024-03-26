@@ -28,7 +28,7 @@ public class ShopSlot extends SlotItemHandler {
         ItemStack stack = super.remove(amount);
         if (!stack.isEmpty() && inv.isServer()){
             inv.syncChangedSlots(Collections.singletonList(getSlotIndex()), IResourceItemProvider.TargetUpdateType.IF_NEEDED);
-            inv.removeResourcePoints(BigInteger.valueOf(ResourcePointHelper.getResourcePointValue(stack)).multiply(BigInteger.valueOf(amount)));
+            inv.removeResourcePoints(BigInteger.valueOf(ResourcePointHelper.getRPBuyCost(stack)).multiply(BigInteger.valueOf(amount)));
         }
         return stack;
     }
@@ -37,7 +37,7 @@ public class ShopSlot extends SlotItemHandler {
     public Optional<ItemStack> tryRemove(int count, int decrement, Player player) {
         AtomicLong newDecrement = new AtomicLong();
         player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-            newDecrement.set(Math.min(getItem().getMaxStackSize(), Math.min(decrement, cap.getPoints().longValue() / ResourcePointHelper.getResourcePointValue(getItem()))));
+            newDecrement.set(Math.min(getItem().getMaxStackSize(), Math.min(decrement, cap.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(getItem()))));
         });
         TraidingNetwork.LOGGER.debug(count + " " + decrement + " " + newDecrement.intValue());
         return super.tryRemove(count, newDecrement.intValue(), player);

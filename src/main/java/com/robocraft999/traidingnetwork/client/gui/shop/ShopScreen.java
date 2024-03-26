@@ -199,7 +199,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         if (!Screen.hasShiftDown()){
             tooltip.add(Component.translatable(TNLang.KEY_GUI_SHIFT).withStyle(ChatFormatting.ITALIC, ChatFormatting.DARK_GRAY));
         } else {
-            tooltip.add(Component.literal("Cost: " + ResourcePointHelper.getResourcePointValue(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+            tooltip.add(Component.literal("Cost: " + ResourcePointHelper.getRPBuyCost(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
             tooltip.add(Component.literal("Amount: " + stack.getCount()).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
         }
 

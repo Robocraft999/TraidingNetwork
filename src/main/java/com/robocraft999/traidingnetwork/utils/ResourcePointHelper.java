@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.utils;
 
+import com.robocraft999.traidingnetwork.Config;
 import com.robocraft999.traidingnetwork.api.ItemInfo;
 import com.robocraft999.traidingnetwork.resourcepoints.mapper.RPMappingHandler;
 import net.minecraft.world.item.ItemStack;
@@ -10,8 +11,8 @@ import java.util.function.Supplier;
 
 public class ResourcePointHelper {
 
-    public static long getResourcePointValue(ItemStack stack){
-        return stack.isEmpty() ? 0 : getEmcValue(ItemInfo.fromStack(stack));
+    public static long getRPBuyCost(ItemStack stack){
+        return stack.isEmpty() ? 0 : (long) (getEmcValue(ItemInfo.fromStack(stack)) * Config.ITEM_BUY_COST_INCREASE_FACTOR.get());
     }
 
     public static long getEmcValue(@NotNull ItemInfo info) {
@@ -53,11 +54,10 @@ public class ResourcePointHelper {
     public static long getRPSellValue(ItemStack stack){
         if (stack.isEmpty())
             return 0;
-        long value = getResourcePointValue(stack);
-        return value == 1? 1 : value/2;
+        return getEmcValue(ItemInfo.fromStack(stack));
     }
 
     public static boolean doesItemHaveRP(ItemStack stack){
-        return getRPSellValue(stack) > 0;
+        return !stack.isEmpty() && getEmcValue(ItemInfo.fromStack(stack)) > 0;
     }
 }
