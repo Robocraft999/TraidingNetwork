@@ -28,6 +28,7 @@ base {
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
+    toolchain.vendor.set(JvmVendorSpec.JETBRAINS)
 }
 
 def libraryConfigs = new HashSet<Configuration>()
@@ -98,6 +99,10 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             jvmArgs "-Dmixin.env.disableRefMap=true"
 
+            if(project.javaToolchains.launcherFor(java.toolchain).map{it.metadata.vendor }.getOrElse("").contains("JetBrains")) {
+                jvmArg("-XX:+AllowEnhancedClassRedefinition")
+            }
+
 
             // Recommended logging level for the console
             // You can set various levels here.
@@ -149,11 +154,8 @@ minecraft {
                 runSpec.lazyToken('minecraft_classpath') {
                     paths.join(File.pathSeparator)
                 }
-                println("spec: " + runSpec + " " + runSpec.getLazyTokens().values().stream().map(e -> e.get()).toList())
-                println("spec: " + runSpec + " " + runSpec.getTokens())
                 runSpec
             }
-            println("Paths: " + paths)
         }
     }
 }
