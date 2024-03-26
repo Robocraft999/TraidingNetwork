@@ -7,6 +7,7 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.material.MapColor;
 
 import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;
@@ -28,8 +29,10 @@ public class TNBlocks {
     public static final BlockEntry<? extends ShopBlock> SHOP = REGISTRATE
             .block("shop", ShopBlock::new)
             .initialProperties(SharedProperties::stone)
+            .properties(p -> p.noOcclusion().mapColor(MapColor.METAL))
             .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
             .transform(BlockStressDefaults.setImpact(16))
+            .addLayer(() -> RenderType::cutoutMipped)
             .item()
             .transform(customItemModel())
             .register();

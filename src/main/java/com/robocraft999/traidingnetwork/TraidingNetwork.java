@@ -162,6 +162,7 @@ public class TraidingNetwork {
             RenderType cutout = RenderType.cutoutMipped();
 
             ItemBlockRenderTypes.setRenderLayer(TNBlocks.CREATE_SHREDDER.get(), cutout);
+            ItemBlockRenderTypes.setRenderLayer(TNBlocks.SHOP.get(), cutout);
         }
     }
 }
