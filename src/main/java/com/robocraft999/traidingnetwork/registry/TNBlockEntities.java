@@ -1,7 +1,11 @@
 package com.robocraft999.traidingnetwork.registry;
 
 import com.robocraft999.traidingnetwork.api.kinetics.HalfShaftSmallCogInstance;
-import com.robocraft999.traidingnetwork.blockentity.*;
+import com.robocraft999.traidingnetwork.content.shop.ShopBlockEntity;
+import com.robocraft999.traidingnetwork.content.shop.ShopRenderer;
+import com.robocraft999.traidingnetwork.content.shredder.CreateShredderBlockEntity;
+import com.robocraft999.traidingnetwork.content.shredder.CreateShredderCogInstance;
+import com.robocraft999.traidingnetwork.content.shredder.CreateShredderRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;

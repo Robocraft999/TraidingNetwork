@@ -1,6 +1,6 @@
 package com.robocraft999.traidingnetwork.net.packets.shredder;
 
-import com.robocraft999.traidingnetwork.blockentity.CreateShredderBlockEntity;
+import com.robocraft999.traidingnetwork.content.shredder.CreateShredderBlockEntity;
 import com.robocraft999.traidingnetwork.net.ITNPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

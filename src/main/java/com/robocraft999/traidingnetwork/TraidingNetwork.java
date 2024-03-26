@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -117,6 +118,42 @@ public class TraidingNetwork {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+        /*var table = event.getServer().getLootData().getLootTable(new ResourceLocation("entities/chicken"));
+        LOGGER.info("{}", event.getServer().getLootData().getKeys(LootDataType.TABLE));
+        LOGGER.info("{} + {}", table.toString(), table.getLootTableId());
+        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "f_79109_"))){
+            var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
+            var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
+            for (LootItem item : filtered){
+                LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
+            }
+            LOGGER.info(filtered.toString());
+        }
+
+        var table2 = event.getServer().getLootData().getLootTable(new ResourceLocation("entities/horse"));
+        LOGGER.info("{} + {}", table2.toString(), table2.getLootTableId());
+        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table2, "f_79109_"))){
+            var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
+            var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
+            for (LootItem item : filtered){
+                LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
+            }
+            LOGGER.info(filtered.toString());
+        }*/
+    }
+
+    @SubscribeEvent
+    public void onLoottableload(LootTableLoadEvent event){
+        /*if (event.getTable().getLootTableId().equals(new ResourceLocation("entities/horse"))){
+            for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, event.getTable(), "f_79109_"))){
+                var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
+                var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
+                for (LootItem item : filtered){
+                    LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
+                }
+                LOGGER.info(filtered.toString());
+            }
+        }*/
     }
 
     private void imcQueue(InterModEnqueueEvent event){
@@ -147,6 +184,19 @@ public class TraidingNetwork {
 
     private void addReloadListeners(AddReloadListenerEvent event) {
         event.addListener((ResourceManagerReloadListener) manager -> emcUpdateResourceManager = new EmcUpdateData(event.getServerResources(), event.getRegistryAccess(), manager));
+        /*var table = event.getServerResources().getLootData().getLootTable(new ResourceLocation("entities/chicken"));
+        LOGGER.info("{}", event.getServerResources().getLootData().getKeys(LootDataType.TABLE));
+        LOGGER.info("{} + {}", table.toString(), table.getLootTableId());
+        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "f_79109_"))){
+            LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_").toString());
+        }
+
+        var table2 = event.getServerResources().getLootData().getLootTable(new ResourceLocation("entities/horse"));
+        LOGGER.info("{} + {}", table2.toString(), table2.getLootTableId());
+        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table2, "f_79109_"))){
+            LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_").toString());
+        }*/
+
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

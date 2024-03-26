@@ -1,6 +1,6 @@
 package com.robocraft999.traidingnetwork.utils;
 
-import com.robocraft999.traidingnetwork.gui.menu.ShopScreen;
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;

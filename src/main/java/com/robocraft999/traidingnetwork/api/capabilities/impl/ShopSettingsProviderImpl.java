@@ -2,7 +2,7 @@ package com.robocraft999.traidingnetwork.api.capabilities.impl;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IShopNetworkSync;
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;

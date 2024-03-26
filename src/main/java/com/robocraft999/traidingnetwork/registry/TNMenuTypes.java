@@ -1,9 +1,9 @@
 package com.robocraft999.traidingnetwork.registry;
 
-import com.robocraft999.traidingnetwork.gui.menu.ShopMenu;
-import com.robocraft999.traidingnetwork.gui.menu.ShopScreen;
-import com.robocraft999.traidingnetwork.gui.menu.ShredderMenu;
-import com.robocraft999.traidingnetwork.gui.menu.ShredderScreen;
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopMenu;
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopScreen;
+import com.robocraft999.traidingnetwork.client.gui.shredder.ShredderMenu;
+import com.robocraft999.traidingnetwork.client.gui.shredder.ShredderScreen;
 import com.tterrag.registrate.util.entry.MenuEntry;
 
 import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;

@@ -1,8 +1,7 @@
 package com.robocraft999.traidingnetwork.registry;
 
-import com.robocraft999.traidingnetwork.block.CreateShredderBlock;
-import com.robocraft999.traidingnetwork.block.ShopBlock;
-import com.robocraft999.traidingnetwork.block.ShredderBlock;
+import com.robocraft999.traidingnetwork.content.shredder.CreateShredderBlock;
+import com.robocraft999.traidingnetwork.content.shop.ShopBlock;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
@@ -15,7 +14,7 @@ import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class TNBlocks {
-    public static final BlockEntry<? extends ShredderBlock> CREATE_SHREDDER = REGISTRATE
+    public static final BlockEntry<? extends CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))

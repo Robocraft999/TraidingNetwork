@@ -1,7 +1,7 @@
 package com.robocraft999.traidingnetwork.registry;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 
 import static com.robocraft999.traidingnetwork.TraidingNetwork.REGISTRATE;
 

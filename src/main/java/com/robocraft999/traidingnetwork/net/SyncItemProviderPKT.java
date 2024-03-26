@@ -1,7 +1,7 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
-import com.robocraft999.traidingnetwork.gui.menu.ShopMenu;
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopMenu;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

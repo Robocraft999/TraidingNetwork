@@ -1,8 +1,8 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider.TargetUpdateType;
-import com.robocraft999.traidingnetwork.gui.menu.ShredderInventory;
-import com.robocraft999.traidingnetwork.gui.menu.ShredderMenu;
+import com.robocraft999.traidingnetwork.client.gui.shredder.ShredderInventory;
+import com.robocraft999.traidingnetwork.client.gui.shredder.ShredderMenu;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;

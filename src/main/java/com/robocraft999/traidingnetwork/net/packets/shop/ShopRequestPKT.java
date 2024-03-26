@@ -14,7 +14,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.math.BigInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.robocraft999.traidingnetwork.gui.menu.ShopWidget.MOUSE_BTN_RIGHT;
+import static com.robocraft999.traidingnetwork.client.gui.shop.ShopWidget.MOUSE_BTN_RIGHT;
 
 /** Packet that is sent when an Item is requested through ui e.g. a button or click on slot
  *

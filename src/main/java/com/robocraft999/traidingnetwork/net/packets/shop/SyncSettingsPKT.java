@@ -1,6 +1,6 @@
 package com.robocraft999.traidingnetwork.net.packets.shop;
 
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.traidingnetwork.net.ITNPacket;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import net.minecraft.network.FriendlyByteBuf;

@@ -1,6 +1,6 @@
 package com.robocraft999.traidingnetwork.api.capabilities;
 
-import com.robocraft999.traidingnetwork.gui.slots.shop.EnumSortType;
+import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.util.INBTSerializable;
