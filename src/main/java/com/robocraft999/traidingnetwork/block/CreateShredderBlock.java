@@ -84,4 +84,9 @@ public class CreateShredderBlock extends HorizontalKineticBlock implements Shred
     public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         return face.getAxis() == state.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
     }
+
+    @Override
+    public SpeedLevel getMinimumRequiredSpeedLevel() {
+        return SpeedLevel.MEDIUM;
+    }
 }

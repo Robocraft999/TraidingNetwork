@@ -67,7 +67,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     public void tick() {
         super.tick();
 
-        if (getSpeed() == 0)
+        if (!isSpeedRequirementFulfilled())
             return;
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
