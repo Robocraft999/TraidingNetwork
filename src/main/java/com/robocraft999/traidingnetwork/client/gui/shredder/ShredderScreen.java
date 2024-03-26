@@ -44,7 +44,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         Component emc = Component.literal(emcAmount.toString());
         graphics.drawString(font, emc, 6, this.imageHeight - 94, 0x404040, false);
 
-        Level level = menu.playerInv.player.level();
+        Level level = menu.getLevel();
         if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity && blockEntity != null){
             graphics.drawString(font, Component.literal(blockEntity.getOwnerName()), 6, this.imageHeight - 104, 0x404040, false);
         }

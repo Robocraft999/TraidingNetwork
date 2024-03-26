@@ -334,9 +334,9 @@ public class ShopWidget {
             @Override
             public int compare(ItemStack o2, ItemStack o1) {
                 return switch (gui.getSort()) {
-                    case EnumSortType.AMOUNT -> Integer.compare(o1.getCount(), o2.getCount()) * mul;
-                    case EnumSortType.NAME -> o2.getHoverName().getString().compareToIgnoreCase(o1.getHoverName().getString()) * mul;
-                    case EnumSortType.MOD -> ItemHelper.getModNameForItem(o2.getItem()).compareToIgnoreCase(ItemHelper.getModNameForItem(o1.getItem())) * mul;
+                    case AMOUNT -> Integer.compare(o1.getCount(), o2.getCount()) * mul;
+                    case NAME -> o2.getHoverName().getString().compareToIgnoreCase(o1.getHoverName().getString()) * mul;
+                    case MOD -> ItemHelper.getModNameForItem(o2.getItem()).compareToIgnoreCase(ItemHelper.getModNameForItem(o1.getItem())) * mul;
                 };
             }
         });
