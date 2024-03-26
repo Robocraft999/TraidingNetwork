@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.registry;
 
+import com.robocraft999.traidingnetwork.api.kinetics.HalfShaftSmallCogInstance;
 import com.robocraft999.traidingnetwork.blockentity.*;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
@@ -16,7 +17,7 @@ public class TNBlockEntities {
 
     public static final BlockEntityEntry<ShopBlockEntity> SHOP = REGISTRATE
             .blockEntity("shop", ShopBlockEntity::new)
-            .instance(() -> ShopCogInstance::new)
+            .instance(() -> HalfShaftSmallCogInstance::new)
             .validBlocks(TNBlocks.SHOP)
             .renderer(() -> ShopRenderer::new)
             .register();
