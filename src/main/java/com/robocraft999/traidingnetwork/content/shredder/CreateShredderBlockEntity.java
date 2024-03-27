@@ -197,7 +197,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     }
 
     public int getProcessingSpeed() {
-        return Mth.clamp((int) Math.abs(getSpeed() / 16f), 1, 512);
+        return Mth.clamp((int) Math.abs(getSpeed() / Config.SHREDDER_RPM_TO_SPEED_QUOTIENT.get()), 1, 512);
     }
 
     public boolean canProcess(ItemStack stack) {

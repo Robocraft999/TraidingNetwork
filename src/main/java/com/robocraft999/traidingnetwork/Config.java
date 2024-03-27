@@ -20,8 +20,12 @@ public class Config
     }
 
     public static final ForgeConfigSpec.IntValue SHREDDER_PROCESS_TICKS = BUILDER
-            .comment("How many ticks the shredder needs at default speed to crush one item")
+            .comment("How many steps the shredder needs to crush one item (steps per tick is based of the rotation speed)")
             .defineInRange("shredderProcessTicks", 200, 1, Integer.MAX_VALUE);
+
+    public static final ForgeConfigSpec.DoubleValue SHREDDER_RPM_TO_SPEED_QUOTIENT = BUILDER
+            .comment("Quotient by which the rotation speed is divided to get the steps per tick of processing (higher value increases the time to crush one item)")
+            .defineInRange("rpmToSpeedQuotient", 16f, 1f, 1024f);
 
     public static final ForgeConfigSpec.DoubleValue ITEM_BUY_COST_INCREASE_FACTOR = BUILDER
             .comment("By which factor the cost of buying items in the shop increases from their value when being crushed")
