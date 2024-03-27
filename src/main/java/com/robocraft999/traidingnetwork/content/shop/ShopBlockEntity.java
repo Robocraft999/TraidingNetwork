@@ -2,6 +2,7 @@ package com.robocraft999.traidingnetwork.content.shop;
 
 import com.robocraft999.traidingnetwork.client.gui.shop.ShopMenu;
 import com.robocraft999.traidingnetwork.registry.TNBlockEntities;
+import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,7 +22,7 @@ public class ShopBlockEntity extends KineticBlockEntity implements MenuProvider 
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("test_name2");
+        return Component.translatable(TNLang.KEY_SHOP_GUI_NAME);
     }
 
     @Nullable

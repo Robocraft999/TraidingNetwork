@@ -19,6 +19,9 @@ public class TNLang {
     public static final String KEY_GUI_SEARCH_TOOLTIP_CLEAR = gui("fil.tooltip_clear"); //clear
     public static final String KEY_GUI_SHIFT = gui("shift");
 
+    public static final String KEY_SHREDDER_GUI_NAME = "gui." + TraidingNetwork.MODID + ".shredder.name";
+    public static final String KEY_SHOP_GUI_NAME = "gui." + TraidingNetwork.MODID + ".shop.name";
+
     public static void init(){
         REGISTRATE.addRawLang(KEY_GUI_DIRECTION_BUTTON, "Sort Direction");
         REGISTRATE.addRawLang(KEY_GUI_SORT_BUTTON_AMOUNT, "Sort by amount");
@@ -31,6 +34,9 @@ public class TNLang {
         REGISTRATE.addRawLang(KEY_GUI_SEARCH_TOOLTIP_TAGS, "Prefix $: tag");
         REGISTRATE.addRawLang(KEY_GUI_SEARCH_TOOLTIP_CLEAR, "Clear text with right-click");
         REGISTRATE.addRawLang(KEY_GUI_SHIFT, "Hold shift for more information");
+
+        REGISTRATE.addRawLang(KEY_SHREDDER_GUI_NAME, "Shredder");
+        REGISTRATE.addRawLang(KEY_SHOP_GUI_NAME, "Shop");
     }
 
     private static String gui(String suffix){

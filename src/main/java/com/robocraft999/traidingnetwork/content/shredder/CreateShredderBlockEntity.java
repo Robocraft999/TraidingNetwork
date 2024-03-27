@@ -8,6 +8,7 @@ import com.robocraft999.traidingnetwork.client.gui.shredder.ShredderMenu;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shredder.SyncOwnerNamePKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
+import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -105,9 +106,6 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                     cap.syncPoints(player);
                 });
             }
-            var ow = getLevel().getServer().getPlayerList().getPlayer(getOwnerId());
-            var ow2 = getLevel().getServer().getProfileCache().get(getOwnerId());
-            TraidingNetwork.LOGGER.info("owner: '" + ow + "'" + " cache: '" + ow2 + "' name: " + (ow2.isPresent() ? ow2.get().getName(): "empty"));
             getLevel().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
                 if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
                     handler.enlarge();
@@ -121,23 +119,6 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         inputInv.setStackInSlot(0, stackInSlot);
         sendData();
         setChanged();
-    }
-
-    private Direction getEjectDirection() {
-        var block = ((CreateShredderBlock) getBlockState().getBlock());
-        var speed = getSpeed();
-        block.getRotationAxis(getBlockState());
-        boolean rotation = speed >= 0;
-        Direction ejectDirection = Direction.UP;
-        switch (block.getRotationAxis(getBlockState())) {
-            case X -> {
-                ejectDirection = rotation ? Direction.SOUTH : Direction.NORTH;
-            }
-            case Z -> {
-                ejectDirection = rotation ? Direction.WEST : Direction.EAST;
-            }
-        }
-        return ejectDirection;
     }
 
     public void spawnParticles() {
@@ -205,13 +186,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
             this.cachedOwnerName = getLevel().getServer().getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
             PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
         }
-
     }
-
-    /*@Override
-    public boolean canPlayerUse(Player player) {
-        return player.getUUID().equals(getOwnerId());
-    }*/
 
     public String getOwnerName(){
         return this.cachedOwnerName;
@@ -237,7 +212,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     @NotNull
     @Override
     public Component getDisplayName() {
-        return Component.literal("test_name");//PELang.TRANSMUTATION_TRANSMUTE.translate();
+        return Component.translatable(TNLang.KEY_SHREDDER_GUI_NAME);
     }
 
     private class ShredderInventoryHandler extends CombinedInvWrapper {
