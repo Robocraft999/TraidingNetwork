@@ -38,7 +38,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     private IShopNetworkSync provider;
 
-    private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/inventory.png");
+    private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/shop.png");
 
     public ShopScreen(ShopMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
@@ -78,7 +78,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         //graphics.drawCenteredString(font, emc, 46, widget.searchBar.getY() - getGuiTop(), 0x404040);
 
         FormattedCharSequence formattedcharsequence = emc.getVisualOrderText();
-        graphics.drawString(font, formattedcharsequence, 58 - font.width(formattedcharsequence) / 2, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
+        graphics.drawString(font, formattedcharsequence, 60 - font.width(formattedcharsequence) / 2, widget.searchBar.getY() - getGuiTop(), 0xEEC168, false);
 
         //graphics.drawString(font, emc, 38, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
     }

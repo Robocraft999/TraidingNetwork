@@ -16,47 +16,31 @@ public class ShopButton extends Button {
         SORT_AMT, SORT_MOD, SORT_NAME, SORT_UP, SORT_DOWN, RED, GREY;
 
         public int getX() {
-            switch (this) {
-                case RED:
-                    return 179;
-                case GREY:
-                    return 197;
-                case SORT_NAME:
-                    return 198;
-                case SORT_AMT:
-                    return 209;
-                case SORT_MOD:
-                    return 221;
-                case SORT_UP:
-                    return 187;
-                case SORT_DOWN:
-                    return 175;
-                default:
-                    return 0;
-            }
+            return switch (this) {
+                case RED -> 21;
+                case GREY -> 5;
+                case SORT_NAME -> 32;
+                case SORT_AMT -> 48;
+                case SORT_MOD -> 64;
+                case SORT_UP -> 16;
+                case SORT_DOWN -> 0;
+                default -> 0;
+            };
         }
 
         public int getY() {
-            switch (this) {
-                case RED:
-                case GREY:
-                    return 82;
-                case SORT_UP:
-                case SORT_DOWN:
-                case SORT_AMT:
-                case SORT_MOD:
-                case SORT_NAME:
-                    return 127;
-                default:
-                    return 0;
-            }
+            return switch (this) {
+                case RED, GREY -> 17;
+                case SORT_UP, SORT_DOWN, SORT_AMT, SORT_MOD, SORT_NAME -> 0;
+                default -> 0;
+            };
         }
     }
 
     private static final int SIZE = 16;
     public ShopButton(int x, int y, String name, OnPress handler, CreateNarration narration) {
         super(x, y, SIZE, SIZE, Component.translatable(name), handler, narration);
-        texture = new ResourceLocation(TraidingNetwork.MODID, "textures/gui/cable.png");
+        texture = new ResourceLocation(TraidingNetwork.MODID, "textures/gui/widgets.png");
     }
 
     public ShopButton setTexture(ResourceLocation texture) {
@@ -77,14 +61,14 @@ public class ShopButton extends Button {
     }
 
     private int getTextureY() {
-        int i = 1;
+        int i = 0;
         if (!this.active) {
-            i = 0;
+            i = -10;
         }
         else if (this.isHoveredOrFocused()) {
-            i = 2;
+            i = 1;
         }
-        return i;// 46 + i * 20;
+        return width == SIZE && height == SIZE ? i : i + 2;// 46 + i * 20;
     }
 
     @Override
@@ -98,9 +82,8 @@ public class ShopButton extends Button {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        ms.blit(getTexture(), this.getX(), this.getY(),
-                160 + SIZE * k, 52,
-                width, height);
+
+        ms.blit(getTexture(), this.getX(), this.getY(), 0 + SIZE * k, 32, width, height);
         if (textureId != null) {
             ms.blit(getTexture(), this.getX(), this.getY(),
                     textureId.getX(), textureId.getY(),

@@ -83,7 +83,7 @@ public class ItemSlotNetwork {
                 int j1 = x;
                 int k1 = y;
                 RenderSystem.colorMask(true, true, true, false);
-                poseStack.renderOutline(j1, k1, 16, 16, -2130706433);
+                poseStack.renderOutline(j1, k1, 16, 16, 0xFFf7cb6c);
                 RenderSystem.colorMask(true, true, true, true);
             }
             poseStack.renderItem(stack, x, y);
