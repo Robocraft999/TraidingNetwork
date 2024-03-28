@@ -7,7 +7,7 @@ import com.robocraft999.traidingnetwork.client.gui.menu.IShopGui;
 import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSearchPrefix;
 import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.traidingnetwork.client.gui.shop.slots.ItemSlotNetwork;
-import com.robocraft999.traidingnetwork.client.gui.shop.slots.ShopButton;
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopButton.TextureEnum;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
 import com.robocraft999.traidingnetwork.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.traidingnetwork.registry.TNLang;
