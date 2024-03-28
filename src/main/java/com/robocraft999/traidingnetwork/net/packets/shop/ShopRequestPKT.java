@@ -1,5 +1,6 @@
 package com.robocraft999.traidingnetwork.net.packets.shop;
 
+import com.robocraft999.traidingnetwork.client.gui.shop.ShopMenu;
 import com.robocraft999.traidingnetwork.net.ITNPacket;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
@@ -12,7 +13,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.math.BigInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static com.robocraft999.traidingnetwork.client.gui.shop.ShopWidget.MOUSE_BTN_RIGHT;
 
@@ -49,24 +49,20 @@ public class ShopRequestPKT implements ITNPacket {
                 if (serverStack.isEmpty())continue;
 
                 if (serverStack.is(this.stack.getItem())){
-                    AtomicLong newDecrement = new AtomicLong();
-                    player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap2 -> {
-                        newDecrement.set(Math.min(this.stack.getCount(), cap2.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(this.stack)));
-                    });
+                    if (player.containerMenu instanceof ShopMenu shopMenu){
+                        long newDecrement = Math.min(this.stack.getCount(), shopMenu.shopInventory.provider.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(this.stack));
 
-                    ItemStack extracted = handler.extractItem(i, newDecrement.intValue(), false);
-                    player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap2 -> {
+                        shopMenu.shopInventory.removeResourcePoints(BigInteger.valueOf(ResourcePointHelper.getRPBuyCost(this.stack) * newDecrement));
+
+                        ItemStack extracted = handler.extractItem(i, (int) newDecrement, false);
                         if (this.shift){
                             ItemHandlerHelper.giveItemToPlayer(player, extracted);
                         } else {
-                            player.containerMenu.setCarried(extracted);
-                            player.containerMenu.broadcastChanges();
+                            shopMenu.setCarried(extracted);
+                            shopMenu.broadcastChanges();
                         }
-                        cap2.setPoints(cap2.getPoints().subtract(BigInteger.valueOf(ResourcePointHelper.getRPBuyCost(this.stack) * newDecrement.get())));
-                        cap2.syncPoints(player);
                         cap.sync();
-                    });
-
+                    }
                     break;
                 }
             }

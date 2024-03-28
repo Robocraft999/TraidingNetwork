@@ -35,7 +35,7 @@ public class ShredderMenu extends TNContainerMenu {
     protected void initSlots(){
         this.addSlot(new SlotInput(shredderInventory, 0, 43, 23));
         this.addSlot(new SlotConsume(shredderInventory, 9, 107, 97));
-        addPlayerInventory(35, 117);
+        addPlayerInventory(8, 51);
     }
 
     @Override

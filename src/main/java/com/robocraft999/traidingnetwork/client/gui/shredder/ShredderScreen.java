@@ -2,6 +2,8 @@ package com.robocraft999.traidingnetwork.client.gui.shredder;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.content.shredder.CreateShredderBlockEntity;
+import com.robocraft999.traidingnetwork.utils.UIHelper;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -18,10 +20,12 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     public ShredderScreen(ShredderMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
         this.inv = menu.shredderInventory;
-        this.imageWidth = 228;
-        this.imageHeight = 196;
-        this.titleLabelX = 6;
-        this.titleLabelY = 8;
+        this.imageWidth = 176;
+        this.imageHeight = 132;
+        this.titleLabelX = 4;
+        this.titleLabelY = 4;
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = 40;
     }
 
     @Override
@@ -37,16 +41,21 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     }
 
     @Override
-    protected void renderLabels(GuiGraphics graphics, int p_282681_, int p_283686_) {
-        //super.renderLabels(p_281635_, p_282681_, p_283686_);
-        BigInteger emcAmount = inv.provider.getPoints();
-        //graphics.drawString(font, PELang.EMC_TOOLTIP.translate(""), 6, this.imageHeight - 104, 0x404040, false);
-        Component emc = Component.literal(emcAmount.toString());
-        graphics.drawString(font, emc, 6, this.imageHeight - 94, 0x404040, false);
+    protected void renderLabels(@NotNull GuiGraphics graphics, int pMouseX, int pMouseY) {
+        graphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0xFFFFFF, false);
+        graphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.inventoryLabelY, 0xE4B763, false);
+
+        BigInteger pointAmount = inv.provider.getPoints();
+        //TODO add translation
+        Component points = Component.literal("Points: " + pointAmount.toString());
+        UIHelper.drawCenteredString(graphics, font, points, 88, 31, 0xE4B763, false);
 
         Level level = menu.getLevel();
         if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity && blockEntity != null){
-            graphics.drawString(font, Component.literal(blockEntity.getOwnerName()), 6, this.imageHeight - 104, 0x404040, false);
+            //TODO add translation
+            var text = Component.literal("Owner: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(blockEntity.getOwnerName()));
+            graphics.drawString(font, text, this.inventoryLabelX, 20, 0xE4B763, false);
         }
     }
 }

@@ -36,11 +36,11 @@ public class ItemHelper {
     }
 
 
-    public static String formatLargeNumber(int size){
+    public static String formatLargeNumber(long size){
         return formatLargeNumber(size, true);
     }
 
-    public static String formatLargeNumber(int size, boolean roundFull) {
+    public static String formatLargeNumber(long size, boolean roundFull) {
         if (size < Math.pow(10, 3)) {
             return size + "";
         }
@@ -60,7 +60,7 @@ public class ItemHelper {
         return size + "";
     }
 
-    private static String roundWithExponent(int num, int exponent, boolean oneDecimal){
+    private static String roundWithExponent(long num, int exponent, boolean oneDecimal){
         return oneDecimal ? String.valueOf(Math.round(num / (float) Math.pow(10, exponent-1)) / 10F) : String.valueOf(Math.round(num / Math.pow(10, exponent)));
     }
 

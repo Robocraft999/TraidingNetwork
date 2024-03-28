@@ -12,18 +12,18 @@ import java.util.List;
 
 public class ShopInventory extends TNInventory {
 
-    public final IResourceItemProvider provider;
+    public final IResourceItemProvider itemProvider;
 
     public ShopInventory(Player player){
         super(player, (IItemHandlerModifiable) player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new).getSlotsHandler());
-        this.provider = player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new);
+        this.itemProvider = player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new);
         if (isServer()){
-            provider.sync();
+            itemProvider.sync();
             syncChangedSlots(Arrays.asList(1), IResourceItemProvider.TargetUpdateType.ALL);
         }
     }
 
     public void syncChangedSlots(List<Integer> slotsChanged, IResourceItemProvider.TargetUpdateType updateTargets) {
-        provider.syncSlots((ServerPlayer) player, slotsChanged, updateTargets);
+        itemProvider.syncSlots((ServerPlayer) player, slotsChanged, updateTargets);
     }
 }

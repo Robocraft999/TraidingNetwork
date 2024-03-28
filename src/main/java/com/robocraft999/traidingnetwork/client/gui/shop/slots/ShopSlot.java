@@ -3,7 +3,6 @@ package com.robocraft999.traidingnetwork.client.gui.shop.slots;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.api.capabilities.IResourceItemProvider;
 import com.robocraft999.traidingnetwork.client.gui.shop.ShopInventory;
-import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ShopSlot extends SlotItemHandler {
     private final ShopInventory inv;
@@ -34,13 +32,13 @@ public class ShopSlot extends SlotItemHandler {
     }
 
     @Override
-    public Optional<ItemStack> tryRemove(int count, int decrement, Player player) {
-        AtomicLong newDecrement = new AtomicLong();
-        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-            newDecrement.set(Math.min(getItem().getMaxStackSize(), Math.min(decrement, cap.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(getItem()))));
-        });
-        TraidingNetwork.LOGGER.debug(count + " " + decrement + " " + newDecrement.intValue());
-        return super.tryRemove(count, newDecrement.intValue(), player);
+    public @NotNull Optional<ItemStack> tryRemove(int count, int decrement, @NotNull Player player) {
+        long newDecrement = Math.min(getItem().getMaxStackSize(), Math.min(decrement, inv.provider.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(getItem())));
+        if (newDecrement > Integer.MAX_VALUE){
+            TraidingNetwork.LOGGER.warn("trying to extract more than Integer.MAX_VALUE items from ShopSlot");
+        }
+        TraidingNetwork.LOGGER.debug(count + " " + decrement + " " + newDecrement);
+        return super.tryRemove(count, (int) newDecrement, player);
     }
 
     @Override

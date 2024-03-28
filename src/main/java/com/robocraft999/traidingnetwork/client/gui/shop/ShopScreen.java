@@ -12,6 +12,7 @@ import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
 import com.robocraft999.traidingnetwork.utils.ItemHelper;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
+import com.robocraft999.traidingnetwork.utils.UIHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -19,7 +20,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements IShopGui {
 
@@ -49,7 +48,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         imageWidth = 176;
         imageHeight = 256;
         widget.fieldHeight = 180;
-
     }
 
     @Override
@@ -67,20 +65,10 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
     protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
         widget.drawGuiContainerForegroundLayer(graphics, mouseX, mouseY, font);
 
-        AtomicReference<BigInteger> emcAmount = new AtomicReference<>(BigInteger.ONE);
-        this.menu.shopInventory.player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-            emcAmount.set(cap.getPoints());
-        });
+        BigInteger amount = this.menu.shopInventory.provider.getPoints();
 
-        //Component emc = Component.literal(emcAmount.toString());
-        int raw_amount = emcAmount.get().intValue();
-        Component emc = Component.literal(raw_amount > 99999 ? ItemHelper.formatLargeNumber(raw_amount, false) : String.valueOf(raw_amount));
-        //graphics.drawCenteredString(font, emc, 46, widget.searchBar.getY() - getGuiTop(), 0x404040);
-
-        FormattedCharSequence formattedcharsequence = emc.getVisualOrderText();
-        graphics.drawString(font, formattedcharsequence, 60 - font.width(formattedcharsequence) / 2, widget.searchBar.getY() - getGuiTop(), 0xEEC168, false);
-
-        //graphics.drawString(font, emc, 38, widget.searchBar.getY() - getGuiTop(), 0x404040, false);
+        Component rp = Component.literal(amount.longValue() > 99999 ? ItemHelper.formatLargeNumber(amount.longValue(), false) : amount.toString());
+        UIHelper.drawCenteredString(graphics, font, rp, 60, widget.searchBar.getY() - getGuiTop(), 0xEEC168, false);
     }
 
     @Override
