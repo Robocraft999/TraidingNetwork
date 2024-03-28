@@ -7,10 +7,10 @@ import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 /**
- * Interface for Classes that want to make Contributions to the EMC Mapping.
+ * Interface for Classes that want to make Contributions to the RP Mapping.
  *
  * @param <T> The type, that is used to uniquely identify Items/Blocks/Everything
- * @param <V> The type for the EMC Value
+ * @param <V> The type for the RP Value
  */
 public interface IRPMapper<T, V extends Comparable<V>> {
 
@@ -39,7 +39,7 @@ public interface IRPMapper<T, V extends Comparable<V>> {
     }
 
     /**
-     * The method that allows the {@link IRPMapper} to contribute to the EMC Mapping. Use the methods provided by the {@link IMappingCollector}. <br/> Use the config
+     * The method that allows the {@link IRPMapper} to contribute to the RP Mapping. Use the methods provided by the {@link IMappingCollector}. <br/> Use the config
      * object to generate a useful Configuration for your {@link IRPMapper}. <br/> The Configuration Object will be a {@link
      * com.electronwill.nightconfig.core.file.CommentedFileConfig} representing the top-level mapping.cfg file. Please use properly prefixed config keys and do not
      * clobber those not belonging to your mapper

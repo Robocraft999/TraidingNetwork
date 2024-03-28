@@ -18,17 +18,17 @@ public class ResourcePointHelper {
     public static long getRPValue(@NotNull ItemInfo info) {
         //TODO: Fix this, as it does not catch the edge case that we have an exact match and then there is random added NBT on top of it
         // but that can be thought about more once we have the first pass complete. For example if someone put an enchantment on a potion
-        long rpValue = RPMappingHandler.getStoredEmcValue(info);
+        long rpValue = RPMappingHandler.getStoredRpValue(info);
         if (!info.hasNBT()) {
             HashMap<String, Supplier<String>> v = new HashMap<>();
             v.values().stream().map(e -> e.get()).toList();
             //If our info has no NBT anyways just return based on the value we got for it
             return rpValue;
         } else if (rpValue == 0) {
-            //Try getting a base emc value from the NBT less variant if we don't have one matching our NBT
-            rpValue = RPMappingHandler.getStoredEmcValue(ItemInfo.fromItem(info.getItem()));
+            //Try getting a base rp value from the NBT less variant if we don't have one matching our NBT
+            rpValue = RPMappingHandler.getStoredRpValue(ItemInfo.fromItem(info.getItem()));
             if (rpValue == 0) {
-                //The base item doesn't have an EMC value either so just exit
+                //The base item doesn't have an RP value either so just exit
                 return 0;
             }
         }

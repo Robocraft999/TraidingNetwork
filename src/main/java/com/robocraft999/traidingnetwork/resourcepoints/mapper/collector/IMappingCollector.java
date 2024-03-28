@@ -5,10 +5,10 @@ import com.robocraft999.traidingnetwork.resourcepoints.mapper.arithmetic.IValueA
 import java.util.Map;
 
 /**
- * A Class that is used to collect Contributions to the EMC Mapping.
+ * A Class that is used to collect Contributions to the RP Mapping.
  *
  * @param <T> The type, that is used to uniquely identify Items/Blocks/Everything
- * @param <V> The type for the EMC Value
+ * @param <V> The type for the RP Value
  */
 public interface IMappingCollector<T, V extends Comparable<V>> {
 
@@ -19,7 +19,7 @@ public interface IMappingCollector<T, V extends Comparable<V>> {
      * <br/>
      *
      * The Map contains the ingredients and the amount of how many are consumed. It can contain negative amounts, if you get multiple items back. An amount of 0 will
-     * indicate, that the {@code output} should only get an EMC value assigned, if the zero-amount-ingredient also has an EMC value.
+     * indicate, that the {@code output} should only get an RP value assigned, if the zero-amount-ingredient also has an RP value.
      *
      * @param outnumber             How many items are produced
      * @param output                What is produced

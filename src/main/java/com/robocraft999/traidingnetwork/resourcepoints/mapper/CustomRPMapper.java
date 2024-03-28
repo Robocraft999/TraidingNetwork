@@ -25,10 +25,10 @@ public class CustomRPMapper implements IRPMapper<NormalizedSimpleStack, Long> {
     @Override
     public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper, CommentedFileConfig config, ReloadableServerResources serverResources, RegistryAccess registryAccess, ResourceManager resourceManager) {
         for (CustomRPParser.CustomRPEntry entry : CustomRPParser.currentEntries.entries) {
-            TraidingNetwork.LOGGER.debug("Adding custom EMC value for {}: {}", entry.item, entry.rp);
+            TraidingNetwork.LOGGER.debug("Adding custom RP value for {}: {}", entry.item, entry.rp);
             mapper.setValueBefore(entry.item, entry.rp);
             if (entry.item instanceof NSSTag nssTag) {
-                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual EMC values
+                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual RP values
                 nssTag.forEachElement(normalizedSimpleStack -> mapper.setValueBefore(normalizedSimpleStack, entry.rp));
             }
         }

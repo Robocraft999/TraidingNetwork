@@ -181,7 +181,7 @@ public class NSSItem implements NSSTag {
     /**
      * Clears the cache of what {@link AbstractNSSTag}s have been created that represent {@link ITag}s
      *
-     * @apiNote This method is meant for internal use when the EMC mapper is reloading.
+     * @apiNote This method is meant for internal use when the RP mapper is reloading.
      */
     public static void clearCreatedTags() {
         createdTags.clear();

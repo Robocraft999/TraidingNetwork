@@ -115,11 +115,11 @@ public class SimpleGraphMapper<T, V extends Comparable<V>, A extends IValueArith
                     V ingredientValue = valueForConversion(values, conversion);
                     //What would the output cost be, if that conversion would be used
                     V resultValueConversion = conversion.arithmeticForConversion.div(ingredientValue, conversion.outnumber);
-                    //What is the actual emc value for the conversion output
+                    //What is the actual rp value for the conversion output
                     V resultValueActual = values.getOrDefault(entry.getKey(), ZERO);
                     //TraidingNetwork.LOGGER.debug("SimpleGraphMapper collecting values: type: {} ingredient: {} and output: {}",entry.getKey(), ingredientValue, resultValueActual);
 
-                    //Find the smallest EMC value for the conversion.output
+                    //Find the smallest RP value for the conversion.output
                     if (resultValueConversion.compareTo(ZERO) > 0 || conversion.arithmeticForConversion.isFree(resultValueConversion)) {
                         if (minConversionValue == null || minConversionValue.compareTo(resultValueConversion) > 0) {
                             minConversionValue = resultValueConversion;
@@ -130,14 +130,14 @@ public class SimpleGraphMapper<T, V extends Comparable<V>, A extends IValueArith
                     if (ZERO.compareTo(ingredientValue) < 0 && resultValueConversion.compareTo(resultValueActual) < 0) {
                         if (overwriteConversion.containsKey(conversion.output) && overwriteConversion.get(conversion.output) != conversion) {
                             if (logFoundExploits) {
-                                TraidingNetwork.LOGGER.warn("EMC Exploit: \"{}\" ingredient cost: {} value of result: {} setValueFromConversion: {}", conversion, ingredientValue, resultValueActual, overwriteConversion.get(conversion.output));
+                                TraidingNetwork.LOGGER.warn("RP Exploit: \"{}\" ingredient cost: {} value of result: {} setValueFromConversion: {}", conversion, ingredientValue, resultValueActual, overwriteConversion.get(conversion.output));
                             }
                         } else if (canOverride(entry.getKey(), ZERO)) {
                             debugFormat("Setting {} to 0 because result ({}) > cost ({}): {}", entry.getKey(), resultValueActual, ingredientValue, conversion);
                             changedValues.put(conversion.output, ZERO);
                             reasonForChange.put(conversion.output, "exploit recipe");
                         } else if (logFoundExploits) {
-                            TraidingNetwork.LOGGER.warn("EMC Exploit: ingredients ({}) cost {} but output value is {}", conversion, ingredientValue, resultValueActual);
+                            TraidingNetwork.LOGGER.warn("RP Exploit: ingredients ({}) cost {} but output value is {}", conversion, ingredientValue, resultValueActual);
                         }
                     }
                 }

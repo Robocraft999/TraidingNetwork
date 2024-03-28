@@ -1,6 +1,7 @@
 package com.robocraft999.traidingnetwork.net;
 
 import com.robocraft999.traidingnetwork.TraidingNetwork;
+import com.robocraft999.traidingnetwork.resourcepoints.mapper.RPMappingHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
@@ -18,8 +19,8 @@ public class SyncResourcePointPKT implements ITNPacket{
 
     @Override
     public void handle(NetworkEvent.Context context) {
-        TraidingNetwork.LOGGER.info("Receiving EMC data from server.");
-        //EMCMappingHandler.fromPacket(data);
+        TraidingNetwork.LOGGER.info("Receiving RP data from server.");
+        RPMappingHandler.fromPacket(data);
     }
 
     @Override

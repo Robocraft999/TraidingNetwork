@@ -103,7 +103,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
             NormalizedSimpleStack something = entry.getKey();
             mapper.setValueBefore(something, entry.getValue());
             if (something instanceof NSSTag nssTag) {
-                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual EMC values
+                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual RP values
                 nssTag.forEachElement(normalizedSimpleStack -> mapper.setValueBefore(normalizedSimpleStack, entry.getValue()));
             }
         }
@@ -112,7 +112,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
             NormalizedSimpleStack something = entry.getKey();
             mapper.setValueAfter(something, entry.getValue());
             if (something instanceof NSSTag nssTag) {
-                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual EMC values
+                //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual RP values
                 nssTag.forEachElement(normalizedSimpleStack -> mapper.setValueAfter(normalizedSimpleStack, entry.getValue()));
             }
         }

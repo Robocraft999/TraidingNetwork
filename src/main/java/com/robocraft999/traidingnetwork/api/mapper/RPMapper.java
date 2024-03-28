@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface RPMapper {
 
     /**
-     * Gets the priority of this {@link RPMapper}. This is used when loading the list of emc mappers. The higher this number is the earlier it gets ran.
+     * Gets the priority of this {@link RPMapper}. This is used when loading the list of rp mappers. The higher this number is the earlier it gets ran.
      *
      * @return Sort priority of this {@link RPMapper}
      */

@@ -23,7 +23,7 @@ public record SyncProviderResourcePointPKT(BigInteger points) implements ITNPack
                 }
             });
         }
-        TraidingNetwork.LOGGER.debug("** RECEIVED TRANSMUTATION EMC DATA CLIENTSIDE **");
+        TraidingNetwork.LOGGER.debug("** RECEIVED RP PROVIDER DATA CLIENTSIDE **");
     }
 
     @Override
@@ -32,7 +32,7 @@ public record SyncProviderResourcePointPKT(BigInteger points) implements ITNPack
     }
 
     public static SyncProviderResourcePointPKT decode(FriendlyByteBuf buffer) {
-        String emc = buffer.readUtf();
-        return new SyncProviderResourcePointPKT(emc.isEmpty() ? BigInteger.ZERO : new BigInteger(emc));
+        String rp = buffer.readUtf();
+        return new SyncProviderResourcePointPKT(rp.isEmpty() ? BigInteger.ZERO : new BigInteger(rp));
     }
 }

@@ -64,34 +64,30 @@ public class PacketHandler {
         return player.server.isSingleplayerOwner(player.getGameProfile());
     }
 
-    private static void sendFragmentedEmcPacket(ServerPlayer player, SyncResourcePointPKT pkt/*, SyncFuelMapperPKT fuelPkt*/) {
+    private static void sendFragmentedRpPacket(ServerPlayer player, SyncResourcePointPKT pkt) {
         if (!isLocal(player)) {
             sendTo(pkt, player);
-            //sendTo(fuelPkt, player);
         }
     }
 
-    public static void sendFragmentedEmcPacket(ServerPlayer player) {
-        sendFragmentedEmcPacket(player, new SyncResourcePointPKT(serializeResourcePointsData())/*, FuelMapper.getSyncPacket()*/);
+    public static void sendFragmentedRpPacket(ServerPlayer player) {
+        sendFragmentedRpPacket(player, new SyncResourcePointPKT(serializeResourcePointsData()));
     }
 
-    public static void sendFragmentedEmcPacketToAll() {
+    public static void sendFragmentedRpPacketToAll() {
         if (ServerLifecycleHooks.getCurrentServer() != null) {
             SyncResourcePointPKT pkt = new SyncResourcePointPKT(serializeResourcePointsData());
-            //SyncFuelMapperPKT fuelPkt = FuelMapper.getSyncPacket();
-            for (ServerPlayer player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-                sendFragmentedEmcPacket(player, pkt/*, fuelPkt*/);
-            }
+            sendToAll(pkt);
         }
     }
 
     private static ResourcePointPKTInfo[] serializeResourcePointsData() {
         ResourcePointPKTInfo[] data = RPMappingHandler.createPacketData();
-        //Simulate encoding the EMC packet to get an accurate size
+        //Simulate encoding the RP packet to get an accurate size
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         int index = buf.writerIndex();
         new SyncResourcePointPKT(data).encode(buf);
-        TraidingNetwork.LOGGER.debug("EMC data size: {} bytes", buf.writerIndex() - index);
+        TraidingNetwork.LOGGER.debug("RP data size: {} bytes", buf.writerIndex() - index);
         buf.release();
         return data;
     }

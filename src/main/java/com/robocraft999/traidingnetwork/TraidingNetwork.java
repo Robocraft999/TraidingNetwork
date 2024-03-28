@@ -14,7 +14,6 @@ import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.RegistryAccess;
@@ -23,11 +22,9 @@ import net.minecraft.server.ReloadableServerResources;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -40,7 +37,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
@@ -110,85 +106,36 @@ public class TraidingNetwork {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
-        /*var table = event.getServer().getLootData().getLootTable(new ResourceLocation("entities/chicken"));
-        LOGGER.info("{}", event.getServer().getLootData().getKeys(LootDataType.TABLE));
-        LOGGER.info("{} + {}", table.toString(), table.getLootTableId());
-        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "f_79109_"))){
-            var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
-            var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
-            for (LootItem item : filtered){
-                LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
-            }
-            LOGGER.info(filtered.toString());
-        }
-
-        var table2 = event.getServer().getLootData().getLootTable(new ResourceLocation("entities/horse"));
-        LOGGER.info("{} + {}", table2.toString(), table2.getLootTableId());
-        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table2, "f_79109_"))){
-            var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
-            var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
-            for (LootItem item : filtered){
-                LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
-            }
-            LOGGER.info(filtered.toString());
-        }*/
-    }
-
-    @SubscribeEvent
-    public void onLoottableload(LootTableLoadEvent event){
-        /*if (event.getTable().getLootTableId().equals(new ResourceLocation("entities/horse"))){
-            for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, event.getTable(), "f_79109_"))){
-                var entries = (LootPoolEntryContainer[]) ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_");
-                var filtered = Arrays.stream(entries).filter(entry -> entry instanceof LootItem).map(entry -> (LootItem) entry).toList();
-                for (LootItem item : filtered){
-                    LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootItem.class, item, "f_79564_").toString());
-                }
-                LOGGER.info(filtered.toString());
-            }
-        }*/
     }
 
     private void imcQueue(InterModEnqueueEvent event){
         NSSSerializer.init();
     }
 
-    private record EmcUpdateData(ReloadableServerResources serverResources, RegistryAccess registryAccess, ResourceManager resourceManager) {
+    private record RPUpdateData(ReloadableServerResources serverResources, RegistryAccess registryAccess, ResourceManager resourceManager) {
     }
     @Nullable
-    private EmcUpdateData emcUpdateResourceManager;
+    private RPUpdateData rpUpdateResourceManager;
 
     private void tagsUpdated(TagsUpdatedEvent event) {
-        if (emcUpdateResourceManager != null) {
+        if (rpUpdateResourceManager != null) {
             long start = System.currentTimeMillis();
             //Clear the cached created tags
             NSSItem.clearCreatedTags();
             CustomRPParser.init();
             try {
-                RPMappingHandler.map(emcUpdateResourceManager.serverResources(), emcUpdateResourceManager.registryAccess(), emcUpdateResourceManager.resourceManager());
-                TraidingNetwork.LOGGER.info("Registered {} EMC values. (took {} ms)", RPMappingHandler.getEmcMapSize(), System.currentTimeMillis() - start);
-                PacketHandler.sendFragmentedEmcPacketToAll();
+                RPMappingHandler.map(rpUpdateResourceManager.serverResources(), rpUpdateResourceManager.registryAccess(), rpUpdateResourceManager.resourceManager());
+                TraidingNetwork.LOGGER.info("Registered {} RP values. (took {} ms)", RPMappingHandler.getRpMapSize(), System.currentTimeMillis() - start);
+                PacketHandler.sendFragmentedRpPacketToAll();
             } catch (Throwable t) {
-                TraidingNetwork.LOGGER.error("Error calculating EMC values", t);
+                TraidingNetwork.LOGGER.error("Error calculating RP values", t);
             }
-            emcUpdateResourceManager = null;
+            rpUpdateResourceManager = null;
         }
     }
 
     private void addReloadListeners(AddReloadListenerEvent event) {
-        event.addListener((ResourceManagerReloadListener) manager -> emcUpdateResourceManager = new EmcUpdateData(event.getServerResources(), event.getRegistryAccess(), manager));
-        /*var table = event.getServerResources().getLootData().getLootTable(new ResourceLocation("entities/chicken"));
-        LOGGER.info("{}", event.getServerResources().getLootData().getKeys(LootDataType.TABLE));
-        LOGGER.info("{} + {}", table.toString(), table.getLootTableId());
-        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table, "f_79109_"))){
-            LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_").toString());
-        }
-
-        var table2 = event.getServerResources().getLootData().getLootTable(new ResourceLocation("entities/horse"));
-        LOGGER.info("{} + {}", table2.toString(), table2.getLootTableId());
-        for (LootPool pool : (List<LootPool>) Objects.requireNonNull(ObfuscationReflectionHelper.getPrivateValue(LootTable.class, table2, "f_79109_"))){
-            LOGGER.info(ObfuscationReflectionHelper.getPrivateValue(LootPool.class, pool, "f_79023_").toString());
-        }*/
-
+        event.addListener((ResourceManagerReloadListener) manager -> rpUpdateResourceManager = new RPUpdateData(event.getServerResources(), event.getRegistryAccess(), manager));
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

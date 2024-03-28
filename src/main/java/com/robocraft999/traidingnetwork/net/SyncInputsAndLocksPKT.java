@@ -22,7 +22,7 @@ public record SyncInputsAndLocksPKT(Map<Integer, ItemStack> stacksToSync, Target
             player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                 cap.receiveInputsAndLocks(stacksToSync);
                 if (updateTargets != TargetUpdateType.NONE && player.containerMenu instanceof ShredderMenu container) {
-                    //Update targets in case total available EMC is now different
+                    //Update targets in case total available RP is now different
                     ShredderInventory transmutationInventory = container.shredderInventory;
                     if (updateTargets == TargetUpdateType.ALL) {
                         transmutationInventory.updateClientTargets();

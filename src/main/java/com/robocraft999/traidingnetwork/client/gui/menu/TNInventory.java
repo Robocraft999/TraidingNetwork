@@ -53,8 +53,8 @@ public class TNInventory extends CombinedInvWrapper {
         }
         List<Integer> inputLocksChanged = new ArrayList<>();
         syncChangedSlots(inputLocksChanged, IResourcePointProvider.TargetUpdateType.NONE);
-        //Note: We act as if there is no "max" EMC for the player given we use a BigInteger
-        // This means we don't have to try to put the overflow into the lock slot if there is an EMC storage item there
+        //Note: We act as if there is no "max" RP for the player given we use a BigInteger
+        // This means we don't have to try to put the overflow into the lock slot if there is an RP storage item there
         updateResourcePointsAndSync(provider.getPoints().add(value));
     }
 
@@ -69,14 +69,13 @@ public class TNInventory extends CombinedInvWrapper {
             return;
         }
         BigInteger currentEmc = provider.getPoints();
-        //Note: We act as if there is no "max" EMC for the player given we use a BigInteger
+        //Note: We act as if there is no "max" RP for the player given we use a BigInteger
         // This means we don't need to first try removing it from the lock slot as it will auto drain from the lock slot
         if (value.compareTo(currentEmc) > 0) {
             //Remove from provider first
             //This code runs first to simplify the logic
             //But it simulates removal first by extracting the amount from value and then removing that excess from items
             List<Integer> inputLocksChanged = new ArrayList<>();
-            BigInteger toRemove = value.subtract(currentEmc);
             value = currentEmc;
 
             //Sync the changed slots if any have changed
@@ -102,6 +101,6 @@ public class TNInventory extends CombinedInvWrapper {
         }
         provider.setPoints(points);
         provider.syncPoints((ServerPlayer) player);
-        //PlayerHelper.updateScore((ServerPlayer) player, PlayerHelper.SCOREBOARD_POINTS, points);
+        //PlayerHelper.updateScore((ServerPlayer) player, PlayerHelper.SCOREBOARD_RP, points);
     }
 }

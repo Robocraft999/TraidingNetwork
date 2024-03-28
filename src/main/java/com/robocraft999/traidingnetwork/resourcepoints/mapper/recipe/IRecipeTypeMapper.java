@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
 /**
- * Interface for Classes that want to make Contributions to the EMC Mapping via the CraftingMapper.
+ * Interface for Classes that want to make Contributions to the RP Mapping via the CraftingMapper.
  */
 public interface IRecipeTypeMapper {
 

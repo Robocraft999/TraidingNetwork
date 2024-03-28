@@ -18,9 +18,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-//TODO: Fix recipe mapping for things containing EMC not working properly? (aka full klein stars)
+//TODO: Fix recipe mapping for things containing RP not working properly? (aka full klein stars)
 // We probably could do it with a set value before, make it a grouping of a fake stack that has
-// a specific emc value, and it, and then use that? We probably should check the capability for
+// a specific rp value, and it, and then use that? We probably should check the capability for
 // it though it might be enough for now to just use an instanceof?
 //TODO: Evaluate using a fake crafting inventory and then calling recipe#getRemainingItems? May not be worthwhile to do
 // The bigger question is how would the "fake group" stuff work for it? Maybe have an NSSFake called "inverted" that
@@ -98,7 +98,7 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
                         //Only lookup the matching stacks for the group with conversion if we don't already have
                         // a group created for this dummy ingredient
                         // Note: We soft ignore cases where it fails/there are no matching group ingredients
-                        // as then our fake ingredient will never actually have an emc value assigned with it
+                        // as then our fake ingredient will never actually have an rp value assigned with it
                         // so the recipe won't either
                         List<IngredientMap<NormalizedSimpleStack>> groupIngredientMaps = new ArrayList<>();
                         for (ItemStack stack : stacks) {
@@ -230,7 +230,7 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
                     //Only lookup the matching stacks for the group with conversion if we don't already have
                     // a group created for this dummy ingredient
                     // Note: We soft ignore cases where it fails/there are no matching group ingredients
-                    // as then our fake ingredient will never actually have an emc value assigned with it
+                    // as then our fake ingredient will never actually have an rp value assigned with it
                     // so the recipe won't either
                     List<IngredientMap<NormalizedSimpleStack>> groupIngredientMaps = new ArrayList<>();
                     for (ItemStack stack : stacks) {

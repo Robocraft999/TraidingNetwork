@@ -26,8 +26,8 @@ public class PlayerEvents {
         //Revive the player's caps
         original.reviveCaps();
         original.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(old -> {
-            CompoundTag knowledge = old.serializeNBT();
-            event.getEntity().getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.deserializeNBT(knowledge));
+            CompoundTag tag = old.serializeNBT();
+            event.getEntity().getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
         });
         original.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(old -> {
             CompoundTag tag = old.serializeNBT();
@@ -71,30 +71,30 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void playerConnect(PlayerEvent.PlayerLoggedInEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
-        PacketHandler.sendFragmentedEmcPacket(player);
+        PacketHandler.sendFragmentedRpPacket(player);
 
-        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(knowledge -> {
-            knowledge.sync(player);
-            TraidingNetwork.LOGGER.info("p"+knowledge.getPoints());
-            //PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_EMC, knowledge.getEmc());
+        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
+            pointProvider.sync(player);
+            TraidingNetwork.LOGGER.debug("p"+pointProvider.getPoints());
+            //PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, pointProvider.getPoints());
         });
 
-        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
-            shop.sync(player);
-            TraidingNetwork.LOGGER.info("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
+        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(settings -> {
+            settings.sync(player);
+            TraidingNetwork.LOGGER.debug("autofocus: "+settings.getAutoFocus() + " sort: " + settings.getSort() + " downwards: " + settings.isDownwards());
         });
 
-        TraidingNetwork.LOGGER.debug("Sent knowledge and bag data to {}", player.getName());
+        TraidingNetwork.LOGGER.debug("Sent point provider and shop settings to {}", player.getName());
     }
 
     @SubscribeEvent
     public static void playerDisconnect(PlayerEvent.PlayerLoggedOutEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
-        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(knowledge -> {
-            TraidingNetwork.LOGGER.info("pp"+knowledge.getPoints());
+        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
+            TraidingNetwork.LOGGER.debug("pp"+pointProvider.getPoints());
         });
         player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
-            TraidingNetwork.LOGGER.info("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
+            TraidingNetwork.LOGGER.debug("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
         });
     }
 

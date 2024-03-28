@@ -23,7 +23,7 @@ public record SyncSlotsPKT(Map<Integer, ItemStack> stacksToSync, IResourceItemPr
             level.getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
                 cap.receiveSlots(stacksToSync);
                 if (updateTargets != IResourceItemProvider.TargetUpdateType.NONE && player.containerMenu instanceof ShopMenu container) {
-                    //Update targets in case total available EMC is now different
+                    //Update targets in case total available RP is now different
                     ShopInventory shopInventory = container.shopInventory;
                     if (updateTargets == IResourceItemProvider.TargetUpdateType.ALL) {
                         shopInventory.updateClientTargets();

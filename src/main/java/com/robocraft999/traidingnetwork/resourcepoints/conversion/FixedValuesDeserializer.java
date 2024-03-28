@@ -38,7 +38,7 @@ public class FixedValuesDeserializer implements JsonDeserializer<FixedValues> {
             if (primitive.isNumber()) {
                 long value = primitive.getAsLong();
                 if (value < 1) {
-                    throw new JsonParseException("EMC value must be at least one.");
+                    throw new JsonParseException("RP value must be at least one.");
                 }
                 out.put(context.deserialize(new JsonPrimitive(entry.getKey()), NormalizedSimpleStack.class), value);
                 continue;

@@ -85,9 +85,9 @@ public final class CustomRPParser {
         return NSSSerializer.INSTANCE.deserialize(str);
     }
 
-    public static void addToFile(String toAdd, long emc) {
+    public static void addToFile(String toAdd, long rp) {
         NormalizedSimpleStack nss = getNss(toAdd);
-        CustomRPEntry entry = new CustomRPEntry(nss, emc);
+        CustomRPEntry entry = new CustomRPEntry(nss, rp);
         int setAt = -1;
         for (int i = 0; i < currentEntries.entries.size(); i++) {
             if (currentEntries.entries.get(i).item.equals(nss)) {
