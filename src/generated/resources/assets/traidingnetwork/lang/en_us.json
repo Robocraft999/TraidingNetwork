@@ -12,5 +12,7 @@
   "gui.traidingnetwork.req.sort_mod": "Sort by mod",
   "gui.traidingnetwork.req.sort_name": "Sort by name",
   "gui.traidingnetwork.shift": "Hold shift for more information",
+  "gui.traidingnetwork.shop.name": "Shop",
+  "gui.traidingnetwork.shredder.name": "Shredder",
   "itemGroup.traidingnetwork.test_creative_mode_tab": "Test Creative Mode Tab"
 }
