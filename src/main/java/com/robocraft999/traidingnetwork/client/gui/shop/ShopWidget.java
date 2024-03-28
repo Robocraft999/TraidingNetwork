@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.robocraft999.traidingnetwork.TraidingNetwork;
 import com.robocraft999.traidingnetwork.client.gui.menu.IShopGui;
 import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSearchPrefix;
-import com.robocraft999.traidingnetwork.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.traidingnetwork.client.gui.shop.slots.ItemSlotNetwork;
 import com.robocraft999.traidingnetwork.client.gui.shop.ShopButton.TextureEnum;
 import com.robocraft999.traidingnetwork.net.PacketHandler;
@@ -22,6 +21,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -103,7 +103,7 @@ public class ShopWidget {
         }
         else if (searchText.startsWith(EnumSearchPrefix.TAG.getPrefix())) { // search tags
             List<String> joiner = new ArrayList<>();
-            for (ResourceLocation oreId : stack.getTags().map((tagKey) -> tagKey.location()).collect(Collectors.toList())) {
+            for (ResourceLocation oreId : stack.getTags().map(TagKey::location).toList()) {
                 String oreName = oreId.toString();
                 joiner.add(oreName);
             }
@@ -157,7 +157,7 @@ public class ShopWidget {
         if (mouseButton < 0 && page < maxPage) {
             page++;
         }
-        TraidingNetwork.LOGGER.info("mouse scroll dir: "+ mouseButton + " page: " + page);
+        //TraidingNetwork.LOGGER.info("mouse scroll dir: "+ mouseButton + " page: " + page);
     }
 
     public void rebuildItemSlots(List<ItemStack> stacksToDisplay) {
@@ -177,7 +177,7 @@ public class ShopWidget {
                 //        StorageNetwork.LOGGER.info(in + "GUI STORAGE rebuildItemSlots "+stacksToDisplay.get(in));
                 slots.add(new ItemSlotNetwork(gui, stacksToDisplay.get(in),
                         gui.getGuiLeft() + 8 + col * 18,
-                        gui.getGuiTop() + 10 + row * 18,
+                        gui.getGuiTop() + 12 + row * 18,
                         stacksToDisplay.get(in).getCount(),
                         gui.getGuiLeft(), gui.getGuiTop(), true));
                 index++;
@@ -195,27 +195,27 @@ public class ShopWidget {
     public void initSearchbar() {
         searchBar.setBordered(false);
         searchBar.setVisible(true);
-        searchBar.setTextColor(16777215);
+        searchBar.setTextColor(0xEEC168);
     }
 
     public void initButtons() {
         int y = this.searchBar.getY() - 4;
-        directionBtn = new ShopButton(gui.getGuiLeft() + 6, y, "", (p) -> {
+        directionBtn = new ShopButton(gui.getGuiLeft() + 7, y, "", (p) -> {
             gui.setDownwards(!gui.getDownwards());
             gui.syncDataToServer();
         }, DEFAULT_NARRATION);
         directionBtn.setHeight(16);
-        sortBtn = new ShopButton(gui.getGuiLeft() + 22, y, "", (p) -> {
+        sortBtn = new ShopButton(gui.getGuiLeft() + 24, y, "", (p) -> {
             gui.setSort(gui.getSort().next());
             gui.syncDataToServer();
         }, DEFAULT_NARRATION);
         sortBtn.setHeight(16);
         focusBtn = new ShopButton(
-                gui.getGuiLeft() + 166, y + 2, "", (p) -> {
+                gui.getGuiLeft() + 163, y + 1, "", (p) -> {
             gui.setAutoFocus(!gui.getAutoFocus());
             gui.syncDataToServer();
         }, DEFAULT_NARRATION);
-        focusBtn.setHeight(11);
+        focusBtn.setHeight(14);
         focusBtn.setWidth(6);
     }
 
@@ -343,7 +343,7 @@ public class ShopWidget {
     }
 
     public void render() {
-        /*switch (gui.getSort()) {
+        switch (gui.getSort()) {
             case AMOUNT:
                 sortBtn.setTextureId(TextureEnum.SORT_AMT);
                 break;
@@ -355,6 +355,6 @@ public class ShopWidget {
                 break;
         }
         focusBtn.setTextureId(gui.getAutoFocus() ? TextureEnum.RED : TextureEnum.GREY);
-        directionBtn.setTextureId(gui.getDownwards() ? TextureEnum.SORT_DOWN : TextureEnum.SORT_UP);*/
+        directionBtn.setTextureId(gui.getDownwards() ? TextureEnum.SORT_DOWN : TextureEnum.SORT_UP);
     }
 }
