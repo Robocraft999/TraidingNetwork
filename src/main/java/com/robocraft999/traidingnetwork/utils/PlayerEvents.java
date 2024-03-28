@@ -76,7 +76,7 @@ public class PlayerEvents {
         player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
             pointProvider.sync(player);
             TraidingNetwork.LOGGER.debug("p"+pointProvider.getPoints());
-            //PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, pointProvider.getPoints());
+            PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, pointProvider.getPoints());
         });
 
         player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(settings -> {

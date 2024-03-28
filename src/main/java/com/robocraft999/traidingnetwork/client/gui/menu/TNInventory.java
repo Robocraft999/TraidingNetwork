@@ -2,6 +2,7 @@ package com.robocraft999.traidingnetwork.client.gui.menu;
 
 import com.robocraft999.traidingnetwork.api.capabilities.IResourcePointProvider;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
+import com.robocraft999.traidingnetwork.utils.PlayerHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -101,6 +102,6 @@ public class TNInventory extends CombinedInvWrapper {
         }
         provider.setPoints(points);
         provider.syncPoints((ServerPlayer) player);
-        //PlayerHelper.updateScore((ServerPlayer) player, PlayerHelper.SCOREBOARD_RP, points);
+        PlayerHelper.updateScore((ServerPlayer) player, PlayerHelper.SCOREBOARD_RP, points);
     }
 }
