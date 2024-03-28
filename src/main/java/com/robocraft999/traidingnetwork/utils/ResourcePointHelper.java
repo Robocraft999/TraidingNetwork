@@ -12,15 +12,15 @@ import java.util.function.Supplier;
 public class ResourcePointHelper {
 
     public static long getRPBuyCost(ItemStack stack){
-        return stack.isEmpty() ? 0 : (long) (getEmcValue(ItemInfo.fromStack(stack)) * Config.ITEM_BUY_COST_INCREASE_FACTOR.get());
+        return stack.isEmpty() ? 0 : (long) (getRPValue(ItemInfo.fromStack(stack)) * Config.ITEM_BUY_COST_INCREASE_FACTOR.get());
     }
 
-    public static long getEmcValue(@NotNull ItemInfo info) {
+    public static long getRPValue(@NotNull ItemInfo info) {
         //TODO: Fix this, as it does not catch the edge case that we have an exact match and then there is random added NBT on top of it
         // but that can be thought about more once we have the first pass complete. For example if someone put an enchantment on a potion
         long rpValue = RPMappingHandler.getStoredEmcValue(info);
         if (!info.hasNBT()) {
-            HashMap<String, Supplier<String>> v = new HashMap();
+            HashMap<String, Supplier<String>> v = new HashMap<>();
             v.values().stream().map(e -> e.get()).toList();
             //If our info has no NBT anyways just return based on the value we got for it
             return rpValue;
@@ -32,32 +32,16 @@ public class ResourcePointHelper {
                 return 0;
             }
         }
-
-        //Note: We continue to use our initial ItemInfo so that we are calculating based on the NBT
-        /*for (INBTProcessor processor : processors) {
-            if (NBTProcessorConfig.isEnabled(processor)) {
-                try {
-                    rpValue = processor.recalculateEMC(info, rpValue);
-                } catch (ArithmeticException e) {
-                    //Return the last successfully calculated EMC value
-                    return rpValue;
-                }
-                if (rpValue <= 0) {
-                    //Exit if it gets to zero (also safety check for less than zero in case a mod didn't bother sanctifying their data)
-                    return 0;
-                }
-            }
-        }*/
         return rpValue;
     }
 
     public static long getRPSellValue(ItemStack stack){
         if (stack.isEmpty())
             return 0;
-        return getEmcValue(ItemInfo.fromStack(stack));
+        return getRPValue(ItemInfo.fromStack(stack));
     }
 
     public static boolean doesItemHaveRP(ItemStack stack){
-        return !stack.isEmpty() && getEmcValue(ItemInfo.fromStack(stack)) > 0;
+        return !stack.isEmpty() && getRPValue(ItemInfo.fromStack(stack)) > 0;
     }
 }

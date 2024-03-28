@@ -7,12 +7,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ClientEvents {
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public static void onAddTooltip(ItemTooltipEvent event){
         ItemStack stack = event.getItemStack();
         if (!stack.isEmpty() && ResourcePointHelper.doesItemHaveRP(stack) && event.getEntity() != null){
