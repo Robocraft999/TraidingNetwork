@@ -31,7 +31,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class CreateMapper {
@@ -112,7 +111,7 @@ public class CreateMapper {
         }
     }
 
-    @RecipeTypeMapper(requiredMods = "create")
+    @RecipeTypeMapper(requiredMods = "create", priority = -1)
     public static class CreateCompactingMapper extends CreateProcessingRecipeMapper<CompactingRecipe> {
         @Override
         public String getName() {
@@ -181,7 +180,7 @@ public class CreateMapper {
         }
     }
 
-    @RecipeTypeMapper(requiredMods = "create")
+    @RecipeTypeMapper(requiredMods = "create", priority = 10)
     public static class CreateMixingMapper extends CreateProcessingRecipeMapper<MixingRecipe>{
 
         @Override
@@ -290,7 +289,20 @@ public class CreateMapper {
 
         @Override
         protected Collection<Ingredient> getIngredients(SequencedAssemblyRecipe recipe) {
-            return Collections.singletonList(recipe.getIngredient());
+            //List<Ingredient> ingredients = new ArrayList<>(recipe.getSequence().get(0).getRecipe().getIngredients());
+            //var ingredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).toList();
+            var sequence_ingredients = recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1) : Ingredient.EMPTY).toList();
+            var ingreds = new ArrayList<>(sequence_ingredients);
+            ingreds.add(recipe.getIngredient());
+            ingreds.removeIf(Ingredient::isEmpty);
+
+            var ingredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).toList();
+            //TraidingNetwork.LOGGER.debug("ingredients: {}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().stream().map(Ingredient::getItems).toList()).toList());
+            //TraidingNetwork.LOGGER.debug("ingredients2: {} i:{}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1).getItems() : Collections.emptyList()).toList(), recipe.getIngredient().getItems());
+            //TraidingNetwork.LOGGER.debug("ingredients3: {}", ingreds.stream().map(Ingredient::getItems).toList());
+            //return recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).reduce().toList();
+            return ingreds;
+            //return Collections.singletonList(recipe.getIngredient());
         }
     }
 

@@ -4,7 +4,7 @@ import com.robocraft999.traidingnetwork.api.mapper.RecipeTypeMapper;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
-@RecipeTypeMapper
+@RecipeTypeMapper(priority = 100)
 public class VanillaRecipeTypeMapper extends BaseRecipeTypeMapper<CraftingRecipe> {
     @Override
     public String getName() {
