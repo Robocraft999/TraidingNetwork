@@ -10,6 +10,7 @@ import com.robocraft999.traidingnetwork.net.packets.shredder.SyncOwnerNamePKT;
 import com.robocraft999.traidingnetwork.registry.TNCapabilities;
 import com.robocraft999.traidingnetwork.registry.TNLang;
 import com.robocraft999.traidingnetwork.resourcepoints.RItemStackHandler;
+import com.robocraft999.traidingnetwork.utils.PlayerHelper;
 import com.robocraft999.traidingnetwork.utils.ResourcePointHelper;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
@@ -104,6 +105,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                     TraidingNetwork.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
                     cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
                     cap.syncPoints(player);
+                    PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
                 });
             }
             getLevel().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
