@@ -50,7 +50,7 @@ public class ShredderMenu extends ATContainerMenu {
             if (shredderInventory.isServer()) {
                 BigInteger pointsBigInt = BigInteger.valueOf(points);
                 shredderInventory.addResourcePoints(pointsBigInt.multiply(BigInteger.valueOf(stackToInsert.getCount())));
-                TraidingNetwork.LOGGER.info("t"+shredderInventory.provider.getPoints());
+                AmazingTrading.LOGGER.info("t"+shredderInventory.provider.getPoints());
                 player.level().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(provider -> {
                     if (provider.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackToInsert)){
                         handler.enlarge();

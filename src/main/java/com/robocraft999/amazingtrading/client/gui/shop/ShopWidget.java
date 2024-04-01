@@ -64,7 +64,7 @@ public class ShopWidget {
     public void applySearchTextToSlots() {
         String searchText = searchBar.getValue();
         stacks = gui.getStacks();
-        //TraidingNetwork.LOGGER.info("apsts stacks: "+stacks);
+        //AmazingTrading.LOGGER.info("apsts stacks: "+stacks);
         List<ItemStack> stacksToDisplay = searchText.isEmpty() ? Lists.newArrayList(stacks) : Lists.newArrayList();
         if (!searchText.isEmpty()) {
             for (ItemStack stack : stacks) {
@@ -74,7 +74,7 @@ public class ShopWidget {
             }
         }
         this.sortStackWrappers(stacksToDisplay);
-        //TraidingNetwork.LOGGER.info("apsts stackstodisplay: "+stacksToDisplay);
+        //AmazingTrading.LOGGER.info("apsts stackstodisplay: "+stacksToDisplay);
         this.applyScrollPaging(stacksToDisplay);
         this.rebuildItemSlots(stacksToDisplay);
     }
@@ -156,7 +156,7 @@ public class ShopWidget {
         if (mouseButton < 0 && page < maxPage) {
             page++;
         }
-        //TraidingNetwork.LOGGER.info("mouse scroll dir: "+ mouseButton + " page: " + page);
+        //AmazingTrading.LOGGER.info("mouse scroll dir: "+ mouseButton + " page: " + page);
     }
 
     public void rebuildItemSlots(List<ItemStack> stacksToDisplay) {
@@ -167,12 +167,12 @@ public class ShopWidget {
                 if (index >= stacksToDisplay.size()) {
                     break;
                 }
-                //TraidingNetwork.LOGGER.info("row: "+row+" col: "+col+" :" + stacksToDisplay.get(index) + " sort: " + gui.getSort() + " " + gui.getDownwards());
+                //AmazingTrading.LOGGER.info("row: "+row+" col: "+col+" :" + stacksToDisplay.get(index) + " sort: " + gui.getSort() + " " + gui.getDownwards());
                 int in = index;
                 if (stacksToDisplay.get(in).isEmpty()){
                     continue;
                 }
-                //TraidingNetwork.LOGGER.info("row: "+row+" col: "+col+" :" + stacksToDisplay.get(index) + " sort: " + gui.getSort() + " " + gui.getDownwards());
+                //AmazingTrading.LOGGER.info("row: "+row+" col: "+col+" :" + stacksToDisplay.get(index) + " sort: " + gui.getSort() + " " + gui.getDownwards());
                 //        StorageNetwork.LOGGER.info(in + "GUI STORAGE rebuildItemSlots "+stacksToDisplay.get(in));
                 slots.add(new ItemSlotNetwork(gui, stacksToDisplay.get(in),
                         gui.getGuiLeft() + 8 + col * 18,
@@ -247,7 +247,7 @@ public class ShopWidget {
                 lis.add(Component.translatable(ATLang.KEY_GUI_SEARCH_TOOLTIP_TOOLTIP)); //#
                 lis.add(Component.translatable(ATLang.KEY_GUI_SEARCH_TOOLTIP_TAGS)); //$
                 //lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_CLEAR)); //clear
-                //TraidingNetwork.LOGGER.debug(lis.toString());
+                //AmazingTrading.LOGGER.debug(lis.toString());
                 //        Screen screen = ((Screen) gui);
                 ms.renderTooltip(font, lis, Optional.empty(), mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop());
                 return; // all done, we have our tts rendered

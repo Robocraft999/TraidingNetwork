@@ -54,7 +54,7 @@ public class ItemSlotNetwork {
             p = amount.length() > 4;
             float scale = Mth.lerp(p ? -0.08F*(amount.length()-1)+1 : 1, 0.45F, 0.85F);
             scale = p ? 0.75F : 0.85F;
-            //TraidingNetwork.LOGGER.info(""+scale);
+            //AmazingTrading.LOGGER.info(""+scale);
             float offset = Mth.lerp(p ? -0.2F*(amount.length()-1)+1 : 1, 3, 0);
             offset = p ? 2 : 0;
             PoseStack viewModelPose = RenderSystem.getModelViewStack();

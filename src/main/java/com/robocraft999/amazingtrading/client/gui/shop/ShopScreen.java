@@ -209,7 +209,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
         minecraft.level.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
             RItemStackHandler handler = (RItemStackHandler) cap.getSlotsHandler();
             stacks.addAll(handler.getItems());
-            //TraidingNetwork.LOGGER.info("stacks1: " +stacks);
+            //AmazingTrading.LOGGER.info("stacks1: " +stacks);
             stacks.removeIf(ItemStack::isEmpty);
             /*IItemHandler handler = cap.getSlotsHandler();
             for (int i = 0; i < handler.getSlots(); i++){
@@ -219,7 +219,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
             }*/
         });
 
-        //TraidingNetwork.LOGGER.info("stacks: " +stacks);
+        //AmazingTrading.LOGGER.info("stacks: " +stacks);
 
         return stacks;
     }

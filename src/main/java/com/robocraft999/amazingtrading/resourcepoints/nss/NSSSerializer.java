@@ -100,6 +100,6 @@ public class NSSSerializer implements JsonSerializer<NormalizedSimpleStack>, Jso
     }
 
     private static void registerDefault(String key, NSSCreator creator) {
-        //InterModComms.sendTo(TraidingNetwork.MODID, IMCMethods.REGISTER_NSS_SERIALIZER, () -> new NSSCreatorInfo(key, creator));
+        //InterModComms.sendTo(AmazingTrading.MODID, IMCMethods.REGISTER_NSS_SERIALIZER, () -> new NSSCreatorInfo(key, creator));
     }
 }

@@ -14,7 +14,7 @@ public interface ObjectiveCriteriaAccessor {
     }*/
 
     @Invoker("registerCustom")
-    static ObjectiveCriteria traidingnetwork$registerCustom(String pName, boolean pReadOnly, ObjectiveCriteria.RenderType pRenderType){
+    static ObjectiveCriteria amazingtrading$registerCustom(String pName, boolean pReadOnly, ObjectiveCriteria.RenderType pRenderType){
         throw new IllegalStateException("Mixin failed to apply");
     }
 }

@@ -32,7 +32,7 @@ public class RItemStackHandler extends ItemStackHandler {
     }
 
     public NonNullList<ItemStack> getItems() {
-        //TraidingNetwork.LOGGER.info("des get: "+stacks);
+        //AmazingTrading.LOGGER.info("des get: "+stacks);
         return this.stacks;
     }
 
@@ -93,11 +93,11 @@ public class RItemStackHandler extends ItemStackHandler {
             if (slot >= 0 && slot < this.stacks.size()) {
                 ItemStack desItemStack = ItemStack.of(itemTags);
                 desItemStack.setCount(itemTags.getInt("RealCount"));
-                //TraidingNetwork.LOGGER.info("stack: "+desItemStack);
+                //AmazingTrading.LOGGER.info("stack: "+desItemStack);
                 this.stacks.set(slot, desItemStack);
             }
         }
-        //TraidingNetwork.LOGGER.info("des stacks: "+stacks);
+        //AmazingTrading.LOGGER.info("des stacks: "+stacks);
 
         this.onLoad();
     }

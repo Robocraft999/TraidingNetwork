@@ -117,7 +117,7 @@ public class SimpleGraphMapper<T, V extends Comparable<V>, A extends IValueArith
                     V resultValueConversion = conversion.arithmeticForConversion.div(ingredientValue, conversion.outnumber);
                     //What is the actual rp value for the conversion output
                     V resultValueActual = values.getOrDefault(entry.getKey(), ZERO);
-                    //TraidingNetwork.LOGGER.debug("SimpleGraphMapper collecting values: type: {} ingredient: {} and output: {}",entry.getKey(), ingredientValue, resultValueActual);
+                    //AmazingTrading.LOGGER.debug("SimpleGraphMapper collecting values: type: {} ingredient: {} and output: {}",entry.getKey(), ingredientValue, resultValueActual);
 
                     //Find the smallest RP value for the conversion.output
                     if (resultValueConversion.compareTo(ZERO) > 0 || conversion.arithmeticForConversion.isFree(resultValueConversion)) {

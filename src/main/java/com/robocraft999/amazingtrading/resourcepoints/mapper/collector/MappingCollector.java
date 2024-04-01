@@ -63,7 +63,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
         if (!getConversionsFor(output).add(conversion)) {
             return;
         }
-        //TraidingNetwork.LOGGER.debug("CONVERSION: Recipe ingredient and output: {} -> {}x{}", ingredientsWithAmount, outnumber, output);
+        //AmazingTrading.LOGGER.debug("CONVERSION: Recipe ingredient and output: {} -> {}x{}", ingredientsWithAmount, outnumber, output);
         addConversionToIngredientUsages(conversion);
     }
 

@@ -117,9 +117,9 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
                 }
             }
         }
-        /*TraidingNetwork.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {}) and output: ({})", recipe.getId(),
+        /*AmazingTrading.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {}) and output: ({})", recipe.getId(),
                 ingredientMap.getMap().keySet().stream().map(NormalizedSimpleStack::toString).toList(), recipeOutput);*/
-        //TraidingNetwork.LOGGER.debug("T {} {} {}", recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
+        //AmazingTrading.LOGGER.debug("T {} {} {}", recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
         mapper.addConversion(recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
         return addConversionsAndReturn(mapper, dummyGroupInfos, true);
     }

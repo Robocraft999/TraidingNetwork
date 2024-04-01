@@ -297,9 +297,9 @@ public class CreateMapper {
             ingreds.removeIf(Ingredient::isEmpty);
 
             var ingredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).toList();
-            //TraidingNetwork.LOGGER.debug("ingredients: {}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().stream().map(Ingredient::getItems).toList()).toList());
-            //TraidingNetwork.LOGGER.debug("ingredients2: {} i:{}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1).getItems() : Collections.emptyList()).toList(), recipe.getIngredient().getItems());
-            //TraidingNetwork.LOGGER.debug("ingredients3: {}", ingreds.stream().map(Ingredient::getItems).toList());
+            //AmazingTrading.LOGGER.debug("ingredients: {}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().stream().map(Ingredient::getItems).toList()).toList());
+            //AmazingTrading.LOGGER.debug("ingredients2: {} i:{}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1).getItems() : Collections.emptyList()).toList(), recipe.getIngredient().getItems());
+            //AmazingTrading.LOGGER.debug("ingredients3: {}", ingreds.stream().map(Ingredient::getItems).toList());
             //return recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).reduce().toList();
             return ingreds;
             //return Collections.singletonList(recipe.getIngredient());
