@@ -8,7 +8,7 @@ import com.robocraft999.amazingtrading.client.gui.shop.slots.ItemSlotNetwork;
 import com.robocraft999.amazingtrading.client.gui.shop.ShopButton.TextureEnum;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.packets.shop.ShopRequestPKT;
-import com.robocraft999.amazingtrading.registry.TNLang;
+import com.robocraft999.amazingtrading.registry.ATLang;
 import com.robocraft999.amazingtrading.utils.ItemHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -228,24 +228,24 @@ public class ShopWidget {
         //
         MutableComponent tooltip = null;
         if (directionBtn != null && directionBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable(TNLang.KEY_GUI_DIRECTION_BUTTON);
+            tooltip = Component.translatable(ATLang.KEY_GUI_DIRECTION_BUTTON);
         }
         else if (sortBtn != null && sortBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable(TNLang.sortButtonFromSortType(gui.getSort()));
+            tooltip = Component.translatable(ATLang.sortButtonFromSortType(gui.getSort()));
         }
         else if (focusBtn != null && focusBtn.isMouseOver(mouseX, mouseY)) {
-            tooltip = Component.translatable(TNLang.autofocusButtonFromBoolean(gui.getAutoFocus()));
+            tooltip = Component.translatable(ATLang.autofocusButtonFromBoolean(gui.getAutoFocus()));
         }
         else if (this.inSearchBar(mouseX, mouseY)) {
             //tooltip = new TranslationTextComponent("gui.storagenetwork.fil.tooltip_clear");
             if (!Screen.hasShiftDown()) {
-                tooltip = Component.translatable(TNLang.KEY_GUI_SHIFT);
+                tooltip = Component.translatable(ATLang.KEY_GUI_SHIFT);
             }
             else {
                 List<Component> lis = Lists.newArrayList();
-                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_MOD)); //@
-                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_TOOLTIP)); //#
-                lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_TAGS)); //$
+                lis.add(Component.translatable(ATLang.KEY_GUI_SEARCH_TOOLTIP_MOD)); //@
+                lis.add(Component.translatable(ATLang.KEY_GUI_SEARCH_TOOLTIP_TOOLTIP)); //#
+                lis.add(Component.translatable(ATLang.KEY_GUI_SEARCH_TOOLTIP_TAGS)); //$
                 //lis.add(Component.translatable(TNLang.KEY_GUI_SEARCH_TOOLTIP_CLEAR)); //clear
                 //TraidingNetwork.LOGGER.debug(lis.toString());
                 //        Screen screen = ((Screen) gui);

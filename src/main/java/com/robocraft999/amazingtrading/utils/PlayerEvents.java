@@ -4,7 +4,7 @@ import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourcePointProviderImpl;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ShopSettingsProviderImpl;
 import com.robocraft999.amazingtrading.net.PacketHandler;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -25,13 +25,13 @@ public class PlayerEvents {
         Player original = event.getOriginal();
         //Revive the player's caps
         original.reviveCaps();
-        original.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(old -> {
+        original.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(old -> {
             CompoundTag tag = old.serializeNBT();
-            event.getEntity().getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
+            event.getEntity().getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
         });
-        original.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(old -> {
+        original.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(old -> {
             CompoundTag tag = old.serializeNBT();
-            event.getEntity().getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
+            event.getEntity().getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.deserializeNBT(tag));
         });
         //Re-invalidate the player's caps now that we copied ours over
         original.invalidateCaps();
@@ -41,8 +41,8 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void respawnEvent(PlayerEvent.PlayerRespawnEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
-            player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
         }
     }
 
@@ -50,8 +50,8 @@ public class PlayerEvents {
     public static void playerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             // Sync to the client for "normal" interdimensional teleports (nether portal, etc.)
-            player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
-            player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(c -> c.sync(player));
+            player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(c -> c.sync(player));
         }
     }
 
@@ -73,13 +73,13 @@ public class PlayerEvents {
         ServerPlayer player = (ServerPlayer) event.getEntity();
         PacketHandler.sendFragmentedRpPacket(player);
 
-        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
+        player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
             pointProvider.sync(player);
             AmazingTrading.LOGGER.debug("p"+pointProvider.getPoints());
             PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, pointProvider.getPoints());
         });
 
-        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(settings -> {
+        player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(settings -> {
             settings.sync(player);
             AmazingTrading.LOGGER.debug("autofocus: "+settings.getAutoFocus() + " sort: " + settings.getSort() + " downwards: " + settings.isDownwards());
         });
@@ -90,10 +90,10 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void playerDisconnect(PlayerEvent.PlayerLoggedOutEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
-        player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
+        player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
             AmazingTrading.LOGGER.debug("pp"+pointProvider.getPoints());
         });
-        player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
+        player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
             AmazingTrading.LOGGER.debug("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
         });
     }

@@ -8,7 +8,7 @@ import com.tterrag.registrate.util.entry.MenuEntry;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
-public class TNMenuTypes {
+public class ATMenuTypes {
 
     public static final MenuEntry<ShredderMenu> SHREDDER_MENU = REGISTRATE
             .menu("shredder_menu", (menuType, i, inventory, data) -> new ShredderMenu(inventory, i, data.readBlockPos()), () -> ShredderScreen::new)

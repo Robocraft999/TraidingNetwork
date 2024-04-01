@@ -7,8 +7,8 @@ import com.robocraft999.amazingtrading.client.gui.menu.IShopGui;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncSettingsPKT;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
-import com.robocraft999.amazingtrading.registry.TNLang;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
+import com.robocraft999.amazingtrading.registry.ATLang;
 import com.robocraft999.amazingtrading.resourcepoints.RItemStackHandler;
 import com.robocraft999.amazingtrading.utils.ItemHelper;
 import com.robocraft999.amazingtrading.utils.ResourcePointHelper;
@@ -42,7 +42,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
     public ShopScreen(ShopMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
         Player player = menu.shopInventory.player;
-        this.provider = player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).orElseThrow(NullPointerException::new);
+        this.provider = player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).orElseThrow(NullPointerException::new);
         this.widget = new ShopWidget(this);
         widget.setLines(8);
         imageWidth = 176;
@@ -185,7 +185,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
             tooltip.add(tooltip.size() - 1, Component.empty());
         }*/
         if (!Screen.hasShiftDown()){
-            tooltip.add(Component.translatable(TNLang.KEY_GUI_SHIFT).withStyle(ChatFormatting.ITALIC, ChatFormatting.DARK_GRAY));
+            tooltip.add(Component.translatable(ATLang.KEY_GUI_SHIFT).withStyle(ChatFormatting.ITALIC, ChatFormatting.DARK_GRAY));
         } else {
             tooltip.add(Component.literal("Cost: " + ResourcePointHelper.getRPBuyCost(stack)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
             tooltip.add(Component.literal("Amount: " + stack.getCount()).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
@@ -206,7 +206,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
     @Override
     public List<ItemStack> getStacks() {
         List<ItemStack> stacks = new ArrayList<>();
-        minecraft.level.getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
+        minecraft.level.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
             RItemStackHandler handler = (RItemStackHandler) cap.getSlotsHandler();
             stacks.addAll(handler.getItems());
             //TraidingNetwork.LOGGER.info("stacks1: " +stacks);

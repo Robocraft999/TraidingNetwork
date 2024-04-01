@@ -1,9 +1,9 @@
 package com.robocraft999.amazingtrading.client.gui.shop;
 
-import com.robocraft999.amazingtrading.client.gui.menu.TNContainerMenu;
+import com.robocraft999.amazingtrading.client.gui.menu.ATContainerMenu;
 import com.robocraft999.amazingtrading.content.shop.ShopBlockEntity;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.ShopSlot;
-import com.robocraft999.amazingtrading.registry.TNMenuTypes;
+import com.robocraft999.amazingtrading.registry.ATMenuTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -15,14 +15,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShopMenu extends TNContainerMenu {
+public class ShopMenu extends ATContainerMenu {
     public final ShopInventory shopInventory;
     public final ShopBlockEntity blockEntity;
 
     protected final List<Slot> itemSlots = new ArrayList<>();
 
     public ShopMenu(Inventory playerInv, int i, Level level, BlockPos blockPos) {
-        super(TNMenuTypes.SHOP_MENU.get(), playerInv, i);
+        super(ATMenuTypes.SHOP_MENU.get(), playerInv, i);
         shopInventory = new ShopInventory(playerInv.player);
         //TraidingNetwork.LOGGER.info("pos: " + blockPos + " level: " + level);
         this.blockEntity = (ShopBlockEntity) level.getBlockEntity(blockPos);

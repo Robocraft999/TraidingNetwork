@@ -5,7 +5,7 @@ import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
-public class TNLang {
+public class ATLang {
 
     public static final String KEY_GUI_DIRECTION_BUTTON = gui("direction");
     public static final String KEY_GUI_SORT_BUTTON_AMOUNT = gui("req.sort_amount");

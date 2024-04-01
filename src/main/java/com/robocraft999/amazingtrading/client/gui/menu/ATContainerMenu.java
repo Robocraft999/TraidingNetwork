@@ -16,14 +16,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TNContainerMenu extends AbstractContainerMenu {
+public class ATContainerMenu extends AbstractContainerMenu {
 
     protected final Inventory playerInv;
     protected final List<Slot> inventoryContainerSlots = new ArrayList<>();
     protected final List<Slot> mainInventorySlots = new ArrayList<>();
     protected final List<Slot> hotBarSlots = new ArrayList<>();
 
-    protected TNContainerMenu(@Nullable MenuType<?> type, Inventory playerInv, int i) {
+    protected ATContainerMenu(@Nullable MenuType<?> type, Inventory playerInv, int i) {
         super(type, i);
         this.playerInv = playerInv;
     }

@@ -7,9 +7,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
-public class TNCapabilities {
+public class ATCapabilities {
 
-    private TNCapabilities(){
+    private ATCapabilities(){
     }
 
     public static final Capability<IResourcePointProvider> RESOURCE_POINT_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});

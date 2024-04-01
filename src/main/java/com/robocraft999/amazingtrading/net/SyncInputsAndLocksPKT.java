@@ -3,7 +3,7 @@ package com.robocraft999.amazingtrading.net;
 import com.robocraft999.amazingtrading.api.capabilities.IResourcePointProvider.TargetUpdateType;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderInventory;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +19,7 @@ public record SyncInputsAndLocksPKT(Map<Integer, ItemStack> stacksToSync, Target
     public void handle(NetworkEvent.Context context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
-            player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
+            player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                 cap.receiveInputsAndLocks(stacksToSync);
                 if (updateTargets != TargetUpdateType.NONE && player.containerMenu instanceof ShredderMenu container) {
                     //Update targets in case total available RP is now different

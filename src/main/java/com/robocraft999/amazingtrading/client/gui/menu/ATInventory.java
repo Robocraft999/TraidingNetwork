@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.client.gui.menu;
 
 import com.robocraft999.amazingtrading.api.capabilities.IResourcePointProvider;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.utils.PlayerHelper;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -12,14 +12,14 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TNInventory extends CombinedInvWrapper {
+public class ATInventory extends CombinedInvWrapper {
     public final Player player;
     public final IResourcePointProvider provider;
 
-    public TNInventory(Player player, IItemHandlerModifiable... handlers){
+    public ATInventory(Player player, IItemHandlerModifiable... handlers){
         super(handlers);
         this.player = player;
-        this.provider = player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).orElseThrow(NullPointerException::new);
+        this.provider = player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).orElseThrow(NullPointerException::new);
     }
 
     public boolean isServer() {

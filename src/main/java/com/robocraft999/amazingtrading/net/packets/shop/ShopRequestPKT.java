@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.net.packets.shop;
 
 import com.robocraft999.amazingtrading.client.gui.shop.ShopMenu;
 import com.robocraft999.amazingtrading.net.ITNPacket;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.resourcepoints.RItemStackHandler;
 import com.robocraft999.amazingtrading.utils.ResourcePointHelper;
 import net.minecraft.network.FriendlyByteBuf;
@@ -42,7 +42,7 @@ public class ShopRequestPKT implements ITNPacket {
     public void handle(NetworkEvent.Context context) {
         ServerPlayer player = context.getSender();
         ServerLevel level = player.serverLevel();
-        level.getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent( cap -> {
+        level.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
             RItemStackHandler handler = (RItemStackHandler) cap.getSlotsHandler();
             for (int i = 0; i < handler.getSlots(); i++){
                 ItemStack serverStack = handler.getStackInSlot(i);

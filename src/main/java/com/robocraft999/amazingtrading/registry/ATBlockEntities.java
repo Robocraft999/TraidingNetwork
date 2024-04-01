@@ -10,19 +10,19 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
-public class TNBlockEntities {
+public class ATBlockEntities {
 
     public static final BlockEntityEntry<CreateShredderBlockEntity> CREATE_SHREDDER = REGISTRATE
             .blockEntity("create_shredder", CreateShredderBlockEntity::new)
             .instance(() -> CreateShredderCogInstance::new)
-            .validBlocks(TNBlocks.CREATE_SHREDDER)
+            .validBlocks(ATBlocks.CREATE_SHREDDER)
             .renderer(() -> CreateShredderRenderer::new)
             .register();
 
     public static final BlockEntityEntry<ShopBlockEntity> SHOP = REGISTRATE
             .blockEntity("shop", ShopBlockEntity::new)
             .instance(() -> HalfShaftSmallCogInstance::new)
-            .validBlocks(TNBlocks.SHOP)
+            .validBlocks(ATBlocks.SHOP)
             .renderer(() -> ShopRenderer::new)
             .register();
 

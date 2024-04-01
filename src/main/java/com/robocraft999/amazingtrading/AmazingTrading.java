@@ -72,13 +72,13 @@ public class AmazingTrading {
         modEventBus.addListener(this::imcQueue);
         REGISTRATE.registerEventListeners(modEventBus);
 
-        TNBlocks.register();
-        TNBlockEntities.register();
-        TNMenuTypes.register();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> TNPartials::init);
+        ATBlocks.register();
+        ATBlockEntities.register();
+        ATMenuTypes.register();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ATPartials::init);
 
         PacketHandler.register();
-        TNLang.init();
+        ATLang.init();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -149,8 +149,8 @@ public class AmazingTrading {
             LOGGER.info("HELLO FROM CLIENT SETUP");
             RenderType cutout = RenderType.cutoutMipped();
 
-            ItemBlockRenderTypes.setRenderLayer(TNBlocks.CREATE_SHREDDER.get(), cutout);
-            ItemBlockRenderTypes.setRenderLayer(TNBlocks.SHOP.get(), cutout);
+            ItemBlockRenderTypes.setRenderLayer(ATBlocks.CREATE_SHREDDER.get(), cutout);
+            ItemBlockRenderTypes.setRenderLayer(ATBlocks.SHOP.get(), cutout);
         }
     }
 }

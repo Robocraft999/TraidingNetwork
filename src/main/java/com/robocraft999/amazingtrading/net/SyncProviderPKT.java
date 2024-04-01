@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.net;
 
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
@@ -15,7 +15,7 @@ public record SyncProviderPKT(CompoundTag nbt) implements ITNPacket {
     public void handle(NetworkEvent.Context context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
-            player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
+            player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                 cap.deserializeNBT(nbt);
                 AmazingTrading.LOGGER.debug("** R ** " + cap.getPoints());
                 if (player.containerMenu instanceof ShredderMenu container) {

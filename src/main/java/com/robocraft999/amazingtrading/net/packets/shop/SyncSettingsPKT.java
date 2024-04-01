@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.net.packets.shop;
 
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.amazingtrading.net.ITNPacket;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -22,7 +22,7 @@ public class SyncSettingsPKT implements ITNPacket {
     public void handle(NetworkEvent.Context context) {
         context.enqueueWork( () -> {
             ServerPlayer player = context.getSender();
-            player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(cap -> {
+            player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(cap -> {
                 cap.setAutoFocus(autoFocus);
                 cap.setSort(sort);
                 cap.setDownwards(direction);

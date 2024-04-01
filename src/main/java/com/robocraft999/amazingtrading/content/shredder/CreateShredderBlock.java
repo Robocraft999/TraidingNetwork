@@ -1,8 +1,8 @@
 package com.robocraft999.amazingtrading.content.shredder;
 
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
-import com.robocraft999.amazingtrading.registry.TNBlockEntities;
-import com.robocraft999.amazingtrading.registry.TNShapes;
+import com.robocraft999.amazingtrading.registry.ATBlockEntities;
+import com.robocraft999.amazingtrading.registry.ATShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.core.BlockPos;
@@ -36,7 +36,7 @@ public class CreateShredderBlock extends HorizontalKineticBlock implements IBE<C
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return TNShapes.SHREDDER;
+        return ATShapes.SHREDDER;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CreateShredderBlock extends HorizontalKineticBlock implements IBE<C
 
     @Override
     public BlockEntityType<? extends CreateShredderBlockEntity> getBlockEntityType() {
-        return TNBlockEntities.CREATE_SHREDDER.get();
+        return ATBlockEntities.CREATE_SHREDDER.get();
     }
 
     @Override

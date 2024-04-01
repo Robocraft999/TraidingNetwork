@@ -1,8 +1,8 @@
 package com.robocraft999.amazingtrading.client.gui.shredder;
 
-import com.robocraft999.amazingtrading.client.gui.menu.TNContainerMenu;
+import com.robocraft999.amazingtrading.client.gui.menu.ATContainerMenu;
 import com.robocraft999.amazingtrading.client.gui.shredder.slots.SlotInput;
-import com.robocraft999.amazingtrading.registry.TNMenuTypes;
+import com.robocraft999.amazingtrading.registry.ATMenuTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -13,13 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShredderMenu extends TNContainerMenu {
+public class ShredderMenu extends ATContainerMenu {
     public final ShredderInventory shredderInventory;
     protected final List<Slot> inputSlots = new ArrayList<>();
     public final BlockPos blockPos;
 
     public ShredderMenu(Inventory playerInv, int i, BlockPos blockPos) {
-        super(TNMenuTypes.SHREDDER_MENU.get(), playerInv, i);
+        super(ATMenuTypes.SHREDDER_MENU.get(), playerInv, i);
         this.shredderInventory = new ShredderInventory(playerInv.player);
         this.blockPos = blockPos;
         initSlots();

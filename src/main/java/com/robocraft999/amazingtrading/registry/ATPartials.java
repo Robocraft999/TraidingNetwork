@@ -3,7 +3,7 @@ package com.robocraft999.amazingtrading.registry;
 import com.jozufozu.flywheel.core.PartialModel;
 import com.robocraft999.amazingtrading.AmazingTrading;
 
-public class TNPartials {
+public class ATPartials {
     public static final PartialModel CRUSHER_COG = block("create_shredder/cog");
 
     private static PartialModel block(String path) {

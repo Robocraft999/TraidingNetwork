@@ -3,7 +3,7 @@ package com.robocraft999.amazingtrading.net;
 import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
 import com.robocraft999.amazingtrading.client.gui.shop.ShopInventory;
 import com.robocraft999.amazingtrading.client.gui.shop.ShopMenu;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -20,7 +20,7 @@ public record SyncSlotsPKT(Map<Integer, ItemStack> stacksToSync, IResourceItemPr
         LocalPlayer player = Minecraft.getInstance().player;
         ClientLevel level = player.clientLevel;
         if (level != null && player != null) {
-            level.getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
+            level.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap -> {
                 cap.receiveSlots(stacksToSync);
                 if (updateTargets != IResourceItemProvider.TargetUpdateType.NONE && player.containerMenu instanceof ShopMenu container) {
                     //Update targets in case total available RP is now different

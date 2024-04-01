@@ -3,7 +3,7 @@ package com.robocraft999.amazingtrading.content.shredder;
 import com.jozufozu.flywheel.api.Instancer;
 import com.jozufozu.flywheel.api.MaterialManager;
 import com.jozufozu.flywheel.api.instance.DynamicInstance;
-import com.robocraft999.amazingtrading.registry.TNPartials;
+import com.robocraft999.amazingtrading.registry.ATPartials;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityInstance;
 import com.simibubi.create.content.kinetics.base.flwdata.RotatingData;
 import net.minecraft.core.Direction;
@@ -71,7 +71,7 @@ public class CreateShredderCogInstance extends KineticBlockEntityInstance<Create
     protected Instancer<RotatingData> getModel() {
         BlockState referenceState = blockEntity.getBlockState();
         Direction facing = referenceState.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise();
-        return getRotatingMaterial().getModel(TNPartials.CRUSHER_COG, referenceState, facing);
+        return getRotatingMaterial().getModel(ATPartials.CRUSHER_COG, referenceState, facing);
     }
 
     @Override

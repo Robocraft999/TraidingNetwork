@@ -5,7 +5,7 @@ import com.robocraft999.amazingtrading.api.capabilities.IShopNetworkSync;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncClientSettingsPKT;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -108,7 +108,7 @@ public class ShopSettingsProviderImpl {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
-            if (capability == TNCapabilities.SHOP_SETTINGS_CAPABILITY){
+            if (capability == ATCapabilities.SHOP_SETTINGS_CAPABILITY){
                 return getCapabilityUnchecked(capability, direction);
             }
             return LazyOptional.empty();

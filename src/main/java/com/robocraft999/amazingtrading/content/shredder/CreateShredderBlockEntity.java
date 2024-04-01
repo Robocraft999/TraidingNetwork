@@ -7,8 +7,8 @@ import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntit
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.packets.shredder.SyncOwnerNamePKT;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
-import com.robocraft999.amazingtrading.registry.TNLang;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
+import com.robocraft999.amazingtrading.registry.ATLang;
 import com.robocraft999.amazingtrading.resourcepoints.RItemStackHandler;
 import com.robocraft999.amazingtrading.utils.PlayerHelper;
 import com.robocraft999.amazingtrading.utils.ResourcePointHelper;
@@ -101,14 +101,14 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
             if (player != null) {
-                player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
+                player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                     AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
                     cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
                     cap.syncPoints(player);
                     PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
                 });
             }
-            getLevel().getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
+            getLevel().getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
                 if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
                     handler.enlarge();
                 }
@@ -214,7 +214,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     @NotNull
     @Override
     public Component getDisplayName() {
-        return Component.translatable(TNLang.KEY_SHREDDER_GUI_NAME);
+        return Component.translatable(ATLang.KEY_SHREDDER_GUI_NAME);
     }
 
     private class ShredderInventoryHandler extends CombinedInvWrapper {

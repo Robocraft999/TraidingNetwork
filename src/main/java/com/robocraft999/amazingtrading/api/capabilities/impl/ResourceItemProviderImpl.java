@@ -5,7 +5,7 @@ import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.SyncItemProviderPKT;
 import com.robocraft999.amazingtrading.net.SyncSlotsPKT;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.resourcepoints.RItemStackHandler;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -116,7 +116,7 @@ public class ResourceItemProviderImpl {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
-            if (capability == TNCapabilities.RESOURCE_ITEM_CAPABILITY){
+            if (capability == ATCapabilities.RESOURCE_ITEM_CAPABILITY){
                 return getCapabilityUnchecked(capability, direction);
             }
             return LazyOptional.empty();

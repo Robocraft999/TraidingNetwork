@@ -1,8 +1,8 @@
 package com.robocraft999.amazingtrading.content.shop;
 
 import com.robocraft999.amazingtrading.client.gui.shop.ShopMenu;
-import com.robocraft999.amazingtrading.registry.TNBlockEntities;
-import com.robocraft999.amazingtrading.registry.TNLang;
+import com.robocraft999.amazingtrading.registry.ATBlockEntities;
+import com.robocraft999.amazingtrading.registry.ATLang;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -17,12 +17,12 @@ import org.jetbrains.annotations.Nullable;
 public class ShopBlockEntity extends KineticBlockEntity implements MenuProvider {
 
     public ShopBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(TNBlockEntities.SHOP.get(), pos, state);
+        super(ATBlockEntities.SHOP.get(), pos, state);
     }
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable(TNLang.KEY_SHOP_GUI_NAME);
+        return Component.translatable(ATLang.KEY_SHOP_GUI_NAME);
     }
 
     @Nullable

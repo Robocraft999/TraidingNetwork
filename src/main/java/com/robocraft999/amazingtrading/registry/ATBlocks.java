@@ -13,7 +13,7 @@ import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
-public class TNBlocks {
+public class ATBlocks {
     public static final BlockEntry<? extends CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
             .initialProperties(SharedProperties::stone)

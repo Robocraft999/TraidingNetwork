@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.content.shredder;
 
-import com.robocraft999.amazingtrading.registry.TNPartials;
+import com.robocraft999.amazingtrading.registry.ATPartials;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import com.simibubi.create.foundation.render.CachedBufferer;
 import com.simibubi.create.foundation.render.SuperByteBuffer;
@@ -15,6 +15,6 @@ public class CreateShredderRenderer extends KineticBlockEntityRenderer<CreateShr
 
     @Override
     protected SuperByteBuffer getRotatedModel(CreateShredderBlockEntity be, BlockState state) {
-        return CachedBufferer.partialFacing(TNPartials.CRUSHER_COG, state);
+        return CachedBufferer.partialFacing(ATPartials.CRUSHER_COG, state);
     }
 }

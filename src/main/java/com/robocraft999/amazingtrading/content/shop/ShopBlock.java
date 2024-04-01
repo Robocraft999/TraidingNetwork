@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.content.shop;
 
-import com.robocraft999.amazingtrading.registry.TNBlockEntities;
-import com.robocraft999.amazingtrading.registry.TNShapes;
+import com.robocraft999.amazingtrading.registry.ATBlockEntities;
+import com.robocraft999.amazingtrading.registry.ATShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
@@ -28,7 +28,7 @@ public class ShopBlock extends HorizontalKineticBlock implements IBE<ShopBlockEn
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return TNShapes.SHOP.get(pState.getValue(HORIZONTAL_FACING));
+        return ATShapes.SHOP.get(pState.getValue(HORIZONTAL_FACING));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ShopBlock extends HorizontalKineticBlock implements IBE<ShopBlockEn
 
     @Override
     public BlockEntityType<? extends ShopBlockEntity> getBlockEntityType() {
-        return TNBlockEntities.SHOP.get();
+        return ATBlockEntities.SHOP.get();
     }
 
     @Override

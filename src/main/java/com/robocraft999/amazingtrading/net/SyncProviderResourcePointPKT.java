@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.net;
 
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -16,7 +16,7 @@ public record SyncProviderResourcePointPKT(BigInteger points) implements ITNPack
     public void handle(NetworkEvent.Context context) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
-            player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
+            player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                 cap.setPoints(points);
                 if (player.containerMenu instanceof ShredderMenu container) {
                     container.shredderInventory.updateClientTargets();

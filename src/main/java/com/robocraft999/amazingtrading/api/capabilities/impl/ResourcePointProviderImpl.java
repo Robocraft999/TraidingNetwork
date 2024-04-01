@@ -6,7 +6,7 @@ import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.SyncInputsAndLocksPKT;
 import com.robocraft999.amazingtrading.net.SyncProviderPKT;
 import com.robocraft999.amazingtrading.net.SyncProviderResourcePointPKT;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -140,7 +140,7 @@ public class ResourcePointProviderImpl {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
-            if (capability == TNCapabilities.RESOURCE_POINT_CAPABILITY){
+            if (capability == ATCapabilities.RESOURCE_POINT_CAPABILITY){
                 return getCapabilityUnchecked(capability, direction);
                 //return LazyOptional.of(() -> TNCapabilities.RESOURCE_POINT_CAPABILITY).cast();
             }

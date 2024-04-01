@@ -7,7 +7,7 @@ import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.ItemInfo;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourceItemProviderImpl;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
-import com.robocraft999.amazingtrading.registry.TNCapabilities;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.resourcepoints.PregeneratedRP;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.arithmetic.HiddenBigFractionArithmetic;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.arithmetic.IValueArithmetic;
@@ -160,7 +160,7 @@ public class RPMappingHandler {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server != null) {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
-                player.getCapability(TNCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(itemProvider -> {
+                player.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(itemProvider -> {
                     if (itemProvider instanceof ResourceItemProviderImpl.DefaultImpl impl/* && impl.pruneStaleKnowledge()*/) {
                         itemProvider.sync();
                     }/* else if (player.containerMenu instanceof TransmutationContainer) {
