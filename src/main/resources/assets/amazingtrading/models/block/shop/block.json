@@ -10,7 +10,7 @@
     "gearbox": "create:block/gearbox",
     "andesite_block": "create:block/andesite_block",
     "redstone_bridge": "create:item/linked_controller",
-    "ascii_font": "AmazingTraiding:block/ascii"
+    "ascii_font": "amazingtrading:block/ascii"
   },
   "elements": [
     {
