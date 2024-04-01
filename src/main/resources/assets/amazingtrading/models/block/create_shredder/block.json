@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "traidingnetwork:block/create_shredder/andesite_casing_short",
+    "0": "AmazingTraiding:block/create_shredder/andesite_casing_short",
     "1": "create:block/andesite_casing",
     "2": "create:block/fan_side",
-    "particle": "traidingnetwork:block/create_shredder/andesite_casing_short"
+    "particle": "AmazingTraiding:block/create_shredder/andesite_casing_short"
   },
   "elements": [
     {

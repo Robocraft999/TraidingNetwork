@@ -1,5 +1,5 @@
 {
-  "parent": "traidingnetwork:block/create_shredder/item",
+  "parent": "AmazingTraiding:block/create_shredder/item",
   "display": {
     "gui": {
       "rotation": [ 30, 45, 0 ],
