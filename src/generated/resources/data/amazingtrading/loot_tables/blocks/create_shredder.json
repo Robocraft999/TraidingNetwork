@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "traidingnetwork:create_shredder"
+          "name": "amazingtrading:create_shredder"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "traidingnetwork:blocks/create_shredder"
+  "random_sequence": "amazingtrading:blocks/create_shredder"
 }

@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "traidingnetwork:shop"
+          "name": "amazingtrading:shop"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "traidingnetwork:blocks/shop"
+  "random_sequence": "amazingtrading:blocks/shop"
 }
