@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RecipeTypeMapper;
 import com.robocraft999.amazingtrading.resourcepoints.IngredientMap;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
@@ -48,7 +48,7 @@ public class CreateMapper {
             List<ItemStack> results = recipe.getRollableResults().stream().filter(pO -> pO.getChance() >= 1.0f).map(ProcessingOutput::getStack).toList();
             outputs.addAll(results);
             if (outputs.isEmpty()) {
-                TraidingNetwork.LOGGER.debug("Recipe ({}) contains no outputs: {}", recipe.getId(), outputs);
+                AmazingTrading.LOGGER.debug("Recipe ({}) contains no outputs: {}", recipe.getId(), outputs);
                 return false;
             }
             NSSOutput bundledOutput = mapOutputs(mapper, recipe, fakeGroupManager, outputs.toArray());
@@ -66,7 +66,7 @@ public class CreateMapper {
         private NSSInput getInput(R recipe, INSSFakeGroupManager fakeGroupManager){
             NonNullList<Ingredient> ingredients = recipe.getIngredients();
             if (ingredients.isEmpty()) {
-                TraidingNetwork.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
+                AmazingTrading.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
                 return null;
             }
 
@@ -88,9 +88,9 @@ public class CreateMapper {
         @Override
         protected Collection<Ingredient> getIngredients(R recipe) {
             NonNullList<Ingredient> ingredients = (NonNullList<Ingredient>) super.getIngredients(recipe);
-            TraidingNetwork.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {})", recipe.getId(), ingredients.stream().map(Ingredient::getItems).toList());
+            AmazingTrading.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {})", recipe.getId(), ingredients.stream().map(Ingredient::getItems).toList());
             if (ingredients.isEmpty()) {
-                TraidingNetwork.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
+                AmazingTrading.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
                 return null;
             }
             return ingredients;

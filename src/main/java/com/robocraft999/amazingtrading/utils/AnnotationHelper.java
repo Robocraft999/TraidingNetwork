@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.utils;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RPMapper;
 import com.robocraft999.amazingtrading.api.mapper.RecipeTypeMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.IRPMapper;
@@ -36,7 +36,7 @@ public class AnnotationHelper {
                         int priority = getPriority(data);
                         recipeTypeMappers.add(mapper);
                         priorities.put(mapper, priority);
-                        TraidingNetwork.LOGGER.info("Found and loaded RecipeType Mapper: {}, with priority {}", mapper.getName(), priority);
+                        AmazingTrading.LOGGER.info("Found and loaded RecipeType Mapper: {}, with priority {}", mapper.getName(), priority);
                     }
                 }
             }
@@ -61,9 +61,9 @@ public class AnnotationHelper {
                             int priority = getPriority(data);
                             rpMappers.add(rpMapper);
                             priorities.put(rpMapper, priority);
-                            TraidingNetwork.LOGGER.info("Found and loaded RP mapper: {}, with priority {}", mapper.getName(), priority);
+                            AmazingTrading.LOGGER.info("Found and loaded RP mapper: {}, with priority {}", mapper.getName(), priority);
                         } catch (ClassCastException e) {
-                            TraidingNetwork.LOGGER.error("{}: Is not a mapper for {}, to {}", mapper.getClass(), NormalizedSimpleStack.class, Long.class, e);
+                            AmazingTrading.LOGGER.error("{}: Is not a mapper for {}, to {}", mapper.getClass(), NormalizedSimpleStack.class, Long.class, e);
                         }
                     }
                 }
@@ -97,19 +97,19 @@ public class AnnotationHelper {
                             Object fieldValue = field.get(null);
                             if (baseClass.isInstance(fieldValue)) {
                                 T instance = (T) fieldValue;
-                                TraidingNetwork.LOGGER.debug("Found specified {} instance for: {}. Using it rather than creating a new instance.", baseClass.getSimpleName(),
+                                AmazingTrading.LOGGER.debug("Found specified {} instance for: {}. Using it rather than creating a new instance.", baseClass.getSimpleName(),
                                         nameFunction.apply(instance));
                                 return instance;
                             } else {
-                                TraidingNetwork.LOGGER.error("{} annotation found on non {} field: {}", instanceAnnotation.getSimpleName(), baseClass.getSimpleName(), field);
+                                AmazingTrading.LOGGER.error("{} annotation found on non {} field: {}", instanceAnnotation.getSimpleName(), baseClass.getSimpleName(), field);
                                 return null;
                             }
                         } catch (IllegalAccessException e) {
-                            TraidingNetwork.LOGGER.error("{} annotation found on inaccessible field: {}", instanceAnnotation.getSimpleName(), field);
+                            AmazingTrading.LOGGER.error("{} annotation found on inaccessible field: {}", instanceAnnotation.getSimpleName(), field);
                             return null;
                         }
                     } else {
-                        TraidingNetwork.LOGGER.error("{} annotation found on non static field: {}", instanceAnnotation.getSimpleName(), field);
+                        AmazingTrading.LOGGER.error("{} annotation found on non static field: {}", instanceAnnotation.getSimpleName(), field);
                         return null;
                     }
                 }
@@ -118,7 +118,7 @@ public class AnnotationHelper {
             return subClass.getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | LinkageError |
                  InvocationTargetException | NoSuchMethodException e) {
-            TraidingNetwork.LOGGER.error("Failed to load: {}", className, e);
+            AmazingTrading.LOGGER.error("Failed to load: {}", className, e);
         }
         return null;
     }
@@ -129,7 +129,7 @@ public class AnnotationHelper {
             //Check if all the mods the RPMapper wants to be loaded are loaded
             List<String> requiredMods = (List<String>) annotationData.get("requiredMods");
             if (requiredMods.stream().anyMatch(modid -> !ModList.get().isLoaded(modid))) {
-                TraidingNetwork.LOGGER.debug("Skipped checking class {}, as its required mods ({}) are not loaded.", data.memberName(), Arrays.toString(requiredMods.toArray()));
+                AmazingTrading.LOGGER.debug("Skipped checking class {}, as its required mods ({}) are not loaded.", data.memberName(), Arrays.toString(requiredMods.toArray()));
                 return false;
             }
         }

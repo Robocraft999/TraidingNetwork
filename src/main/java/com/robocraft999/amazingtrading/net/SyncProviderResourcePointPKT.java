@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.net;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.registry.TNCapabilities;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,7 @@ public record SyncProviderResourcePointPKT(BigInteger points) implements ITNPack
                 }
             });
         }
-        TraidingNetwork.LOGGER.debug("** RECEIVED RP PROVIDER DATA CLIENTSIDE **");
+        AmazingTrading.LOGGER.debug("** RECEIVED RP PROVIDER DATA CLIENTSIDE **");
     }
 
     @Override

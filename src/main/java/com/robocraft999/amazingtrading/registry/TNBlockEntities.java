@@ -8,7 +8,7 @@ import com.robocraft999.amazingtrading.content.shredder.CreateShredderCogInstanc
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
-import static com.robocraft999.amazingtrading.TraidingNetwork.REGISTRATE;
+import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
 public class TNBlockEntities {
 

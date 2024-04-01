@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.net;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
 import com.robocraft999.amazingtrading.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncClientSettingsPKT;
@@ -26,7 +26,7 @@ import java.util.function.Function;
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = Integer.toString(4);
     private static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
-            .named(new ResourceLocation(TraidingNetwork.MODID, "main_channel"))
+            .named(new ResourceLocation(AmazingTrading.MODID, "main_channel"))
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
             .serverAcceptedVersions(PROTOCOL_VERSION::equals)
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
@@ -87,7 +87,7 @@ public class PacketHandler {
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         int index = buf.writerIndex();
         new SyncResourcePointPKT(data).encode(buf);
-        TraidingNetwork.LOGGER.debug("RP data size: {} bytes", buf.writerIndex() - index);
+        AmazingTrading.LOGGER.debug("RP data size: {} bytes", buf.writerIndex() - index);
         buf.release();
         return data;
     }

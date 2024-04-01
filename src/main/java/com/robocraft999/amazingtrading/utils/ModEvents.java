@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.utils;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
 import com.robocraft999.amazingtrading.api.capabilities.IResourcePointProvider;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourceItemProviderImpl;
@@ -10,7 +10,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = TraidingNetwork.MODID)
+@Mod.EventBusSubscriber(modid = AmazingTrading.MODID)
 public class ModEvents {
 
     @SubscribeEvent

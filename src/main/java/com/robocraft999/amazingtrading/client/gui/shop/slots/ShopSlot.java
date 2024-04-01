@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.client.gui.shop.slots;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
 import com.robocraft999.amazingtrading.client.gui.shop.ShopInventory;
 import com.robocraft999.amazingtrading.utils.ResourcePointHelper;
@@ -35,9 +35,9 @@ public class ShopSlot extends SlotItemHandler {
     public @NotNull Optional<ItemStack> tryRemove(int count, int decrement, @NotNull Player player) {
         long newDecrement = Math.min(getItem().getMaxStackSize(), Math.min(decrement, inv.provider.getPoints().longValue() / ResourcePointHelper.getRPBuyCost(getItem())));
         if (newDecrement > Integer.MAX_VALUE){
-            TraidingNetwork.LOGGER.warn("trying to extract more than Integer.MAX_VALUE items from ShopSlot");
+            AmazingTrading.LOGGER.warn("trying to extract more than Integer.MAX_VALUE items from ShopSlot");
         }
-        TraidingNetwork.LOGGER.debug(count + " " + decrement + " " + newDecrement);
+        AmazingTrading.LOGGER.debug(count + " " + decrement + " " + newDecrement);
         return super.tryRemove(count, (int) newDecrement, player);
     }
 

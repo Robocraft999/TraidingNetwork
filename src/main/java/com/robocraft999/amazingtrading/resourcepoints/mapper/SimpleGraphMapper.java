@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.arithmetic.IValueArithmetic;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.MappingCollector;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.generator.IValueGenerator;
@@ -130,14 +130,14 @@ public class SimpleGraphMapper<T, V extends Comparable<V>, A extends IValueArith
                     if (ZERO.compareTo(ingredientValue) < 0 && resultValueConversion.compareTo(resultValueActual) < 0) {
                         if (overwriteConversion.containsKey(conversion.output) && overwriteConversion.get(conversion.output) != conversion) {
                             if (logFoundExploits) {
-                                TraidingNetwork.LOGGER.warn("RP Exploit: \"{}\" ingredient cost: {} value of result: {} setValueFromConversion: {}", conversion, ingredientValue, resultValueActual, overwriteConversion.get(conversion.output));
+                                AmazingTrading.LOGGER.warn("RP Exploit: \"{}\" ingredient cost: {} value of result: {} setValueFromConversion: {}", conversion, ingredientValue, resultValueActual, overwriteConversion.get(conversion.output));
                             }
                         } else if (canOverride(entry.getKey(), ZERO)) {
                             debugFormat("Setting {} to 0 because result ({}) > cost ({}): {}", entry.getKey(), resultValueActual, ingredientValue, conversion);
                             changedValues.put(conversion.output, ZERO);
                             reasonForChange.put(conversion.output, "exploit recipe");
                         } else if (logFoundExploits) {
-                            TraidingNetwork.LOGGER.warn("RP Exploit: ingredients ({}) cost {} but output value is {}", conversion, ingredientValue, resultValueActual);
+                            AmazingTrading.LOGGER.warn("RP Exploit: ingredients ({}) cost {} but output value is {}", conversion, ingredientValue, resultValueActual);
                         }
                     }
                 }
@@ -171,10 +171,10 @@ public class SimpleGraphMapper<T, V extends Comparable<V>, A extends IValueArith
         try {
             return valueForConversionUnsafe(values, conversion);
         } catch (ArithmeticException e) {
-            TraidingNetwork.LOGGER.warn("Could not calculate value for {}: {}", conversion.toString(), e.toString());
+            AmazingTrading.LOGGER.warn("Could not calculate value for {}: {}", conversion.toString(), e.toString());
             return ZERO;
         } catch (Exception e) {
-            TraidingNetwork.LOGGER.warn("Could not calculate value for {}: {}", conversion.toString(), e, e);
+            AmazingTrading.LOGGER.warn("Could not calculate value for {}: {}", conversion.toString(), e, e);
             return ZERO;
         }
     }

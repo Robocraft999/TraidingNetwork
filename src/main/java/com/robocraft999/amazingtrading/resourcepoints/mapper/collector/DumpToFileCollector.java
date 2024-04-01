@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper.collector;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.conversion.ConversionGroup;
 import com.robocraft999.amazingtrading.resourcepoints.conversion.CustomConversion;
 import com.robocraft999.amazingtrading.resourcepoints.conversion.CustomConversionFile;
@@ -69,7 +69,7 @@ public class DumpToFileCollector<A extends IValueArithmetic<?>> extends Abstract
         try {
             out.write(file);
         } catch (IOException e) {
-            TraidingNetwork.LOGGER.error("Failed to dump to file", e);
+            AmazingTrading.LOGGER.error("Failed to dump to file", e);
         }
         inner.finishCollection();
     }

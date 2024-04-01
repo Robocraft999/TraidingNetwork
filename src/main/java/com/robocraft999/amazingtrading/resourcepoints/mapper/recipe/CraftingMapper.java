@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.resourcepoints.mapper.recipe;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.mojang.logging.LogUtils;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.IRPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.RPMappingHandler;
@@ -73,7 +73,7 @@ public class CraftingMapper implements IRPMapper<NormalizedSimpleStack, Long> {
                                     unhandled.add(recipe);
                                 }
                             } catch (Exception e) {
-                                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "A fatal error occurred while trying to map the recipe: {}", recipe.getId());
+                                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "A fatal error occurred while trying to map the recipe: {}", recipe.getId());
                                 throw e;
                             }
                         }
@@ -103,22 +103,22 @@ public class CraftingMapper implements IRPMapper<NormalizedSimpleStack, Long> {
                 canNotMap.add(typeRegistryName);
             }
         }
-        TraidingNetwork.LOGGER.debug("CraftingMapper Statistics:");
+        AmazingTrading.LOGGER.debug("CraftingMapper Statistics:");
         for (Map.Entry<ResourceLocation, RecipeCountInfo> entry : recipeCount.entrySet()) {
             ResourceLocation typeRegistryName = entry.getKey();
             RecipeCountInfo countInfo = entry.getValue();
             int total = countInfo.getTotalRecipes();
             List<Recipe<?>> unhandled = countInfo.getUnhandled();
-            TraidingNetwork.LOGGER.debug("Found and handled {} of {} Recipes of Type {}", total - unhandled.size(), total, typeRegistryName);
+            AmazingTrading.LOGGER.debug("Found and handled {} of {} Recipes of Type {}", total - unhandled.size(), total, typeRegistryName);
             if (!unhandled.isEmpty()) {
-                TraidingNetwork.LOGGER.debug("Unhandled Recipes of Type {}:", typeRegistryName);
+                AmazingTrading.LOGGER.debug("Unhandled Recipes of Type {}:", typeRegistryName);
                 for (Recipe<?> recipe : unhandled) {
-                    TraidingNetwork.LOGGER.debug("Name: {}, Recipe class: {}", recipe.getId(), recipe.getClass().getName());
+                    AmazingTrading.LOGGER.debug("Name: {}, Recipe class: {}", recipe.getId(), recipe.getClass().getName());
                 }
             }
         }
         for (ResourceLocation typeRegistryName : canNotMap) {
-            TraidingNetwork.LOGGER.debug("Could not map any Recipes of Type: {}", typeRegistryName);
+            AmazingTrading.LOGGER.debug("Could not map any Recipes of Type: {}", typeRegistryName);
         }
         NSSFake.resetNamespace();
     }

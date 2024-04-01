@@ -41,15 +41,15 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(TraidingNetwork.MODID)
-public class TraidingNetwork {
+@Mod(AmazingTrading.MODID)
+public class AmazingTrading {
 
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "traidingnetwork";
+    public static final String MODID = "amazingtrading";
 
     //public static final NonNullSupplier<Registrate> REGISTRATE = NonNullSupplier.lazy(() -> Registrate.create(MODID));
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID);
-    public static final String NAME = "Traidingnetwork";
+    public static final String NAME = "AmazingTrading";
 
     static {
         REGISTRATE.setTooltipModifierFactory(item -> new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE)
@@ -64,7 +64,7 @@ public class TraidingNetwork {
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public TraidingNetwork() {
+    public AmazingTrading() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the commonSetup method for modloading
@@ -125,10 +125,10 @@ public class TraidingNetwork {
             CustomRPParser.init();
             try {
                 RPMappingHandler.map(rpUpdateResourceManager.serverResources(), rpUpdateResourceManager.registryAccess(), rpUpdateResourceManager.resourceManager());
-                TraidingNetwork.LOGGER.info("Registered {} RP values. (took {} ms)", RPMappingHandler.getRpMapSize(), System.currentTimeMillis() - start);
+                AmazingTrading.LOGGER.info("Registered {} RP values. (took {} ms)", RPMappingHandler.getRpMapSize(), System.currentTimeMillis() - start);
                 PacketHandler.sendFragmentedRpPacketToAll();
             } catch (Throwable t) {
-                TraidingNetwork.LOGGER.error("Error calculating RP values", t);
+                AmazingTrading.LOGGER.error("Error calculating RP values", t);
             }
             rpUpdateResourceManager = null;
         }

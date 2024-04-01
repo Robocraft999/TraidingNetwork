@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.utils;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourcePointProviderImpl;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ShopSettingsProviderImpl;
 import com.robocraft999.amazingtrading.net.PacketHandler;
@@ -17,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 
-@Mod.EventBusSubscriber(modid = TraidingNetwork.MODID)
+@Mod.EventBusSubscriber(modid = AmazingTrading.MODID)
 public class PlayerEvents {
     // On death or return from end, copy the capability data
     @SubscribeEvent
@@ -75,26 +75,26 @@ public class PlayerEvents {
 
         player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
             pointProvider.sync(player);
-            TraidingNetwork.LOGGER.debug("p"+pointProvider.getPoints());
+            AmazingTrading.LOGGER.debug("p"+pointProvider.getPoints());
             PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, pointProvider.getPoints());
         });
 
         player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(settings -> {
             settings.sync(player);
-            TraidingNetwork.LOGGER.debug("autofocus: "+settings.getAutoFocus() + " sort: " + settings.getSort() + " downwards: " + settings.isDownwards());
+            AmazingTrading.LOGGER.debug("autofocus: "+settings.getAutoFocus() + " sort: " + settings.getSort() + " downwards: " + settings.isDownwards());
         });
 
-        TraidingNetwork.LOGGER.debug("Sent point provider and shop settings to {}", player.getName());
+        AmazingTrading.LOGGER.debug("Sent point provider and shop settings to {}", player.getName());
     }
 
     @SubscribeEvent
     public static void playerDisconnect(PlayerEvent.PlayerLoggedOutEvent event) {
         ServerPlayer player = (ServerPlayer) event.getEntity();
         player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(pointProvider -> {
-            TraidingNetwork.LOGGER.debug("pp"+pointProvider.getPoints());
+            AmazingTrading.LOGGER.debug("pp"+pointProvider.getPoints());
         });
         player.getCapability(TNCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
-            TraidingNetwork.LOGGER.debug("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
+            AmazingTrading.LOGGER.debug("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
         });
     }
 
@@ -102,7 +102,7 @@ public class PlayerEvents {
     public static void onConstruct(EntityEvent.EntityConstructing evt) {
         if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER // No world to check yet
                 && evt.getEntity() instanceof Player && !(evt.getEntity() instanceof FakePlayer)) {
-            TraidingNetwork.LOGGER.debug("Clearing offline data cache in preparation to load online data");
+            AmazingTrading.LOGGER.debug("Clearing offline data cache in preparation to load online data");
         }
     }
 }

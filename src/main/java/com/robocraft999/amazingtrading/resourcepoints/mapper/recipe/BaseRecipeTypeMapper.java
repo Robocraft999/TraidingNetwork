@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper.recipe;
 
 import com.mojang.logging.LogUtils;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.IngredientMap;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSItem;
@@ -145,7 +145,7 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
                 outputStacks.put(NSSItem.createItem(item), item.getCount());
                 totalOutputs += item.getCount();
             } else {
-                TraidingNetwork.LOGGER.warn("Recipe ({}) has unsupported output: {}. Skipping...", recipe.getId(), output);
+                AmazingTrading.LOGGER.warn("Recipe ({}) has unsupported output: {}. Skipping...", recipe.getId(), output);
             }
         }
 
@@ -265,11 +265,11 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
             return ingredient.getItems();
         } catch (Exception e) {
             if (isTagException(e)) {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Ingredient of type: {} crashed when getting the matching stacks "
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Ingredient of type: {} crashed when getting the matching stacks "
                                 + "due to not properly deserializing and handling tags. Please report this to the ingredient's creator.",
                         recipeID, ingredient.getClass().getName(), e);
             } else {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Ingredient of type: {} crashed when getting the matching stacks. "
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Ingredient of type: {} crashed when getting the matching stacks. "
                         + "Please report this to the ingredient's creator.", recipeID, ingredient.getClass().getName(), e);
             }
             return null;
@@ -292,20 +292,20 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
             ResourceLocation itemName = ItemHelper.getName(item);
             if (hasContainerItem) {
                 if (isTagException(e)) {
-                    TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} reported that it has a container item, "
+                    AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} reported that it has a container item, "
                             + "but errors when trying to get the container item due to not properly deserializing and handling tags. "
                             + "Please report this to {}.", recipeID, itemName, itemName.getNamespace(), e);
                 } else {
-                    TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} reported that it has a container item, "
+                    AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} reported that it has a container item, "
                             + "but errors when trying to get the container item based on the stack in the recipe. "
                             + "Please report this to {}.", recipeID, itemName, itemName.getNamespace(), e);
                 }
             } else if (isTagException(e)) {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} crashed when checking if the stack has a container item, "
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} crashed when checking if the stack has a container item, "
                                 + "due to not properly deserializing and handling tags. Please report this to {}.", recipeID, itemName,
                         itemName.getNamespace(), e);
             } else {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} crashed when checking if the stack in the recipe has a container item. "
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Item: {} crashed when checking if the stack in the recipe has a container item. "
                         + "Please report this to {}.", recipeID, itemName, itemName.getNamespace(), e);
             }
             //If something failed because the recipe errored, return that we did handle it so that we don't try to handle it later
@@ -327,10 +327,10 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
         } catch (Exception e) {
             ResourceLocation recipeID = recipe.getId();
             if (isTagException(e)) {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Failed to get ingredients due to the recipe not properly deserializing and handling tags. "
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Failed to get ingredients due to the recipe not properly deserializing and handling tags. "
                         + "Please report this to {}.", recipeID, recipeID.getNamespace(), e);
             } else {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Failed to get ingredients. Please report this to {}.", recipeID, recipeID.getNamespace(), e);
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Error mapping recipe {}. Failed to get ingredients. Please report this to {}.", recipeID, recipeID.getNamespace(), e);
             }
         }
         return null;

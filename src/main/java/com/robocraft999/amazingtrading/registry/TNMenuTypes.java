@@ -6,7 +6,7 @@ import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderScreen;
 import com.tterrag.registrate.util.entry.MenuEntry;
 
-import static com.robocraft999.amazingtrading.TraidingNetwork.REGISTRATE;
+import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
 public class TNMenuTypes {
 

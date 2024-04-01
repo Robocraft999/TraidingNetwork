@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.api.capabilities.impl;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.IShopNetworkSync;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 import com.robocraft999.amazingtrading.net.PacketHandler;
@@ -88,7 +88,7 @@ public class ShopSettingsProviderImpl {
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation NAME = new ResourceLocation(TraidingNetwork.MODID, "shopsettingsprovider");
+        public static final ResourceLocation NAME = new ResourceLocation(AmazingTrading.MODID, "shopsettingsprovider");
         private final NonNullSupplier<IShopNetworkSync> supplier;
         private LazyOptional<IShopNetworkSync> cachedCapability;
 

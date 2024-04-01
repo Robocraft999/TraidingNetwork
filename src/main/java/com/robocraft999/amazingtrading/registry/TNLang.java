@@ -1,9 +1,9 @@
 package com.robocraft999.amazingtrading.registry;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
 
-import static com.robocraft999.amazingtrading.TraidingNetwork.REGISTRATE;
+import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 
 public class TNLang {
 
@@ -19,8 +19,8 @@ public class TNLang {
     public static final String KEY_GUI_SEARCH_TOOLTIP_CLEAR = gui("fil.tooltip_clear"); //clear
     public static final String KEY_GUI_SHIFT = gui("shift");
 
-    public static final String KEY_SHREDDER_GUI_NAME = "gui." + TraidingNetwork.MODID + ".shredder.name";
-    public static final String KEY_SHOP_GUI_NAME = "gui." + TraidingNetwork.MODID + ".shop.name";
+    public static final String KEY_SHREDDER_GUI_NAME = "gui." + AmazingTrading.MODID + ".shredder.name";
+    public static final String KEY_SHOP_GUI_NAME = "gui." + AmazingTrading.MODID + ".shop.name";
 
     public static void init(){
         REGISTRATE.addRawLang(KEY_GUI_DIRECTION_BUTTON, "Sort Direction");
@@ -40,7 +40,7 @@ public class TNLang {
     }
 
     private static String gui(String suffix){
-        return "gui." + TraidingNetwork.MODID + "." + suffix;
+        return "gui." + AmazingTrading.MODID + "." + suffix;
     }
 
     public static String sortButtonFromSortType(EnumSortType sortType){

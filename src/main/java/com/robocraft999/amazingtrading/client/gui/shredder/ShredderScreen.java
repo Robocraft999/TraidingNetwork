@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.client.gui.shredder;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlockEntity;
 import com.robocraft999.amazingtrading.utils.UIHelper;
 import net.minecraft.ChatFormatting;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 
 public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
-    private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/shredder.png");
+    private static final ResourceLocation TEXTURE = AmazingTrading.rl("textures/gui/shredder.png");
     private final ShredderInventory inv;
     public ShredderScreen(ShredderMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);

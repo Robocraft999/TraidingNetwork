@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSTag;
@@ -25,7 +25,7 @@ public class CustomRPMapper implements IRPMapper<NormalizedSimpleStack, Long> {
     @Override
     public void addMappings(IMappingCollector<NormalizedSimpleStack, Long> mapper, CommentedFileConfig config, ReloadableServerResources serverResources, RegistryAccess registryAccess, ResourceManager resourceManager) {
         for (CustomRPParser.CustomRPEntry entry : CustomRPParser.currentEntries.entries) {
-            TraidingNetwork.LOGGER.debug("Adding custom RP value for {}: {}", entry.item, entry.rp);
+            AmazingTrading.LOGGER.debug("Adding custom RP value for {}: {}", entry.item, entry.rp);
             mapper.setValueBefore(entry.item, entry.rp);
             if (entry.item instanceof NSSTag nssTag) {
                 //Note: We set it for each of the values in the tag to make sure it is properly taken into account when calculating the individual RP values

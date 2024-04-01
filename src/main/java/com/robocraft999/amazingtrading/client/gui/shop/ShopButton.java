@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.client.gui.shop;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -40,7 +40,7 @@ public class ShopButton extends Button {
     private static final int SIZE = 16;
     public ShopButton(int x, int y, String name, OnPress handler, CreateNarration narration) {
         super(x, y, SIZE, SIZE, Component.translatable(name), handler, narration);
-        texture = new ResourceLocation(TraidingNetwork.MODID, "textures/gui/widgets.png");
+        texture = new ResourceLocation(AmazingTrading.MODID, "textures/gui/widgets.png");
     }
 
     public ShopButton setTexture(ResourceLocation texture) {

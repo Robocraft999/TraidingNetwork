@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.net;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.RPMappingHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,7 +19,7 @@ public class SyncResourcePointPKT implements ITNPacket{
 
     @Override
     public void handle(NetworkEvent.Context context) {
-        TraidingNetwork.LOGGER.info("Receiving RP data from server.");
+        AmazingTrading.LOGGER.info("Receiving RP data from server.");
         RPMappingHandler.fromPacket(data);
     }
 

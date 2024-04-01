@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.client.gui.shop;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.IShopNetworkSync;
 import com.robocraft999.amazingtrading.client.gui.menu.IShopGui;
 import com.robocraft999.amazingtrading.client.gui.shop.slots.EnumSortType;
@@ -37,7 +37,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     private IShopNetworkSync provider;
 
-    private static final ResourceLocation TEXTURE = TraidingNetwork.rl("textures/gui/shop.png");
+    private static final ResourceLocation TEXTURE = AmazingTrading.rl("textures/gui/shop.png");
 
     public ShopScreen(ShopMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
@@ -231,7 +231,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     @Override
     public void setDownwards(boolean val) {
-        TraidingNetwork.LOGGER.info("Downwards new: " + val);
+        AmazingTrading.LOGGER.info("Downwards new: " + val);
         provider.setDownwards(val);
     }
 
@@ -242,7 +242,7 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     @Override
     public void setSort(EnumSortType val) {
-        TraidingNetwork.LOGGER.info("Sort new: " + val.name());
+        AmazingTrading.LOGGER.info("Sort new: " + val.name());
         provider.setSort(val);
     }
 

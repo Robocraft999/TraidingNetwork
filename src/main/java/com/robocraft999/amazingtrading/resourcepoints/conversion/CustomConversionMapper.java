@@ -4,7 +4,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.IRPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
@@ -68,7 +68,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
             ResourceLocation file = entry.getKey();
             ResourceLocation conversionId = new ResourceLocation(file.getNamespace(), file.getPath().substring(folderLength + 1, file.getPath().length() - extensionLength));
 
-            TraidingNetwork.LOGGER.info("Considering file {}, ID {}", file, conversionId);
+            AmazingTrading.LOGGER.info("Considering file {}, ID {}", file, conversionId);
             NSSFake.setCurrentNamespace(conversionId.toString());
 
             // Iterate through all copies of this conversion, from lowest to highest priority datapack, merging the results together
@@ -78,13 +78,13 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
                     try (Reader reader = resource.openAsReader()) {
                         result = parseJson(reader);
                     } catch (JsonParseException ex) {
-                        TraidingNetwork.LOGGER.error("Malformed JSON", ex);
+                        AmazingTrading.LOGGER.error("Malformed JSON", ex);
                         continue;
                     }
                     loading.merge(conversionId, result, CustomConversionFile::merge);
                 }
             } catch (IOException e) {
-                TraidingNetwork.LOGGER.error("Could not load resource {}", file, e);
+                AmazingTrading.LOGGER.error("Could not load resource {}", file, e);
             }
         }
         NSSFake.resetNamespace();
@@ -93,7 +93,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
 
     private static void addMappingsFromFile(CustomConversionFile file, IMappingCollector<NormalizedSimpleStack, Long> mapper) {
         for (Map.Entry<String, ConversionGroup> entry : file.groups.entrySet()) {
-            TraidingNetwork.LOGGER.debug("Adding conversions from group '{}' with comment '{}'", entry.getKey(), entry.getValue().comment);
+            AmazingTrading.LOGGER.debug("Adding conversions from group '{}' with comment '{}'", entry.getKey(), entry.getValue().comment);
             for (CustomConversion conversion : entry.getValue().conversions) {
                 mapper.addConversion(conversion.count, conversion.output, conversion.ingredients);
             }
@@ -123,7 +123,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
                 nssTag.forEachElement(normalizedSimpleStack -> mapper.setValueFromConversion(conversion.count, normalizedSimpleStack, conversion.ingredients));
             }
             mapper.setValueFromConversion(conversion.count, out, conversion.ingredients);
-            TraidingNetwork.LOGGER.debug("CCM: Value from Conversion of {}*{} ->{}", conversion.count, conversion.ingredients, out);
+            AmazingTrading.LOGGER.debug("CCM: Value from Conversion of {}*{} ->{}", conversion.count, conversion.ingredients, out);
         }
     }
 

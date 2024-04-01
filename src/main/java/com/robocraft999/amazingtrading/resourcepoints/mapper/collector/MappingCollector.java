@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper.collector;
 
 import com.google.common.collect.ImmutableMap;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.arithmetic.IValueArithmetic;
 
 import java.util.*;
@@ -20,7 +20,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
 
     protected static void debugFormat(String format, Object... args) {
         if (DEBUG_GRAPHMAPPER) {
-            TraidingNetwork.LOGGER.debug(format, args);
+            AmazingTrading.LOGGER.debug(format, args);
         }
     }
 
@@ -52,7 +52,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
     @Override
     public void addConversion(int outnumber, T output, Map<T, Integer> ingredientsWithAmount, A arithmeticForConversion) {
         if (output == null || ingredientsWithAmount.containsKey(null)) {
-            TraidingNetwork.LOGGER.debug("Ignoring Recipe because of invalid ingredient or output: {} -> {}x{}", ingredientsWithAmount, outnumber, output);
+            AmazingTrading.LOGGER.debug("Ignoring Recipe because of invalid ingredient or output: {} -> {}x{}", ingredientsWithAmount, outnumber, output);
             return;
         }
         if (outnumber <= 0) {
@@ -73,7 +73,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
             return;
         }
         if (fixValueBeforeInherit.containsKey(something)) {
-            TraidingNetwork.LOGGER.debug("Overwriting fixValueBeforeInherit for {} from: {} to {}", something, fixValueBeforeInherit.get(something), value);
+            AmazingTrading.LOGGER.debug("Overwriting fixValueBeforeInherit for {} from: {} to {}", something, fixValueBeforeInherit.get(something), value);
         }
         fixValueBeforeInherit.put(something, value);
         fixValueAfterInherit.remove(something);
@@ -85,7 +85,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
             return;
         }
         if (fixValueAfterInherit.containsKey(something)) {
-            TraidingNetwork.LOGGER.debug("Overwriting fixValueAfterInherit for {} from: {} to {}", something, fixValueAfterInherit.get(something), value);
+            AmazingTrading.LOGGER.debug("Overwriting fixValueAfterInherit for {} from: {} to {}", something, fixValueAfterInherit.get(something), value);
         }
         fixValueAfterInherit.put(something, value);
     }
@@ -93,7 +93,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
     @Override
     public void setValueFromConversion(int outnumber, T something, Map<T, Integer> ingredientsWithAmount) {
         if (something == null || ingredientsWithAmount.containsKey(null)) {
-            TraidingNetwork.LOGGER.debug("Ignoring setValueFromConversion because of invalid ingredient or output: {} -> {}x{}", ingredientsWithAmount, outnumber, something);
+            AmazingTrading.LOGGER.debug("Ignoring setValueFromConversion because of invalid ingredient or output: {} -> {}x{}", ingredientsWithAmount, outnumber, something);
             return;
         }
         if (outnumber <= 0) {
@@ -102,7 +102,7 @@ public abstract class MappingCollector<T, V extends Comparable<V>, A extends IVa
         Conversion conversion = new Conversion(something, outnumber, ingredientsWithAmount, this.arithmetic);
         if (overwriteConversion.containsKey(something)) {
             Conversion oldConversion = overwriteConversion.get(something);
-            TraidingNetwork.LOGGER.debug("Overwriting setValueFromConversion {} with {}", overwriteConversion.get(something), conversion);
+            AmazingTrading.LOGGER.debug("Overwriting setValueFromConversion {} with {}", overwriteConversion.get(something), conversion);
             for (T ingredient : oldConversion.ingredientsWithAmount.keySet()) {
                 getUsesFor(ingredient).remove(oldConversion);
             }

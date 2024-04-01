@@ -1,6 +1,6 @@
 package com.robocraft999.amazingtrading.net;
 
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.registry.TNCapabilities;
 import net.minecraft.client.Minecraft;
@@ -17,13 +17,13 @@ public record SyncProviderPKT(CompoundTag nbt) implements ITNPacket {
         if (player != null) {
             player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
                 cap.deserializeNBT(nbt);
-                TraidingNetwork.LOGGER.debug("** R ** " + cap.getPoints());
+                AmazingTrading.LOGGER.debug("** R ** " + cap.getPoints());
                 if (player.containerMenu instanceof ShredderMenu container) {
                     container.shredderInventory.updateClientTargets();
                 }
             });
         }
-        TraidingNetwork.LOGGER.debug("** RECEIVED TRANSMUTATION DATA CLIENTSIDE **");
+        AmazingTrading.LOGGER.debug("** RECEIVED TRANSMUTATION DATA CLIENTSIDE **");
     }
 
     @Override

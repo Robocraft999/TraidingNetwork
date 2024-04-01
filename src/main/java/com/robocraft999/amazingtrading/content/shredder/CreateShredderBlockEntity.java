@@ -2,7 +2,7 @@ package com.robocraft999.amazingtrading.content.shredder;
 
 import com.mojang.authlib.GameProfile;
 import com.robocraft999.amazingtrading.Config;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.net.PacketHandler;
@@ -102,7 +102,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
             if (player != null) {
                 player.getCapability(TNCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-                    TraidingNetwork.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
+                    AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
                     cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
                     cap.syncPoints(player);
                     PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());

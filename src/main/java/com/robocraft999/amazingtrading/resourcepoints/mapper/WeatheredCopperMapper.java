@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading.resourcepoints.mapper;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.mapper.RPMapper;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSItem;
@@ -29,8 +29,8 @@ public class WeatheredCopperMapper implements IRPMapper<NormalizedSimpleStack, L
             mapper.addConversion(1, unweathered, Collections.singleton(weathered));
             recipeCount += 2;
         }
-        TraidingNetwork.LOGGER.debug("WeatheredCopperMapper Statistics:");
-        TraidingNetwork.LOGGER.debug("Found {} Weathered Copper Conversions", recipeCount);
+        AmazingTrading.LOGGER.debug("WeatheredCopperMapper Statistics:");
+        AmazingTrading.LOGGER.debug("Found {} Weathered Copper Conversions", recipeCount);
     }
 
     @Override

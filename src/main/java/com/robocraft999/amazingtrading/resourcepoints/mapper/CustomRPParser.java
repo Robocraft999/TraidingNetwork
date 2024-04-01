@@ -5,7 +5,7 @@ import com.google.common.io.Files;
 import com.google.gson.*;
 import com.mojang.logging.LogUtils;
 import com.robocraft999.amazingtrading.Config;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSItem;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSSerializer;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NormalizedSimpleStack;
@@ -68,7 +68,7 @@ public final class CustomRPParser {
                     writeDefaultFile();
                 }
             } catch (IOException e) {
-                TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Exception in file I/O: couldn't create custom configuration files.");
+                AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Exception in file I/O: couldn't create custom configuration files.");
             }
         }
 
@@ -76,7 +76,7 @@ public final class CustomRPParser {
             currentEntries = GSON.fromJson(reader, CustomRPFile.class);
             currentEntries.entries.removeIf(e -> !(e.item instanceof NSSItem) || e.rp < 0);
         } catch (IOException | JsonParseException e) {
-            TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Couldn't read custom rp file", e);
+            AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Couldn't read custom rp file", e);
             currentEntries = new CustomRPFile(new ArrayList<>());
         }
     }
@@ -122,7 +122,7 @@ public final class CustomRPParser {
             try {
                 Files.asCharSink(CONFIG, Charsets.UTF_8).write(GSON.toJson(currentEntries));
             } catch (IOException e) {
-                TraidingNetwork.LOGGER.error("Failed to write custom RP file", e);
+                AmazingTrading.LOGGER.error("Failed to write custom RP file", e);
             }
             dirty = false;
         }
@@ -134,7 +134,7 @@ public final class CustomRPParser {
         try {
             Files.asCharSink(CONFIG, Charsets.UTF_8).write(GSON.toJson(elem));
         } catch (IOException e) {
-            TraidingNetwork.LOGGER.error("Failed to write default custom RP file", e);
+            AmazingTrading.LOGGER.error("Failed to write default custom RP file", e);
         }
     }
 }

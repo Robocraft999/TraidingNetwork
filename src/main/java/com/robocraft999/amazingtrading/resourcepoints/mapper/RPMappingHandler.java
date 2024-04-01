@@ -3,7 +3,7 @@ package com.robocraft999.amazingtrading.resourcepoints.mapper;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.mojang.logging.LogUtils;
 import com.robocraft999.amazingtrading.Config;
-import com.robocraft999.amazingtrading.TraidingNetwork;
+import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.ItemInfo;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourceItemProviderImpl;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
@@ -71,10 +71,10 @@ public class RPMappingHandler {
         Path path = Config.CONFIG_DIR.resolve("mapping.toml");
         try {
             if (path.toFile().createNewFile()) {
-                TraidingNetwork.LOGGER.debug("Created mapping.toml");
+                AmazingTrading.LOGGER.debug("Created mapping.toml");
             }
         } catch (IOException ex) {
-            TraidingNetwork.LOGGER.error("Couldn't create mapping.toml", ex);
+            AmazingTrading.LOGGER.error("Couldn't create mapping.toml", ex);
         }
 
         CommentedFileConfig config = CommentedFileConfig.builder(path).build();
@@ -91,39 +91,39 @@ public class RPMappingHandler {
             mappingCollector = new DumpToFileCollector<>(Config.CONFIG_DIR.resolve("mappingdump.json").toFile(), mappingCollector);
         }
 
-        File pregeneratedRpFile = Paths.get("config", TraidingNetwork.NAME, "pregenerated_rp.json").toFile();
+        File pregeneratedRpFile = Paths.get("config", AmazingTrading.NAME, "pregenerated_rp.json").toFile();
         Map<NormalizedSimpleStack, Long> graphMapperValues;
         if (shouldUsePregenerated && pregeneratedRpFile.canRead() && PregeneratedRP.tryRead(pregeneratedRpFile, graphMapperValues = new HashMap<>())) {
-            TraidingNetwork.LOGGER.info("Loaded {} values from pregenerated RP File", graphMapperValues.size());
+            AmazingTrading.LOGGER.info("Loaded {} values from pregenerated RP File", graphMapperValues.size());
         } else {
             SimpleGraphMapper.setLogFoundExploits(logFoundExploits);
 
-            TraidingNetwork.LOGGER.debug("Starting to collect Mappings...");
+            AmazingTrading.LOGGER.debug("Starting to collect Mappings...");
             for (IRPMapper<NormalizedSimpleStack, Long> rpMapper : mappers) {
                 try {
                     if (getOrSetDefault(config, "enabledMappers." + rpMapper.getName(), rpMapper.getDescription(), rpMapper.isAvailable())) {
                         DumpToFileCollector.currentGroupName = rpMapper.getName();
                         rpMapper.addMappings(mappingCollector, config, serverResources, registryAccess, resourceManager);
-                        TraidingNetwork.LOGGER.info("Collected Mappings from " + rpMapper.getClass().getName());
+                        AmazingTrading.LOGGER.info("Collected Mappings from " + rpMapper.getClass().getName());
                     }
                 } catch (Exception e) {
-                    TraidingNetwork.LOGGER.error(LogUtils.FATAL_MARKER, "Exception during Mapping Collection from Mapper {}. PLEASE REPORT THIS! RP VALUES MIGHT BE INCONSISTENT!",
+                    AmazingTrading.LOGGER.error(LogUtils.FATAL_MARKER, "Exception during Mapping Collection from Mapper {}. PLEASE REPORT THIS! RP VALUES MIGHT BE INCONSISTENT!",
                             rpMapper.getClass().getName(), e);
                 }
             }
             DumpToFileCollector.currentGroupName = "NSSHelper";
 
-            TraidingNetwork.LOGGER.debug("Mapping Collection finished");
+            AmazingTrading.LOGGER.debug("Mapping Collection finished");
             mappingCollector.finishCollection();
 
-            TraidingNetwork.LOGGER.debug("Starting to generate Values:");
+            AmazingTrading.LOGGER.debug("Starting to generate Values:");
 
             config.save();
             config.close();
 
             graphMapperValues = valueGenerator.generateValues();
-            TraidingNetwork.LOGGER.debug("Generated Values...");
-            TraidingNetwork.LOGGER.info("raw values: " + graphMapperValues.size() + " :" + graphMapperValues);
+            AmazingTrading.LOGGER.debug("Generated Values...");
+            AmazingTrading.LOGGER.info("raw values: " + graphMapperValues.size() + " :" + graphMapperValues);
 
             filterRPMap(graphMapperValues);
 
@@ -131,14 +131,14 @@ public class RPMappingHandler {
                 //Should have used pregenerated, but the file was not read => regenerate.
                 try {
                     PregeneratedRP.write(pregeneratedRpFile, graphMapperValues);
-                    TraidingNetwork.LOGGER.debug("Wrote Pregen-file!");
+                    AmazingTrading.LOGGER.debug("Wrote Pregen-file!");
                 } catch (IOException e) {
-                    TraidingNetwork.LOGGER.error("Failed to write Pregen-file", e);
+                    AmazingTrading.LOGGER.error("Failed to write Pregen-file", e);
                 }
             }
         }
 
-        TraidingNetwork.LOGGER.info("mappings: " + graphMapperValues.size() + " :" + graphMapperValues);
+        AmazingTrading.LOGGER.info("mappings: " + graphMapperValues.size() + " :" + graphMapperValues);
 
         for (Map.Entry<NormalizedSimpleStack, Long> entry : graphMapperValues.entrySet()) {
             NSSItem normStackItem = (NSSItem) entry.getKey();
@@ -146,7 +146,7 @@ public class RPMappingHandler {
             if (obj != null) {
                 points.put(obj, entry.getValue());
             } else {
-                TraidingNetwork.LOGGER.warn("Could not add RP value for {}, item does not exist!", normStackItem.getResourceLocation());
+                AmazingTrading.LOGGER.warn("Could not add RP value for {}, item does not exist!", normStackItem.getResourceLocation());
             }
         }
 
