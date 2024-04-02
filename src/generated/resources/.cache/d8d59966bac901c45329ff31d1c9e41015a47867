@@ -1,0 +1,10 @@
+// 1.20.1	2024-04-01T21:27:46.802104029	Registrate Provider for amazingtrading [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+1b4cf7124e3c18a34146a47c2a057f1a943d832b assets/amazingtrading/blockstates/create_shredder.json
+b0c787ac53fcd28bb2fcb6aed9a237d961d934e8 assets/amazingtrading/blockstates/shop.json
+3ae76efbeab71643462a15e338cbd8da18cddbbf assets/amazingtrading/lang/en_ud.json
+63b453993d4d582317b23da28cbd41ec421863a9 assets/amazingtrading/lang/en_us.json
+9b98d81ec0fa03073a555ff424061815b0aea8ed assets/amazingtrading/models/item/create_shredder.json
+2757f917ade488ba1e983e8177f6f8470d7ac3ff assets/amazingtrading/models/item/shop.json
+b7b398be3501b0b40d431b6c10fe6f04695c8ce8 data/amazingtrading/loot_tables/blocks/create_shredder.json
+f95406f173b6e089f03f2121628300d900ad9aaa data/amazingtrading/loot_tables/blocks/shop.json
+cb36d6f6e9d32a908ad4cacf716ebb6d333e0bbd data/minecraft/tags/blocks/mineable/pickaxe.json

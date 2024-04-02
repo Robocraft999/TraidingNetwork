@@ -239,7 +239,7 @@ shadowJar {
     exclude('META-INF/maven/**')
     exclude('META-INF/*.txt')
     // Relocate apache commons-math3 to prevent conflicts with other mods that include it
-    relocate 'org.apache.commons.math3', 'com.robocraft999.traidingnetwork.shaded.org.apache.commons.math3'
+    relocate 'org.apache.commons.math3', 'com.robocraft999.amazingtrading.shaded.org.apache.commons.math3'
     // Minimize the required files so we only include what is needed
     minimize {
         include dependency('org.apache.commons:commons-math3:.*')

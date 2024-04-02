@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.robocraft999.amazingtrading.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "amazingtrading.refmap.json",
+  "mixins": [
+    "accessor.ObjectiveCriteriaAccessor"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

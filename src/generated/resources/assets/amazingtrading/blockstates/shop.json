@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "amazingtrading:block/shop/block"
+    },
+    "facing=north": {
+      "model": "amazingtrading:block/shop/block",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "amazingtrading:block/shop/block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "amazingtrading:block/shop/block",
+      "y": 180
+    }
+  }
+}
