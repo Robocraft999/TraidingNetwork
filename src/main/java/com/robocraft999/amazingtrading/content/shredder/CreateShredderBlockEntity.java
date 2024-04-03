@@ -1,12 +1,13 @@
 package com.robocraft999.amazingtrading.content.shredder;
 
 import com.mojang.authlib.GameProfile;
-import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.AmazingTrading;
+import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
 import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.net.packets.shredder.SyncOwnerNamePKT;
+import com.robocraft999.amazingtrading.registry.ATBlocks;
 import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.registry.ATLang;
 import com.robocraft999.amazingtrading.resourcepoints.RItemStackHandler;
@@ -96,18 +97,25 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
-        if (!canProcess(stackInSlot)) return;
+        if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
 
         if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
             if (player != null) {
                 player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-                    AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
-                    cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
-                    cap.syncPoints(player);
-                    PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
+                    if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
+                        if (!cap.isSecretEnabled()) {
+                            cap.enableSecret();
+                        }
+                    } else{
+                        AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
+                        cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
+                        cap.syncPoints(player);
+                        PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
+                    }
                 });
             }
+            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
             getLevel().getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
                 if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
                     handler.enlarge();
