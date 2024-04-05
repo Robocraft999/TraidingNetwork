@@ -20,7 +20,6 @@ public record SyncInputsAndLocksPKT(Map<Integer, ItemStack> stacksToSync, Target
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-                cap.receiveInputsAndLocks(stacksToSync);
                 if (updateTargets != TargetUpdateType.NONE && player.containerMenu instanceof ShredderMenu container) {
                     //Update targets in case total available RP is now different
                     ShredderInventory transmutationInventory = container.shredderInventory;

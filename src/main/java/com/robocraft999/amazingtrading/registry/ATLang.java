@@ -22,6 +22,8 @@ public class ATLang {
     public static final String KEY_SHREDDER_GUI_NAME = "gui." + AmazingTrading.MODID + ".shredder.name";
     public static final String KEY_SHOP_GUI_NAME = "gui." + AmazingTrading.MODID + ".shop.name";
 
+    public static final String NAME_CREATIVE_TAB = "amazing_trading";
+
     public static void init(){
         REGISTRATE.addRawLang(KEY_GUI_DIRECTION_BUTTON, "Sort Direction");
         REGISTRATE.addRawLang(KEY_GUI_SORT_BUTTON_AMOUNT, "Sort by amount");

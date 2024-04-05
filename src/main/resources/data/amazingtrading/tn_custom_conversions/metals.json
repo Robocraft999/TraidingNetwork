@@ -8,7 +8,9 @@
       "#forge:gems/sapphire": 2048,
       "#forge:ingots/iron": 256,
       "#forge:ingots/uranium": 4096,
-      "#forge:rods/wooden": 16
+      "#forge:rods/wooden": 16,
+      "create:zinc_ingot": 128,
+      "create:brass_ingot": 128
     },
     "conversion": [
       {

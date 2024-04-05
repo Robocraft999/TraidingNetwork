@@ -56,7 +56,7 @@ public class AmazingTrading {
                 .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
     }
 
-    public static final RegistryEntry<CreativeModeTab> testcreativetab = REGISTRATE.object("test_creative_mode_tab")
+    public static final RegistryEntry<CreativeModeTab> testcreativetab = REGISTRATE.object(ATLang.NAME_CREATIVE_TAB)
             .defaultCreativeTab(tab -> tab.withLabelColor(0xFF00AA00))
             .register();
 

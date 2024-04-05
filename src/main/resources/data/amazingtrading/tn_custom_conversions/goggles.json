@@ -1,0 +1,121 @@
+{
+  "comment": "Sets conversions for creategoggles because it has cycles which break the points.",
+  "values": {
+    "before": {
+    },
+    "conversion": [
+      {
+        "ingredients": {
+          "minecraft:chainmail_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_chainmail_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:diamond_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_diamond_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:golden_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_golden_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:iron_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_iron_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:turtle_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_turtle_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:netherite_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_netherite_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:leather_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_leather_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "create:diving_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_diving_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "create:netherite_diving_helmet": 1,
+          "create:goggles": 1
+        },
+        "output": "creategoggles:goggle_netherite_diving_helmet",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:chainmail_chestplate": 1,
+          "create:copper_backtank": 1
+        },
+        "output": "creategoggles:chainmail_backtank",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:diamond_chestplate": 1,
+          "create:copper_backtank": 1
+        },
+        "output": "creategoggles:diamond_backtank",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:golden_chestplate": 1,
+          "create:copper_backtank": 1
+        },
+        "output": "creategoggles:golden_backtank",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:iron_chestplate": 1,
+          "create:copper_backtank": 1
+        },
+        "output": "creategoggles:iron_backtank",
+        "propagateTags": true
+      },
+      {
+        "ingredients": {
+          "minecraft:leather_chestplate": 1,
+          "create:copper_backtank": 1
+        },
+        "output": "creategoggles:leather_backtank",
+        "propagateTags": true
+      }
+    ]
+  }
+}

@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class CreateMapper {
-    private abstract static class CreateProcessingRecipeMapper<R extends ProcessingRecipe<?>> extends BaseRecipeTypeMapper<R> {
+    protected abstract static class CreateProcessingRecipeMapper<R extends ProcessingRecipe<?>> extends BaseRecipeTypeMapper<R> {
 
         @Override
         public String getDescription() {

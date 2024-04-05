@@ -1,1 +1,3 @@
-- Test Upload
+- added some Create: Vintage Improvements support
+- fixed problem with creategoggles
+- renamed to amazing trading

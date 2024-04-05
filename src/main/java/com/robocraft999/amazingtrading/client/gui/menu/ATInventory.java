@@ -9,7 +9,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ATInventory extends CombinedInvWrapper {
@@ -52,8 +51,6 @@ public class ATInventory extends CombinedInvWrapper {
             removeResourcePoints(value.negate());
             return;
         }
-        List<Integer> inputLocksChanged = new ArrayList<>();
-        syncChangedSlots(inputLocksChanged, IResourcePointProvider.TargetUpdateType.NONE);
         //Note: We act as if there is no "max" RP for the player given we use a BigInteger
         // This means we don't have to try to put the overflow into the lock slot if there is an RP storage item there
         updateResourcePointsAndSync(provider.getPoints().add(value));
@@ -76,11 +73,7 @@ public class ATInventory extends CombinedInvWrapper {
             //Remove from provider first
             //This code runs first to simplify the logic
             //But it simulates removal first by extracting the amount from value and then removing that excess from items
-            List<Integer> inputLocksChanged = new ArrayList<>();
             value = currentEmc;
-
-            //Sync the changed slots if any have changed
-            syncChangedSlots(inputLocksChanged, IResourcePointProvider.TargetUpdateType.NONE);
         }
         updateResourcePointsAndSync(currentEmc.subtract(value));
     }
@@ -89,7 +82,6 @@ public class ATInventory extends CombinedInvWrapper {
      * @apiNote Call on server only
      */
     public void syncChangedSlots(List<Integer> slotsChanged, IResourcePointProvider.TargetUpdateType updateTargets) {
-        provider.syncInputAndLocks((ServerPlayer) player, slotsChanged, updateTargets);
     }
 
     /**

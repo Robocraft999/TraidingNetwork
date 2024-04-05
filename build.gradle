@@ -163,9 +163,14 @@ reobf {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-
     maven {
         url "https://maven.tterrag.com/"
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
@@ -178,6 +183,7 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    implementation fg.deobf("curse.maven:vintageimprovements-946579:5210692");
     //jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.19.3-1.1.10,)")
 
     forgeLibrary group: "org.apache.commons", name: "commons-math3", version: "3.6.1"

@@ -115,7 +115,10 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                     }
                 });
             }
-            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
+            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
+                stackInSlot.shrink(1);
+                return;
+            }
             getLevel().getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
                 if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
                     handler.enlarge();
@@ -233,7 +236,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return canProcess(stack) && super.isItemValid(slot, stack);
+            return (canProcess(stack) || stack.is(ATBlocks.CREATE_SHREDDER.asItem())) && super.isItemValid(slot, stack);
         }
 
         @Override
