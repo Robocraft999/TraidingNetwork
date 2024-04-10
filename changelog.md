@@ -1,3 +1,1 @@
-- added some Create: Vintage Improvements support
-- fixed problem with creategoggles
-- renamed to amazing trading
+- fixed rendering issues when using shader and/or not instancing in flywheel backend

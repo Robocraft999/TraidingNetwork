@@ -28,23 +28,18 @@ public class ShopRenderer extends KineticBlockEntityRenderer<ShopBlockEntity> {
     protected void renderSafe(ShopBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         BlockState blockState = be.getBlockState();
         VertexConsumer vb = buffer.getBuffer(RenderType.solid());
+        Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
         if (!Backend.canUseInstancing(be.getLevel())) {
-            Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
-
             SuperByteBuffer superBuffer = CachedBufferer.partial(AllPartialModels.SHAFTLESS_COGWHEEL, blockState);
             standardKineticRotationTransform(superBuffer, be, light);
             superBuffer.rotateCentered(Direction.UP, (float) (facing
                     .getAxis() != Direction.Axis.X ? 0 : Math.PI / 2));
             superBuffer.rotateCentered(Direction.EAST, (float) (Math.PI / 2));
             superBuffer.renderInto(ms, vb);
-
-            SuperByteBuffer superShaftBuffer = CachedBufferer.partial(AllPartialModels.SHAFT_HALF, blockState);
-            standardKineticRotationTransform(superShaftBuffer, be, light);
-            superShaftBuffer.rotateCentered(facing, (float) (facing
-                    .getAxis() != Direction.Axis.X ? 0 : Math.PI / 2));
-            superShaftBuffer.rotateCentered(Direction.EAST, (float) (Math.PI / 2));
-            superShaftBuffer.renderInto(ms, vb);
         }
+
+        SuperByteBuffer superShaftBuffer = CachedBufferer.partialFacing(AllPartialModels.SHAFT_HALF, blockState, facing.getOpposite());
+        renderRotatingBuffer(be, superShaftBuffer, ms, vb, light);
     }
 }
