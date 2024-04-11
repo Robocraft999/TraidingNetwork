@@ -9,13 +9,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 
 @Mod.EventBusSubscriber(modid = AmazingTrading.MODID)
 public class PlayerEvents {
@@ -96,13 +93,5 @@ public class PlayerEvents {
         player.getCapability(ATCapabilities.SHOP_SETTINGS_CAPABILITY).ifPresent(shop -> {
             AmazingTrading.LOGGER.debug("autofocus: "+shop.getAutoFocus() + " sort: " + shop.getSort() + " downwards: " + shop.isDownwards());
         });
-    }
-
-    @SubscribeEvent
-    public static void onConstruct(EntityEvent.EntityConstructing evt) {
-        if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER // No world to check yet
-                && evt.getEntity() instanceof Player && !(evt.getEntity() instanceof FakePlayer)) {
-            AmazingTrading.LOGGER.debug("Clearing offline data cache in preparation to load online data");
-        }
     }
 }

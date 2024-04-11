@@ -2,8 +2,8 @@ package com.robocraft999.amazingtrading.resourcepoints.mapper;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.mojang.logging.LogUtils;
-import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.AmazingTrading;
+import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.api.ItemInfo;
 import com.robocraft999.amazingtrading.api.capabilities.impl.ResourceItemProviderImpl;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
@@ -123,7 +123,7 @@ public class RPMappingHandler {
 
             graphMapperValues = valueGenerator.generateValues();
             AmazingTrading.LOGGER.debug("Generated Values...");
-            AmazingTrading.LOGGER.info("raw values: " + graphMapperValues.size() + " :" + graphMapperValues);
+            //AmazingTrading.LOGGER.debug("raw values: " + graphMapperValues.size() + " :" + graphMapperValues);
 
             filterRPMap(graphMapperValues);
 
@@ -138,7 +138,7 @@ public class RPMappingHandler {
             }
         }
 
-        AmazingTrading.LOGGER.info("mappings: " + graphMapperValues.size() + " :" + graphMapperValues);
+        //AmazingTrading.LOGGER.debug("mappings: " + graphMapperValues.size() + " :" + graphMapperValues);
 
         for (Map.Entry<NormalizedSimpleStack, Long> entry : graphMapperValues.entrySet()) {
             NSSItem normStackItem = (NSSItem) entry.getKey();

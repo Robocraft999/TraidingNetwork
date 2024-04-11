@@ -123,7 +123,7 @@ public class CustomConversionMapper implements IRPMapper<NormalizedSimpleStack, 
                 nssTag.forEachElement(normalizedSimpleStack -> mapper.setValueFromConversion(conversion.count, normalizedSimpleStack, conversion.ingredients));
             }
             mapper.setValueFromConversion(conversion.count, out, conversion.ingredients);
-            AmazingTrading.LOGGER.debug("CCM: Value from Conversion of {}*{} ->{}", conversion.count, conversion.ingredients, out);
+            //AmazingTrading.LOGGER.debug("CCM: Value from Conversion of {}*{} ->{}", conversion.count, conversion.ingredients, out);
         }
     }
 
