@@ -51,17 +51,17 @@ public class ItemSlotNetwork {
 
             //final float scale = 0.85F;
             boolean p = (Screen.hasShiftDown() && amount.length() > 3) || amount.length() > 4;
-            p = amount.length() > 4;
+            p = amount.length() > 3;
             float scale = Mth.lerp(p ? -0.08F*(amount.length()-1)+1 : 1, 0.45F, 0.85F);
-            scale = p ? 0.75F : 0.85F;
+            scale = p ? 0.65F : 0.85F;
             //AmazingTrading.LOGGER.info(""+scale);
             float offset = Mth.lerp(p ? -0.2F*(amount.length()-1)+1 : 1, 3, 0);
             offset = p ? 2 : 0;
             PoseStack viewModelPose = RenderSystem.getModelViewStack();
             viewModelPose.pushPose();
             //viewModelPose.translate(x + 3 + offset, y + 3 + 1.5*offset, 0);
-            viewModelPose.translate(x + 3 + offset, y + 3 + 0.8*offset, 0);
-            viewModelPose.scale(scale, scale, scale);
+            viewModelPose.translate(x + 3 + offset, y + 3 + 1.5*offset, 0);
+            viewModelPose.scale(scale, scale, 1);
             viewModelPose.translate(-1 * x, -1 * y, 0);
             RenderSystem.applyModelViewMatrix();
             if (isShowNumbers() && size > 1) {
