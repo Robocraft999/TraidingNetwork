@@ -12,7 +12,9 @@ import java.util.function.Supplier;
 public class ResourcePointHelper {
 
     public static long getRPBuyCost(ItemStack stack){
-        return stack.isEmpty() ? 0 : (long) (getRPValue(ItemInfo.fromStack(stack)) * Config.ITEM_BUY_COST_INCREASE_FACTOR.get());
+        if (stack.isEmpty()) return 0;
+        long value = getRPValue(ItemInfo.fromStack(stack));
+        return value > 0 ? (long) (value * Config.ITEM_BUY_COST_INCREASE_FACTOR.get()) : 1;
     }
 
     public static long getRPValue(@NotNull ItemInfo info) {
