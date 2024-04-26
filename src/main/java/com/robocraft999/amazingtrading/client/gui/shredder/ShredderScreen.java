@@ -47,7 +47,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
 
         BigInteger pointAmount = inv.provider.getPoints();
         //TODO add translation
-        Component points = Component.literal("Points: " + pointAmount.toString());
+        Component points = Component.literal("Your Points: " + pointAmount.toString());
         UIHelper.drawCenteredString(graphics, font, points, 88, 31, 0xE4B763, false);
 
         Level level = menu.getLevel();
