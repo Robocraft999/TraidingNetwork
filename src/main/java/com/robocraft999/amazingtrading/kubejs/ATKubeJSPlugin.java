@@ -1,6 +1,5 @@
 package com.robocraft999.amazingtrading.kubejs;
 
-import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.event.EventGroup;
@@ -19,7 +18,6 @@ public class ATKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void registerEvents() {
         GROUP.register();
-        AmazingTrading.LOGGER.error("TTT");
     }
 
     public static void onServerReload(TagsUpdatedEvent event){
