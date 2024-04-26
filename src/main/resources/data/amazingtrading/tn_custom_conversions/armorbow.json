@@ -1,0 +1,15 @@
+{
+  "comment": "Default values for vanilla armor and bows.",
+  "groups": {
+  },
+  "values": {
+    "before": {
+      "#forge:armors/helmets": "free",
+      "#forge:armors/chestplates": "free",
+      "#forge:armors/leggings": "free",
+      "#forge:armors/boots": "free",
+      "minecraft:bow": "free",
+      "minecraft:crossbow": "free"
+    }
+  }
+}

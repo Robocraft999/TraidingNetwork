@@ -1,6 +1,7 @@
 package com.robocraft999.amazingtrading;
 
 import com.mojang.logging.LogUtils;
+import com.robocraft999.amazingtrading.kubejs.ATKubeJSPlugin;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.registry.*;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.CustomRPParser;
@@ -27,9 +28,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -84,6 +87,9 @@ public class AmazingTrading {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::addReloadListeners);
         MinecraftForge.EVENT_BUS.addListener(this::tagsUpdated);
+        if (ModList.get().isLoaded("kubejs")){
+            MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, (TagsUpdatedEvent event) -> ATKubeJSPlugin.onServerReload(event));
+        }
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
