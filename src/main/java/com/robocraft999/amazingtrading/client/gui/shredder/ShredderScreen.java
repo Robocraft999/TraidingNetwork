@@ -52,9 +52,17 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
                     .map(handler -> handler.getStackInSlot(0))
                     .orElse(ItemStack.EMPTY);
             if (!stackInSlot.isEmpty()) {
-                // Adjust the position as needed
+                // Render the text above the item
+                Component shreddingText = Component.literal("now being shredded").withStyle(ChatFormatting.GRAY);
+                graphics.drawString(this.font, shreddingText, x + 152, y + 22, 0xFFFFFF, false);
+
+                // Render the item and its count
                 graphics.renderItem(stackInSlot, x + 152, y + 32);
-                graphics.renderItemDecorations(this.font, stackInSlot, x + 120, y + 20); // Render item count
+                graphics.renderItemDecorations(this.font, stackInSlot, x + 152, y + 32); // Render item count
+            } else {
+                // Render the text indicating nothing is being shredded
+                Component noShreddingText = Component.literal("Nothing is being shredded").withStyle(ChatFormatting.GRAY);
+                graphics.drawString(this.font, noShreddingText, x + 152, y + 22, 0xFFFFFF, false);
             }
         }
     }
