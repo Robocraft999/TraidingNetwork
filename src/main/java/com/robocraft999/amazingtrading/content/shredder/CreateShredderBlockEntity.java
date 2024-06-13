@@ -167,8 +167,12 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     public void write(CompoundTag compound, boolean clientPacket) {
         compound.putInt("Timer", timer);
         compound.put("InputInventory", inputInv.serializeNBT());
-        compound.putUUID("ownerID", getOwnerId());
-        compound.putString("ownerName", cachedOwnerName);
+        if (ownerId != null) {
+            compound.putUUID("ownerID", ownerId);
+        }
+        if (cachedOwnerName != null) {
+            compound.putString("ownerName", cachedOwnerName);
+        }
         super.write(compound, clientPacket);
     }
 
@@ -176,7 +180,9 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     protected void read(CompoundTag compound, boolean clientPacket) {
         timer = compound.getInt("Timer");
         inputInv.deserializeNBT(compound.getCompound("InputInventory"));
-        setOwner(compound.getUUID("ownerID"));
+        if (compound.hasUUID("ownerID")) {
+            setOwner(compound.getUUID("ownerID"));
+        }
         cachedOwnerName = compound.getString("ownerName");
         super.read(compound, clientPacket);
     }
