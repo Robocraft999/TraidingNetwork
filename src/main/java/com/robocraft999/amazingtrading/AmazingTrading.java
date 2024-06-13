@@ -73,6 +73,7 @@ public class AmazingTrading {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::imcQueue);
+        modEventBus.addListener(this::clientSetup);
         REGISTRATE.registerEventListeners(modEventBus);
 
         ATBlocks.register();
@@ -101,6 +102,12 @@ public class AmazingTrading {
 
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
+    }
+
+    private void clientSetup(final FMLClientSetupEvent event) {
+        // Set render layers for blocks
+        ItemBlockRenderTypes.setRenderLayer(ATBlocks.CREATE_SHREDDER.get(), RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(ATBlocks.SHOP.get(), RenderType.cutoutMipped());
     }
 
     public static ResourceLocation rl(String name){
@@ -153,10 +160,6 @@ public class AmazingTrading {
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
-            RenderType cutout = RenderType.cutoutMipped();
-
-            ItemBlockRenderTypes.setRenderLayer(ATBlocks.CREATE_SHREDDER.get(), cutout);
-            ItemBlockRenderTypes.setRenderLayer(ATBlocks.SHOP.get(), cutout);
         }
     }
 }

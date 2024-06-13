@@ -16,7 +16,7 @@ import static com.simibubi.create.foundation.data.TagGen.axeOnly;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class ATBlocks {
-    public static final BlockEntry<? extends CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
+    public static final BlockEntry<CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))
@@ -27,7 +27,7 @@ public class ATBlocks {
             .transform(customItemModel())
             .register();
 
-    public static final BlockEntry<? extends ShopBlock> SHOP = REGISTRATE
+    public static final BlockEntry<ShopBlock> SHOP = REGISTRATE
             .block("shop", ShopBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.noOcclusion().mapColor(MapColor.METAL))
@@ -39,7 +39,9 @@ public class ATBlocks {
             .register();
 
     public static void register() {
-        // Set the render layer for the SHOP block
+        // This method can be used to trigger class loading and ensure static initializers run
+        /* Set the render layer for the SHOP block
         ItemBlockRenderTypes.setRenderLayer(SHOP.get(), RenderType.cutoutMipped());
+        */
     }
 }
