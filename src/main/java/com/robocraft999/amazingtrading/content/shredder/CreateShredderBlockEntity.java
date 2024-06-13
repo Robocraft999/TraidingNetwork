@@ -26,6 +26,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -195,9 +196,14 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     @Override
     public void setOwner(UUID ownerId) {
         this.ownerId = ownerId;
-        if (getLevel() != null && !getLevel().isClientSide){
-            this.cachedOwnerName = getLevel().getServer().getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
-            PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+        if (getLevel() != null && !getLevel().isClientSide) {
+            MinecraftServer server = getLevel().getServer();
+            if (server != null) {
+                this.cachedOwnerName = server.getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
+                PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+            } else {
+                AmazingTrading.LOGGER.warn("Server is null while setting owner for CreateShredderBlockEntity at position {}", getBlockPos());
+            }
         }
     }
 
