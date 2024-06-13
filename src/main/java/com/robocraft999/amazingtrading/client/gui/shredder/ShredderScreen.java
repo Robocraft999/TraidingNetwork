@@ -54,7 +54,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
             if (!stackInSlot.isEmpty()) {
                 // Render the text above the item
                 Component shreddingText = Component.literal("now being shredded").withStyle(ChatFormatting.GRAY);
-                graphics.drawString(this.font, shreddingText, x + 152, y + 22, 0xFFFFFF, false);
+                drawScaledString(graphics, shreddingText, x + 88, y + 22, 0xFFFFFF, 0.5f);
 
                 // Render the item and its count
                 graphics.renderItem(stackInSlot, x + 152, y + 32);
@@ -62,9 +62,17 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
             } else {
                 // Render the text indicating nothing is being shredded
                 Component noShreddingText = Component.literal("Nothing is being shredded").withStyle(ChatFormatting.GRAY);
-                graphics.drawString(this.font, noShreddingText, x + 152, y + 22, 0xFFFFFF, false);
+                drawScaledString(graphics, noShreddingText, x + 88, y + 22, 0xFFFFFF, 0.5f);
             }
         }
+    }
+
+    private void drawScaledString(@NotNull GuiGraphics graphics, Component text, int x, int y, int color, float scale) {
+        graphics.pose().pushPose();
+        graphics.pose().translate(x, y, 0);
+        graphics.pose().scale(scale, scale, 1.0f);
+        graphics.drawString(this.font, text, 0, 0, color, false);
+        graphics.pose().popPose();
     }
 
     @Override
@@ -82,7 +90,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         BigInteger pointAmount = inv.provider.getPoints();
         // TODO: Add translation
         Component points = Component.literal("Your Points: " + pointAmount.toString());
-        UIHelper.drawCenteredString(graphics, font, points, 88, 31, 0xE4B763, false);
+        graphics.drawString(this.font, points, 8, 31, 0xE4B763, false);
 
         Level level = menu.getLevel();
         if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
