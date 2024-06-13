@@ -96,7 +96,6 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     private void process() {
         if(getLevel() == null) return;
 
-
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
 
@@ -182,6 +181,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         inputInv.deserializeNBT(compound.getCompound("InputInventory"));
         if (compound.hasUUID("ownerID")) {
             setOwner(compound.getUUID("ownerID"));
+        } else {
+            ownerId = null;
         }
         cachedOwnerName = compound.getString("ownerName");
         super.read(compound, clientPacket);
@@ -226,7 +227,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     }
 
     public boolean canProcess(ItemStack stack) {
-        return ResourcePointHelper.doesItemHaveRP(stack);
+        //return ResourcePointHelper.doesItemHaveRP(stack); Old Check
+        return true;
     }
 
     @Override
@@ -248,13 +250,13 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return (canProcess(stack) || stack.is(ATBlocks.CREATE_SHREDDER.asItem())) && super.isItemValid(slot, stack);
+            // Allow all items to be inserted, regardless of their value
+            return true;
         }
 
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!isItemValid(slot, stack))
-                return stack;
+            // Allow all items to be inserted, regardless of their value
             return super.insertItem(slot, stack, simulate);
         }
 
@@ -264,6 +266,5 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                 return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
-
     }
 }
