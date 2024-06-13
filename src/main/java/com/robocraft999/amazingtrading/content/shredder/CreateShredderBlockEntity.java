@@ -46,6 +46,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class CreateShredderBlockEntity extends KineticBlockEntity implements IOwnedBlockEntity, MenuProvider {
@@ -54,6 +55,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     private ItemStackHandler inputInv;
     public int timer;
     private LazyOptional<IItemHandler> capability;
+    private static final Random RANDOM = new Random();
 
     public CreateShredderBlockEntity(BlockEntityType<? extends CreateShredderBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -107,9 +109,16 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                         if (!cap.isSecretEnabled()) {
                             cap.enableSecret();
                         }
-                    } else{
-                        AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
-                        cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
+                    } else {
+                        long rpValue = ResourcePointHelper.getRPSellValue(stackInSlot);
+                        if (rpValue == 0) {
+                            // 50% chance to get 1 resource point
+                            if (RANDOM.nextBoolean()) {
+                                rpValue = 1;
+                            }
+                        }
+                        AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + rpValue);
+                        cap.setPoints(cap.getPoints().add(BigInteger.valueOf(rpValue)));
                         cap.syncPoints(player);
                         PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
                     }
@@ -228,6 +237,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
     public boolean canProcess(ItemStack stack) {
         //return ResourcePointHelper.doesItemHaveRP(stack); Old Check
+        // Allow all items to be processed
         return true;
     }
 
