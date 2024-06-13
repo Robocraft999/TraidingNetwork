@@ -54,7 +54,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
             if (!stackInSlot.isEmpty()) {
                 // Render the text above the item
                 Component shreddingText = Component.literal("now being shredded").withStyle(ChatFormatting.GRAY);
-                drawScaledString(graphics, shreddingText, x + 88, y + 22, 0xFFFFFF, 0.5f);
+                drawScaledString(graphics, shreddingText, x + 108, y + 22, 0xFFFFFF, 0.5f);
 
                 // Render the item and its count
                 graphics.renderItem(stackInSlot, x + 152, y + 32);
@@ -62,7 +62,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
             } else {
                 // Render the text indicating nothing is being shredded
                 Component noShreddingText = Component.literal("Nothing is being shredded").withStyle(ChatFormatting.GRAY);
-                drawScaledString(graphics, noShreddingText, x + 88, y + 22, 0xFFFFFF, 0.5f);
+                drawScaledString(graphics, noShreddingText, x + 98, y + 22, 0xFFFFFF, 0.5f);
             }
         }
     }
@@ -90,7 +90,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         BigInteger pointAmount = inv.provider.getPoints();
         // TODO: Add translation
         Component points = Component.literal("Your Points: " + pointAmount.toString());
-        graphics.drawString(this.font, points, 8, 31, 0xE4B763, false);
+        graphics.drawString(this.font, points, 8, 30, 0xE4B763, false);
 
         Level level = menu.getLevel();
         if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
