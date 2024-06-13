@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.material.MapColor;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
@@ -33,10 +34,12 @@ public class ATBlocks {
             .transform(axeOnly())
             .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
             .transform(BlockStressDefaults.setImpact(16))
-            .addLayer(() -> RenderType::cutoutMipped)
             .item()
             .transform(customItemModel())
             .register();
 
-    public static void register(){}
+    public static void register() {
+        // Set the render layer for the SHOP block
+        ItemBlockRenderTypes.setRenderLayer(SHOP.get(), RenderType.cutoutMipped());
+    }
 }
