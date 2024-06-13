@@ -26,7 +26,7 @@ public class ShredderMenu extends ATContainerMenu {
     }
 
     protected void initSlots(){
-        //this.addSlot(new SlotInput(shredderInventory, 0, 43, 23));
+        this.addSlot(new SlotInput(shredderInventory, 0, 203, 20));
         //this.addSlot(new SlotConsume(shredderInventory, 9, 107, 97));
         addPlayerInventory(8, 51);
     }
