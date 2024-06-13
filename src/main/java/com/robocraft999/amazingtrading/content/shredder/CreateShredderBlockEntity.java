@@ -29,12 +29,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -75,6 +77,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         if (!isSpeedRequirementFulfilled())
             return;
+
+        suckItems();
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (stackInSlot.isEmpty())
@@ -141,6 +145,25 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         inputInv.setStackInSlot(0, stackInSlot);
         sendData();
         setChanged();
+    }
+
+    private void suckItems() {
+        if (inputInv.getStackInSlot(0).isEmpty()) {
+            AABB area = new AABB(worldPosition).inflate(2, 2, 2);
+            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
+            for (ItemEntity itemEntity : items) {
+                ItemStack stack = itemEntity.getItem();
+                ItemStack remaining = ItemHandlerHelper.insertItem(inputInv, stack, false);
+                if (remaining.isEmpty()) {
+                    itemEntity.discard();
+                } else {
+                    itemEntity.setItem(remaining);
+                }
+                if (!inputInv.getStackInSlot(0).isEmpty()) {
+                    break;
+                }
+            }
+        }
     }
 
     public void spawnParticles() {
