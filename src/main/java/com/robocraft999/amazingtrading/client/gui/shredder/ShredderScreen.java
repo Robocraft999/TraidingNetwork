@@ -54,6 +54,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
             if (!stackInSlot.isEmpty()) {
                 // Adjust the position as needed
                 graphics.renderItem(stackInSlot, x + 152, y + 32);
+                graphics.renderItemDecorations(this.font, stackInSlot, x + 120, y + 20); // Render item count
             }
         }
     }
