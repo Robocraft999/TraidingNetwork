@@ -149,7 +149,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
     private void suckItems() {
         if (inputInv.getStackInSlot(0).isEmpty()) {
-            AABB area = new AABB(worldPosition).inflate(0.5, 1, 0.5);
+            AABB area = new AABB(worldPosition).inflate(0.1, 1, 0.1);
             List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
             for (ItemEntity itemEntity : items) {
                 ItemStack stack = itemEntity.getItem();
