@@ -4,10 +4,7 @@
   },
   "values": {
     "before": {
-      "#forge:armors/helmets": "free",
-      "#forge:armors/chestplates": "free",
-      "#forge:armors/leggings": "free",
-      "#forge:armors/boots": "free",
+      "#forge:armors": "free",
       "minecraft:bow": "free",
       "minecraft:crossbow": "free"
     }
