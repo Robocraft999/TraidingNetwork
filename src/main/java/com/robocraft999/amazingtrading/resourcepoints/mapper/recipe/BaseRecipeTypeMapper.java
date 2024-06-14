@@ -4,9 +4,11 @@ import com.mojang.logging.LogUtils;
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.resourcepoints.IngredientMap;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.collector.IMappingCollector;
+import com.robocraft999.amazingtrading.resourcepoints.nss.NSSFluid;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NSSItem;
 import com.robocraft999.amazingtrading.resourcepoints.nss.NormalizedSimpleStack;
 import com.robocraft999.amazingtrading.utils.ItemHelper;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
@@ -14,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -36,92 +39,23 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
     }
 
     public boolean handleRecipeTyped(IMappingCollector<NormalizedSimpleStack, Long> mapper, R recipe, RegistryAccess registryAccess, INSSFakeGroupManager fakeGroupManager) {
-        ItemStack recipeOutput = recipe.getResultItem(registryAccess);
-        if (recipeOutput.isEmpty()) {
-            //If there is no output (for example a special recipe), don't mark it that we handled it
+        //Outputs
+        ItemStack result = recipe.getResultItem(registryAccess);
+
+        if (result.isEmpty()) {
+            AmazingTrading.LOGGER.debug("Recipe ({}) contains no outputs: {}", recipe.getId(), result);
             return false;
         }
-        Collection<Ingredient> ingredientsChecked = getIngredientsChecked(recipe);
-        if (ingredientsChecked == null) {
-            //Failed to get matching ingredients, bail but mark that we handled it as there is a 99% chance a later
-            // mapper would fail as well due to it being an invalid recipe
-            return true;
+        NSSOutput bundledOutput = mapOutputs(mapper, recipe, fakeGroupManager, result);
+
+        //Inputs
+        NSSInput bundledInput = getInput(recipe, fakeGroupManager);
+        if (bundledInput == null || !bundledInput.successful()){
+            return addConversionsAndReturn(mapper, bundledInput != null ? bundledInput.fakeGroupMap() : null, true);
         }
-        ResourceLocation recipeID = recipe.getId();
-        List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> dummyGroupInfos = new ArrayList<>();
-        IngredientMap<NormalizedSimpleStack> ingredientMap = new IngredientMap<>();
-        for (Ingredient recipeItem : ingredientsChecked) {
-            ItemStack[] matches = getMatchingStacks(recipeItem, recipeID);
-            if (matches == null) {
-                //Failed to get matching stacks ingredient, bail but mark that we handled it as there is a 99% chance a later
-                // mapper would fail as well due to it being an invalid recipe
-                return addConversionsAndReturn(mapper, dummyGroupInfos, true);
-            } else if (matches.length == 1) {
-                //Handle this ingredient as a direct representation of the stack it represents
-                if (matches[0].isEmpty()) {
-                    //If we don't have any matches for the ingredient just return that we couldn't handle it,
-                    // given a later recipe might be able to
-                    return addConversionsAndReturn(mapper, dummyGroupInfos, false);
-                } else if (addIngredient(ingredientMap, matches[0].copy(), recipeID)) {
-                    //Failed to add ingredient, bail but mark that we handled it as there is a 99% chance a later
-                    // mapper would fail as well due to it being an invalid recipe
-                    return addConversionsAndReturn(mapper, dummyGroupInfos, true);
-                }
-            } else if (matches.length > 0) {
-                Set<NormalizedSimpleStack> rawNSSMatches = new HashSet<>();
-                List<ItemStack> stacks = new ArrayList<>();
-                for (ItemStack match : matches) {
-                    if (!match.isEmpty()) {
-                        //Validate it is not an empty stack in case mods do weird things in custom ingredients
-                        rawNSSMatches.add(NSSItem.createItem(match));
-                        stacks.add(match);
-                    }
-                }
-                int count = stacks.size();
-                if (count == 0) {
-                    //If we don't have any matches for the ingredient just return that we couldn't handle it,
-                    // given a later recipe might be able to
-                    return addConversionsAndReturn(mapper, dummyGroupInfos, false);
-                } else if (count == 1) {
-                    //There is only actually one non-empty ingredient
-                    if (addIngredient(ingredientMap, stacks.get(0).copy(), recipeID)) {
-                        //Failed to add ingredient, bail but mark that we handled it as there is a 99% chance a later
-                        // mapper would fail as well due to it being an invalid recipe
-                        return addConversionsAndReturn(mapper, dummyGroupInfos, true);
-                    }
-                } else {
-                    //Handle this ingredient as the representation of all the stacks it supports
-                    Tuple<NormalizedSimpleStack, Boolean> group = fakeGroupManager.getOrCreateFakeGroup(rawNSSMatches);
-                    NormalizedSimpleStack dummy = group.getA();
-                    ingredientMap.addIngredient(dummy, 1);
-                    if (group.getB()) {
-                        //Only lookup the matching stacks for the group with conversion if we don't already have
-                        // a group created for this dummy ingredient
-                        // Note: We soft ignore cases where it fails/there are no matching group ingredients
-                        // as then our fake ingredient will never actually have an rp value assigned with it
-                        // so the recipe won't either
-                        List<IngredientMap<NormalizedSimpleStack>> groupIngredientMaps = new ArrayList<>();
-                        for (ItemStack stack : stacks) {
-                            IngredientMap<NormalizedSimpleStack> groupIngredientMap = new IngredientMap<>();
-                            //Copy the stack to ensure a mod that is implemented poorly doesn't end up changing
-                            // the source stack in the recipe
-                            if (addIngredient(groupIngredientMap, stack.copy(), recipeID)) {
-                                //Failed to add ingredient, bail but mark that we handled it as there is a 99% chance a later
-                                // mapper would fail as well due to it being an invalid recipe
-                                return addConversionsAndReturn(mapper, dummyGroupInfos, true);
-                            }
-                            groupIngredientMaps.add(groupIngredientMap);
-                        }
-                        dummyGroupInfos.add(new Tuple<>(dummy, groupIngredientMaps));
-                    }
-                }
-            }
-        }
-        /*AmazingTrading.LOGGER.debug("Recipe ({}) contains following inputs: (Ingredients: {}) and output: ({})", recipe.getId(),
-                ingredientMap.getMap().keySet().stream().map(NormalizedSimpleStack::toString).toList(), recipeOutput);*/
-        //AmazingTrading.LOGGER.debug("T {} {} {}", recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
-        mapper.addConversion(recipeOutput.getCount(), NSSItem.createItem(recipeOutput), ingredientMap.getMap());
-        return addConversionsAndReturn(mapper, dummyGroupInfos, true);
+
+        mapper.addConversion(bundledOutput.amount(), bundledOutput.nss(), bundledInput.ingredientMap().getMap());
+        return addConversionsAndReturn(mapper, bundledInput.fakeGroupMap(), true);
     }
 
     public record NSSOutput(int amount, NormalizedSimpleStack nss){}
@@ -144,6 +78,11 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
 
                 outputStacks.put(NSSItem.createItem(item), item.getCount());
                 totalOutputs += item.getCount();
+            } else if (output instanceof FluidStack fluid) {
+                if (fluid.isEmpty()) continue;
+
+                outputStacks.put(NSSFluid.createFluid(fluid), fluid.getAmount());
+                totalOutputs += fluid.getAmount();
             } else {
                 AmazingTrading.LOGGER.warn("Recipe ({}) has unsupported output: {}. Skipping...", recipe.getId(), output);
             }
@@ -161,6 +100,26 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
     public record NSSInput(IngredientMap<NormalizedSimpleStack> ingredientMap,
                            List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> fakeGroupMap,
                            boolean successful){}
+
+    protected NSSInput getInput(R recipe, INSSFakeGroupManager fakeGroupManager){
+        Collection<Ingredient> ingredients = getIngredientsChecked(recipe);
+
+        if (ingredients.isEmpty()) {
+            AmazingTrading.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
+            return null;
+        }
+
+        // A 'Map' of NormalizedSimpleStack and List<IngredientMap>
+        List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> fakeGroupMap = new ArrayList<>();
+        IngredientMap<NormalizedSimpleStack> ingredientMap = new IngredientMap<>();
+
+        for (Ingredient ingredient : ingredients) {
+            if (!convertIngredient(-1, ingredient, ingredientMap, fakeGroupMap, fakeGroupManager, recipe.getId())) {
+                return new NSSInput(ingredientMap, fakeGroupMap, false);
+            }
+        }
+        return new NSSInput(ingredientMap, fakeGroupMap, true);
+    }
 
     /**
      * @param dummy
@@ -339,6 +298,55 @@ public abstract class BaseRecipeTypeMapper<R extends Recipe<?>> implements IReci
     //Allow overwriting the ingredients list because Smithing recipes don't override it themselves
     protected Collection<Ingredient> getIngredients(R recipe) {
         return recipe.getIngredients();
+    }
+
+    protected void bundleInputWithFluids(IngredientMap<NormalizedSimpleStack> ingredientMap, List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> fakeGroupMap , INSSFakeGroupManager fakeGroupManager, List<FluidIngredient> fluidIngredients){
+        for (FluidIngredient fluidIngredient : fluidIngredients) {
+            final int amount = fluidIngredient.getRequiredAmount();
+            List<FluidStack> matches = fluidIngredient.getMatchingFluidStacks();
+            if (matches.isEmpty()) {
+                continue;
+            }
+
+            if (matches.size() == 1) {
+                ingredientMap.addIngredient(NSSFluid.createFluid(matches.get(0)), amount);
+            } else {
+                Set<NormalizedSimpleStack> rawNSSMatches = new HashSet<>();
+                List<FluidStack> stacks = new ArrayList<>();
+
+                for (FluidStack match : matches) {
+                    //Validate it is not an empty stack in case mods do weird things in custom ingredients
+                    if (!match.isEmpty()) {
+                        rawNSSMatches.add(NSSFluid.createFluid(match));
+                        stacks.add(match);
+                    }
+                }
+
+                int count = stacks.size();
+                if (count == 1) {
+                    ingredientMap.addIngredient(NSSFluid.createFluid(stacks.get(0)), amount);
+                } else if (count > 1) {
+                    //Handle this ingredient as the representation of all the stacks it supports
+                    Tuple<NormalizedSimpleStack, Boolean> group = fakeGroupManager.getOrCreateFakeGroup(rawNSSMatches);
+                    NormalizedSimpleStack dummy = group.getA();
+                    ingredientMap.addIngredient(dummy, Math.max(amount, 1));
+                    if (group.getB()) {
+                        //Only lookup the matching stacks for the group with conversion if we don't already have
+                        // a group created for this dummy ingredient
+                        // Note: We soft ignore cases where it fails/there are no matching group ingredients
+                        // as then our fake ingredient will never actually have an emc value assigned with it
+                        // so the recipe won't either
+                        List<IngredientMap<NormalizedSimpleStack>> groupIngredientMaps = new ArrayList<>();
+                        for (FluidStack stack : stacks) {
+                            IngredientMap<NormalizedSimpleStack> groupIngredientMap = new IngredientMap<>();
+                            groupIngredientMap.addIngredient(NSSFluid.createFluid(stack), 1);
+                            groupIngredientMaps.add(groupIngredientMap);
+                        }
+                        fakeGroupMap.add(new Tuple<>(dummy, groupIngredientMaps));
+                    }
+                }
+            }
+        }
     }
 
     /**

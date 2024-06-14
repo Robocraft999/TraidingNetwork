@@ -8,6 +8,7 @@ import com.robocraft999.amazingtrading.resourcepoints.mapper.recipe.BaseRecipeTy
 import com.robocraft999.amazingtrading.resourcepoints.nss.NormalizedSimpleStack;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
+import com.simibubi.create.content.fluids.transfer.FillingRecipe;
 import com.simibubi.create.content.kinetics.crusher.CrushingRecipe;
 import com.simibubi.create.content.kinetics.deployer.DeployerApplicationRecipe;
 import com.simibubi.create.content.kinetics.deployer.ItemApplicationRecipe;
@@ -22,18 +23,22 @@ import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class CreateMapper {
+
     protected abstract static class CreateProcessingRecipeMapper<R extends ProcessingRecipe<?>> extends BaseRecipeTypeMapper<R> {
 
         @Override
@@ -47,6 +52,8 @@ public class CreateMapper {
             List<Object> outputs = new ArrayList<>();
             List<ItemStack> results = recipe.getRollableResults().stream().filter(pO -> pO.getChance() >= 1.0f).map(ProcessingOutput::getStack).toList();
             outputs.addAll(results);
+            outputs.addAll(recipe.getFluidResults());
+
             if (outputs.isEmpty()) {
                 AmazingTrading.LOGGER.debug("Recipe ({}) contains no outputs: {}", recipe.getId(), outputs);
                 return false;
@@ -63,9 +70,14 @@ public class CreateMapper {
             return addConversionsAndReturn(mapper, bundledInput.fakeGroupMap(), true);
         }
 
-        private NSSInput getInput(R recipe, INSSFakeGroupManager fakeGroupManager){
+        @Override
+        protected NSSInput getInput(R recipe, INSSFakeGroupManager fakeGroupManager){
             NonNullList<Ingredient> ingredients = recipe.getIngredients();
-            if (ingredients.isEmpty()) {
+
+            List<FluidIngredient> rawFluidIngredients = recipe.getFluidIngredients().stream().filter(s -> !s.test(new FluidStack(Fluids.WATER, 1))).toList();
+            NonNullList<FluidIngredient> fluidIngredients = NonNullList.of(FluidIngredient.EMPTY, rawFluidIngredients.toArray(new FluidIngredient[]{}));
+
+            if (ingredients.isEmpty() && fluidIngredients.isEmpty()) {
                 AmazingTrading.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
                 return null;
             }
@@ -82,6 +94,9 @@ public class CreateMapper {
                     return new NSSInput(ingredientMap, fakeGroupMap, false);
                 }
             }
+
+            bundleInputWithFluids(ingredientMap, fakeGroupMap, fakeGroupManager, fluidIngredients);
+
             return new NSSInput(ingredientMap, fakeGroupMap, true);
         }
 
@@ -149,6 +164,19 @@ public class CreateMapper {
         @Override
         public boolean canHandle(RecipeType<?> recipeType) {
             return recipeType == AllRecipeTypes.CUTTING.getType();
+        }
+    }
+
+    @RecipeTypeMapper(requiredMods = "create")
+    public static class CreateFillingMapper extends CreateProcessingRecipeMapper<FillingRecipe>{
+        @Override
+        public String getName() {
+            return "FillingMapper";
+        }
+
+        @Override
+        public boolean canHandle(RecipeType<?> recipeType) {
+            return recipeType == AllRecipeTypes.FILLING.getType();
         }
     }
 
@@ -289,20 +317,36 @@ public class CreateMapper {
 
         @Override
         protected Collection<Ingredient> getIngredients(SequencedAssemblyRecipe recipe) {
-            //List<Ingredient> ingredients = new ArrayList<>(recipe.getSequence().get(0).getRecipe().getIngredients());
-            //var ingredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).toList();
             var sequence_ingredients = recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1) : Ingredient.EMPTY).toList();
-            var ingreds = new ArrayList<>(sequence_ingredients);
-            ingreds.add(recipe.getIngredient());
-            ingreds.removeIf(Ingredient::isEmpty);
+            var ingredients = new ArrayList<>(sequence_ingredients);
+            ingredients.add(recipe.getIngredient());
+            ingredients.removeIf(Ingredient::isEmpty);
+            return ingredients;
+        }
 
-            var ingredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).toList();
-            //AmazingTrading.LOGGER.debug("ingredients: {}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().stream().map(Ingredient::getItems).toList()).toList());
-            //AmazingTrading.LOGGER.debug("ingredients2: {} i:{}", recipe.getSequence().stream().map(s->s.getRecipe().getIngredients().size() > 1 ? s.getRecipe().getIngredients().get(1).getItems() : Collections.emptyList()).toList(), recipe.getIngredient().getItems());
-            //AmazingTrading.LOGGER.debug("ingredients3: {}", ingreds.stream().map(Ingredient::getItems).toList());
-            //return recipe.getSequence().stream().flatMap(s -> s.getRecipe().getIngredients().stream()).reduce().toList();
-            return ingreds;
-            //return Collections.singletonList(recipe.getIngredient());
+        @Override
+        protected NSSInput getInput(SequencedAssemblyRecipe recipe, INSSFakeGroupManager fakeGroupManager) {
+            var ingredients = getIngredients(recipe);
+            List<FluidIngredient> fluidIngredients = recipe.getSequence().stream().flatMap(s -> s.getRecipe().getFluidIngredients().stream()).filter(s -> !s.test(new FluidStack(Fluids.WATER, 1))).toList();
+
+            if (ingredients.isEmpty() && fluidIngredients.isEmpty()) {
+                AmazingTrading.LOGGER.debug("Recipe ({}) contains no inputs: (Ingredients: {})", recipe.getId(), ingredients);
+                return null;
+            }
+
+            // A 'Map' of NormalizedSimpleStack and List<IngredientMap>
+            List<Tuple<NormalizedSimpleStack, List<IngredientMap<NormalizedSimpleStack>>>> fakeGroupMap = new ArrayList<>();
+            IngredientMap<NormalizedSimpleStack> ingredientMap = new IngredientMap<>();
+
+            for (Ingredient ingredient : ingredients) {
+                if (!convertIngredient(-1, ingredient, ingredientMap, fakeGroupMap, fakeGroupManager, recipe.getId())) {
+                    return new NSSInput(ingredientMap, fakeGroupMap, false);
+                }
+            }
+
+            bundleInputWithFluids(ingredientMap, fakeGroupMap, fakeGroupManager, fluidIngredients);
+
+            return new NSSInput(ingredientMap, fakeGroupMap, true);
         }
     }
 

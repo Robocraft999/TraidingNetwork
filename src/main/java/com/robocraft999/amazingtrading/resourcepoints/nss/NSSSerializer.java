@@ -35,7 +35,7 @@ public class NSSSerializer implements JsonSerializer<NormalizedSimpleStack>, Jso
         }
     };
 
-    /*public static final NSSCreator fluidCreator = fluidName -> {
+    public static final NSSCreator fluidCreator = fluidName -> {
         if (fluidName.startsWith("#")) {
             return NSSFluid.createTag(getResourceLocation(fluidName.substring(1), "fluid tag"));
         }
@@ -50,7 +50,7 @@ public class NSSSerializer implements JsonSerializer<NormalizedSimpleStack>, Jso
         } catch (CommandSyntaxException e) {
             throw new JsonParseException("Malformed NBT compound", e);
         }
-    };*/
+    };
 
     private static ResourceLocation getResourceLocation(String s, String type) throws JsonParseException {
         try {
@@ -92,10 +92,12 @@ public class NSSSerializer implements JsonSerializer<NormalizedSimpleStack>, Jso
     public static void init() {
         registerDefault("FAKE", fakeCreator);
         registerDefault("ITEM", itemCreator);
-        //registerDefault("FLUID", fluidCreator);
+        registerDefault("FLUID", fluidCreator);
+
         var creators = new HashMap<String, NSSCreator>();
         creators.put("FAKE", fakeCreator);
         creators.put("ITEM", itemCreator);
+        creators.put("FLUID", fluidCreator);
         INSTANCE.setCreators(creators);
     }
 
