@@ -1,0 +1,23 @@
+{
+  "comment": "Sets conversions for creategoggles because it has cycles which break the points.",
+  "values": {
+    "before": {
+    },
+    "conversion": [
+      {
+        "ingredients": {
+          "create_dd:chromatic_compound": 1,
+          "minecraft:torch": 10
+        },
+        "output": "create_dd:refined_radiance"
+      },
+      {
+        "ingredients": {
+          "create_dd:chromatic_compound": 1,
+          "FAKE|single_rp": 1000
+        },
+        "output": "create_dd:shadow_steel"
+      }
+    ]
+  }
+}
