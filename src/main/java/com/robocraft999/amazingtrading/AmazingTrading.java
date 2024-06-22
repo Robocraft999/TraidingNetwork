@@ -1,6 +1,7 @@
 package com.robocraft999.amazingtrading;
 
 import com.mojang.logging.LogUtils;
+import com.robocraft999.amazingtrading.commands.IncrementShopItemsCommand;
 import com.robocraft999.amazingtrading.kubejs.ATKubeJSPlugin;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.registry.*;
@@ -119,6 +120,9 @@ public class AmazingTrading {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+
+        // Register commands
+        IncrementShopItemsCommand.register(event.getServer().getCommands().getDispatcher());
     }
 
     private void imcQueue(InterModEnqueueEvent event){
