@@ -34,20 +34,25 @@ public class IncrementShopItemsCommand {
 
         AmazingTrading.LOGGER.debug("Executing amt increment command with amount: {}", amount);
 
-        ShopInventory shopInventory = new ShopInventory(player);
-        IItemHandlerModifiable itemHandler = (IItemHandlerModifiable) shopInventory.itemProvider.getSlotsHandler();
+        try {
+            ShopInventory shopInventory = new ShopInventory(player);
+            IItemHandlerModifiable itemHandler = (IItemHandlerModifiable) shopInventory.itemProvider.getSlotsHandler();
 
-        for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
-            ItemStack stack = itemHandler.getStackInSlot(slot);
-            if (!stack.isEmpty()) {
-                stack.grow(amount);
-                itemHandler.setStackInSlot(slot, stack);
+            for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+                ItemStack stack = itemHandler.getStackInSlot(slot);
+                if (!stack.isEmpty()) {
+                    stack.grow(amount);
+                    itemHandler.setStackInSlot(slot, stack);
+                }
             }
+
+            shopInventory.itemProvider.syncSlots((ServerPlayer) player, null, IResourceItemProvider.TargetUpdateType.ALL);
+
+            context.getSource().sendSuccess(() -> Component.literal("Incremented all items in the shop by " + amount), true);
+        } catch (Exception e) {
+            AmazingTrading.LOGGER.error("Error executing amt increment command", e);
+            context.getSource().sendFailure(Component.literal("An error occurred while executing the command: " + e.getMessage()));
         }
-
-        shopInventory.itemProvider.syncSlots((ServerPlayer) player, null, IResourceItemProvider.TargetUpdateType.ALL);
-
-        context.getSource().sendSuccess(() -> Component.literal("Incremented all items in the shop by " + amount), true);
 
         return 1;
     }
