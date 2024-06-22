@@ -26,14 +26,17 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -45,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 public class CreateShredderBlockEntity extends KineticBlockEntity implements IOwnedBlockEntity, MenuProvider {
@@ -53,6 +57,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     private ItemStackHandler inputInv;
     public int timer;
     private LazyOptional<IItemHandler> capability;
+    private static final Random RANDOM = new Random();
 
     public CreateShredderBlockEntity(BlockEntityType<? extends CreateShredderBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -72,6 +77,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         if (!isSpeedRequirementFulfilled())
             return;
+
+        suckItems();
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (stackInSlot.isEmpty())
@@ -95,7 +102,6 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     private void process() {
         if(getLevel() == null) return;
 
-
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
 
@@ -107,9 +113,16 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                         if (!cap.isSecretEnabled()) {
                             cap.enableSecret();
                         }
-                    } else{
-                        AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + ResourcePointHelper.getRPSellValue(stackInSlot));
-                        cap.setPoints(cap.getPoints().add(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stackInSlot))));
+                    } else {
+                        long rpValue = ResourcePointHelper.getRPSellValue(stackInSlot);
+                        if (rpValue == 0) {
+                            // 50% chance to get 1 resource point
+                            if (RANDOM.nextBoolean()) {
+                                rpValue = 1;
+                            }
+                        }
+                        AmazingTrading.LOGGER.debug("points: " + cap.getPoints() + " sellvalue: " + rpValue);
+                        cap.setPoints(cap.getPoints().add(BigInteger.valueOf(rpValue)));
                         cap.syncPoints(player);
                         PlayerHelper.updateScore(player, PlayerHelper.SCOREBOARD_RP, cap.getPoints());
                     }
@@ -132,6 +145,25 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         inputInv.setStackInSlot(0, stackInSlot);
         sendData();
         setChanged();
+    }
+
+    private void suckItems() {
+        if (inputInv.getStackInSlot(0).isEmpty()) {
+            AABB area = new AABB(worldPosition).inflate(0.1, 1, 0.1);
+            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
+            for (ItemEntity itemEntity : items) {
+                ItemStack stack = itemEntity.getItem();
+                ItemStack remaining = ItemHandlerHelper.insertItem(inputInv, stack, false);
+                if (remaining.isEmpty()) {
+                    itemEntity.discard();
+                } else {
+                    itemEntity.setItem(remaining);
+                }
+                if (!inputInv.getStackInSlot(0).isEmpty()) {
+                    break;
+                }
+            }
+        }
     }
 
     public void spawnParticles() {
@@ -166,8 +198,12 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     public void write(CompoundTag compound, boolean clientPacket) {
         compound.putInt("Timer", timer);
         compound.put("InputInventory", inputInv.serializeNBT());
-        compound.putUUID("ownerID", getOwnerId());
-        compound.putString("ownerName", cachedOwnerName);
+        if (ownerId != null) {
+            compound.putUUID("ownerID", ownerId);
+        }
+        if (cachedOwnerName != null) {
+            compound.putString("ownerName", cachedOwnerName);
+        }
         super.write(compound, clientPacket);
     }
 
@@ -175,7 +211,11 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     protected void read(CompoundTag compound, boolean clientPacket) {
         timer = compound.getInt("Timer");
         inputInv.deserializeNBT(compound.getCompound("InputInventory"));
-        setOwner(compound.getUUID("ownerID"));
+        if (compound.hasUUID("ownerID")) {
+            setOwner(compound.getUUID("ownerID"));
+        } else {
+            ownerId = null;
+        }
         cachedOwnerName = compound.getString("ownerName");
         super.read(compound, clientPacket);
     }
@@ -195,9 +235,14 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     @Override
     public void setOwner(UUID ownerId) {
         this.ownerId = ownerId;
-        if (getLevel() != null && !getLevel().isClientSide){
-            this.cachedOwnerName = getLevel().getServer().getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
-            PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+        if (getLevel() != null && !getLevel().isClientSide) {
+            MinecraftServer server = getLevel().getServer();
+            if (server != null) {
+                this.cachedOwnerName = server.getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
+                PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+            } else {
+                AmazingTrading.LOGGER.warn("Server is null while setting owner for CreateShredderBlockEntity at position {}", getBlockPos());
+            }
         }
     }
 
@@ -214,7 +259,9 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     }
 
     public boolean canProcess(ItemStack stack) {
-        return ResourcePointHelper.doesItemHaveRP(stack);
+        //return ResourcePointHelper.doesItemHaveRP(stack); Old Check
+        // Allow all items to be processed
+        return true;
     }
 
     @Override
@@ -236,13 +283,13 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return (canProcess(stack) || stack.is(ATBlocks.CREATE_SHREDDER.asItem())) && super.isItemValid(slot, stack);
+            // Allow all items to be inserted, regardless of their value
+            return true;
         }
 
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!isItemValid(slot, stack))
-                return stack;
+            // Allow all items to be inserted, regardless of their value
             return super.insertItem(slot, stack, simulate);
         }
 
@@ -252,6 +299,5 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                 return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
-
     }
 }

@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.material.MapColor;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
@@ -15,7 +16,7 @@ import static com.simibubi.create.foundation.data.TagGen.axeOnly;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class ATBlocks {
-    public static final BlockEntry<? extends CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
+    public static final BlockEntry<CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))
@@ -26,17 +27,21 @@ public class ATBlocks {
             .transform(customItemModel())
             .register();
 
-    public static final BlockEntry<? extends ShopBlock> SHOP = REGISTRATE
+    public static final BlockEntry<ShopBlock> SHOP = REGISTRATE
             .block("shop", ShopBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.noOcclusion().mapColor(MapColor.METAL))
             .transform(axeOnly())
             .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
             .transform(BlockStressDefaults.setImpact(16))
-            .addLayer(() -> RenderType::cutoutMipped)
             .item()
             .transform(customItemModel())
             .register();
 
-    public static void register(){}
+    public static void register() {
+        // This method can be used to trigger class loading and ensure static initializers run
+        /* Set the render layer for the SHOP block
+        ItemBlockRenderTypes.setRenderLayer(SHOP.get(), RenderType.cutoutMipped());
+        */
+    }
 }

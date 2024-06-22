@@ -7,9 +7,11 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 public class SlotConsume extends InventoryContainerSlot {
-    ShredderInventory inv;
+    private final ShredderInventory inv;
+    private final Random random = new Random();
 
     public SlotConsume(ShredderInventory inv, int index, int x, int y) {
         super(inv, index, x, y);
@@ -19,14 +21,21 @@ public class SlotConsume extends InventoryContainerSlot {
     @Override
     public void set(@NotNull ItemStack stack) {
         if (inv.isServer() && !stack.isEmpty()) {
-            //inv.handleKnowledge(stack);
-            inv.addResourcePoints(BigInteger.valueOf(ResourcePointHelper.getRPSellValue(stack)).multiply(BigInteger.valueOf(stack.getCount())));
+            long rpValue = ResourcePointHelper.getRPSellValue(stack);
+            if (rpValue == 0) {
+                // 50% chance to give 1 RP for items without RP value
+                if (random.nextBoolean()) {
+                    rpValue = 1;
+                }
+            }
+            inv.addResourcePoints(BigInteger.valueOf(rpValue).multiply(BigInteger.valueOf(stack.getCount())));
             this.setChanged();
         }
     }
 
     @Override
     public boolean mayPlace(@NotNull ItemStack stack) {
-        return ResourcePointHelper.doesItemHaveRP(stack);
+        // Allow items without RP value to be placed in the slot
+        return true;
     }
 }

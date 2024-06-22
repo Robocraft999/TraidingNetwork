@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "aba",
+    "xox",
+    "aya"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "create:andesite_funnel"
+    },
+    "a":
+    {
+      "item": "create:andesite_casing"
+    },
+    "b":
+    {
+      "item": "create:display_board"
+    },
+    "y":
+    {
+      "item": "create:cogwheel"
+    },
+    "o":
+    {
+      "item": "create:linked_controller"
+    }
+  },
+  "result":
+  {
+    "item": "amazingtrading:shop",
+    "count": 1
+  }
+}
