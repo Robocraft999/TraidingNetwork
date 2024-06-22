@@ -22,6 +22,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +35,11 @@ public class ResourceItemProviderImpl {
 
     public static class DefaultImpl implements IResourceItemProvider{
 
-        @Nullable
-        private final Level level;
         private final RItemStackHandler slots = new RItemStackHandler();
+        private final List<Integer> slotsChanged;
 
         private DefaultImpl(@Nullable Level level) {
-            this.level = level;
+            this.slotsChanged = new ArrayList<>(); // Initialize the slotsChanged list
         }
 
         @Override
@@ -54,6 +54,10 @@ public class ResourceItemProviderImpl {
 
         @Override
         public void syncSlots(@NotNull ServerPlayer player, List<Integer> slotsChanged, TargetUpdateType updateTargets) {
+            if (slotsChanged == null) {
+                slotsChanged = new ArrayList<>(); // Ensure slotsChanged is initialized
+            }
+
             if (!slotsChanged.isEmpty()) {
                 int slots = this.slots.getSlots();
                 Map<Integer, ItemStack> stacksToSync = new HashMap<>();
@@ -106,7 +110,7 @@ public class ResourceItemProviderImpl {
         }
 
         @NotNull
-        public <T> LazyOptional<T> getCapabilityUnchecked(@NotNull Capability<T> capability, @Nullable Direction side) {
+        public <T> LazyOptional<T> getCapabilityUnchecked(@NotNull Capability<T> capability) {
             if (cachedCapability == null || !cachedCapability.isPresent()) {
                 //If the capability has not been retrieved yet or it is not valid then recreate it
                 cachedCapability = LazyOptional.of(supplier);
@@ -117,7 +121,7 @@ public class ResourceItemProviderImpl {
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
             if (capability == ATCapabilities.RESOURCE_ITEM_CAPABILITY){
-                return getCapabilityUnchecked(capability, direction);
+                return getCapabilityUnchecked(capability);
             }
             return LazyOptional.empty();
         }
