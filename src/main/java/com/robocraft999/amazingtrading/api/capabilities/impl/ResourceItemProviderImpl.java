@@ -22,6 +22,7 @@ import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +35,11 @@ public class ResourceItemProviderImpl {
 
     public static class DefaultImpl implements IResourceItemProvider{
 
-        @Nullable
-        private final Level level;
         private final RItemStackHandler slots = new RItemStackHandler();
+        private final List<Integer> slotsChanged;
 
         private DefaultImpl(@Nullable Level level) {
-            this.level = level;
+            this.slotsChanged = new ArrayList<>(); // Initialize the slotsChanged list
         }
 
         @Override
@@ -54,6 +54,10 @@ public class ResourceItemProviderImpl {
 
         @Override
         public void syncSlots(@NotNull ServerPlayer player, List<Integer> slotsChanged, TargetUpdateType updateTargets) {
+            if (slotsChanged == null) {
+                slotsChanged = new ArrayList<>(); // Ensure slotsChanged is initialized
+            }
+
             if (!slotsChanged.isEmpty()) {
                 int slots = this.slots.getSlots();
                 Map<Integer, ItemStack> stacksToSync = new HashMap<>();
