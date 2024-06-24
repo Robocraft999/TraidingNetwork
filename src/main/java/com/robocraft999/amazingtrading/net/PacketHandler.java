@@ -2,7 +2,6 @@ package com.robocraft999.amazingtrading.net;
 
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
-import com.robocraft999.amazingtrading.net.packets.shop.IncrementShopItemsPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncSettingsPKT;
@@ -47,7 +46,6 @@ public class PacketHandler {
 
         registerClientToServer(SyncSettingsPKT.class, SyncSettingsPKT::decode);
         registerClientToServer(ShopRequestPKT.class, ShopRequestPKT::decode);
-        registerClientToServer(IncrementShopItemsPKT.class, IncrementShopItemsPKT::decode);
     }
 
     private static <MSG extends ITNPacket> void registerClientToServer(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {
