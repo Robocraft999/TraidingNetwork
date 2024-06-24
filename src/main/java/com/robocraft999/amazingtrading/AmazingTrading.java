@@ -1,6 +1,7 @@
 package com.robocraft999.amazingtrading;
 
 import com.mojang.logging.LogUtils;
+import com.robocraft999.amazingtrading.commands.IncrementShopItemsCommand;
 import com.robocraft999.amazingtrading.kubejs.ATKubeJSPlugin;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.registry.*;
@@ -73,6 +74,7 @@ public class AmazingTrading {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::imcQueue);
+        modEventBus.addListener(this::clientSetup);
         REGISTRATE.registerEventListeners(modEventBus);
 
         ATBlocks.register();
@@ -103,6 +105,8 @@ public class AmazingTrading {
         LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
+    private void clientSetup(final FMLClientSetupEvent event) {}
+
     public static ResourceLocation rl(String name){
         return new ResourceLocation(MODID, name);
     }
@@ -112,6 +116,9 @@ public class AmazingTrading {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+
+        // Register commands
+        IncrementShopItemsCommand.register(event.getServer().getCommands().getDispatcher());
     }
 
     private void imcQueue(InterModEnqueueEvent event){
@@ -153,10 +160,6 @@ public class AmazingTrading {
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
-            RenderType cutout = RenderType.cutoutMipped();
-
-            ItemBlockRenderTypes.setRenderLayer(ATBlocks.CREATE_SHREDDER.get(), cutout);
-            ItemBlockRenderTypes.setRenderLayer(ATBlocks.SHOP.get(), cutout);
         }
     }
 }

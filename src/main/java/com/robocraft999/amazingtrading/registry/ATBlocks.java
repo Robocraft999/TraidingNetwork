@@ -33,7 +33,6 @@ public class ATBlocks {
             .transform(axeOnly())
             .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
             .transform(BlockStressDefaults.setImpact(16))
-            .addLayer(() -> RenderType::cutoutMipped)
             .item()
             .transform(customItemModel())
             .register();

@@ -1,1 +1,3 @@
 - added KubeJS-Support
+- added Command to increment shop items by a specified amount
+- Updated to Minecraft version 1.20.1
