@@ -8,8 +8,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
 import com.robocraft999.amazingtrading.client.gui.shop.ShopInventory;
-import com.robocraft999.amazingtrading.net.PacketHandler;
-import com.robocraft999.amazingtrading.net.packets.shop.IncrementShopItemsPKT;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
