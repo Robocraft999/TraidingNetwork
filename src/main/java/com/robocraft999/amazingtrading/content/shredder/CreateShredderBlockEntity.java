@@ -147,12 +147,12 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         setChanged();
     }
 
+    AABB area = new AABB(worldPosition).inflate(0.1, 1, 0.1);
     private void suckItems() {
-        if (inputInv.getStackInSlot(0).isEmpty()) {
-            AABB area = new AABB(worldPosition).inflate(0.1, 1, 0.1);
-            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
-            for (ItemEntity itemEntity : items) {
-                ItemStack stack = itemEntity.getItem();
+        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, area);
+        for (ItemEntity itemEntity : items) {
+            ItemStack stack = itemEntity.getItem();
+            if (inputInv.getStackInSlot(0).isEmpty() || inputInv.getStackInSlot(0).is(stack.getItem())) {
                 ItemStack remaining = ItemHandlerHelper.insertItem(inputInv, stack, false);
                 if (remaining.isEmpty()) {
                     itemEntity.discard();
