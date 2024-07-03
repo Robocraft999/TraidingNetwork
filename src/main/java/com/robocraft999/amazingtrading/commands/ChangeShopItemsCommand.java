@@ -6,8 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.robocraft999.amazingtrading.AmazingTrading;
-import com.robocraft999.amazingtrading.api.capabilities.IResourceItemProvider;
-import com.robocraft999.amazingtrading.client.gui.shop.ShopInventory;
+import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -15,13 +14,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraft.world.item.ItemStack;
 
-public class IncrementShopItemsCommand {
+public class ChangeShopItemsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("amt")
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("amtr")
                 .requires(source -> source.hasPermission(2))
-                .then(Commands.literal("increment")
+                .then(Commands.literal("change")
                         .then(Commands.argument("amount", IntegerArgumentType.integer())
-                                .executes(IncrementShopItemsCommand::execute)));
+                                .executes(ChangeShopItemsCommand::execute)));
 
         dispatcher.register(builder);
     }
@@ -33,22 +32,23 @@ public class IncrementShopItemsCommand {
         AmazingTrading.LOGGER.debug("Executing amt increment command with amount: {}", amount);
 
         try {
-            ShopInventory shopInventory = new ShopInventory(player);
-            IItemHandlerModifiable itemHandler = (IItemHandlerModifiable) shopInventory.itemProvider.getSlotsHandler();
+            player.getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(provider -> {
+                IItemHandlerModifiable itemHandler = (IItemHandlerModifiable) provider.getSlotsHandler();
 
-            for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
-                ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (!stack.isEmpty()) {
-                    stack.grow(amount);
-                    itemHandler.setStackInSlot(slot, stack);
+                for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+                    ItemStack stack = itemHandler.getStackInSlot(slot);
+                    if (!stack.isEmpty()) {
+                        stack.grow(amount);
+                        itemHandler.setStackInSlot(slot, stack);
+                    }
                 }
-            }
 
-            shopInventory.itemProvider.syncSlots((ServerPlayer) player, null, IResourceItemProvider.TargetUpdateType.ALL);
+                provider.sync();
+            });
 
-            context.getSource().sendSuccess(() -> Component.literal("Incremented all items in the shop by " + amount), true);
+            context.getSource().sendSuccess(() -> Component.literal("Changed item amounts in the shop by " + amount), true);
         } catch (Exception e) {
-            AmazingTrading.LOGGER.error("Error executing amt increment command", e);
+            AmazingTrading.LOGGER.error("Error executing amt change command", e);
             context.getSource().sendFailure(Component.literal("An error occurred while executing the command: " + e.getMessage()));
         }
 

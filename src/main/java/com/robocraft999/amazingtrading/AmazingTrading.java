@@ -1,7 +1,7 @@
 package com.robocraft999.amazingtrading;
 
 import com.mojang.logging.LogUtils;
-import com.robocraft999.amazingtrading.commands.IncrementShopItemsCommand;
+import com.robocraft999.amazingtrading.commands.ChangeShopItemsCommand;
 import com.robocraft999.amazingtrading.kubejs.ATKubeJSPlugin;
 import com.robocraft999.amazingtrading.net.PacketHandler;
 import com.robocraft999.amazingtrading.registry.*;
@@ -16,8 +16,6 @@ import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ReloadableServerResources;
@@ -118,7 +116,7 @@ public class AmazingTrading {
         LOGGER.info("HELLO from server starting");
 
         // Register commands
-        IncrementShopItemsCommand.register(event.getServer().getCommands().getDispatcher());
+        ChangeShopItemsCommand.register(event.getServer().getCommands().getDispatcher());
     }
 
     private void imcQueue(InterModEnqueueEvent event){
