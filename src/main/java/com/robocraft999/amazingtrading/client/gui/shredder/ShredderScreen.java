@@ -69,17 +69,15 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     private void renderProcessingItem(@NotNull GuiGraphics graphics, int x, int y) {
         Level level = menu.getLevel();
         if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
-            ItemStack stackInSlot = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
-                    .map(handler -> handler.getStackInSlot(0))
-                    .orElse(ItemStack.EMPTY);
-            if (!stackInSlot.isEmpty()) {
+            ItemStack stackInSlot = menu.inputSlots.get(0).getItem();
+            if (!stackInSlot.isEmpty() && blockEntity.isProcessing()) {
                 // Render the text above the item
                 Component shreddingText = Component.literal("now being shredded").withStyle(ChatFormatting.GRAY);
                 drawScaledString(graphics, shreddingText, x + 108, y + 22, 0xFFFFFF, 0.5f);
 
                 // Render the item and its count
-                graphics.renderItem(stackInSlot, x + 152, y + 32);
-                graphics.renderItemDecorations(this.font, stackInSlot, x + 152, y + 32); // Render item count
+                //graphics.renderItem(stackInSlot, x + 152, y + 32);
+                //graphics.renderItemDecorations(this.font, stackInSlot, x + 152, y + 32); // Render item count
             } else {
                 // Render the text indicating nothing is being shredded
                 Component noShreddingText = Component.literal("Nothing is being shredded").withStyle(ChatFormatting.GRAY);

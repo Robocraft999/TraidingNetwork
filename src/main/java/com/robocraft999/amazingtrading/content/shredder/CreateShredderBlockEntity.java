@@ -58,6 +58,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
     public int timer;
     private LazyOptional<IItemHandler> capability;
     private static final Random RANDOM = new Random();
+    private boolean isProcessing = false;
 
     public CreateShredderBlockEntity(BlockEntityType<? extends CreateShredderBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -85,6 +86,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
             return;
 
         if (timer > 0) {
+            isProcessing = true;
             timer -= getProcessingSpeed();
 
             if (level.isClientSide) {
@@ -97,6 +99,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         }
 
         timer = Config.SHREDDER_PROCESS_TICKS.get();
+        if (!canProcess(stackInSlot) || stackInSlot.isEmpty())
+            isProcessing = false;
     }
 
     private void process() {
@@ -104,6 +108,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
+
 
         if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
@@ -264,6 +269,10 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         return true;
     }
 
+    public boolean isProcessing() {
+        return isProcessing;
+    }
+
     @Override
     public AbstractContainerMenu createMenu(int windowId, @NotNull Inventory playerInventory, @NotNull Player player) {
         return new ShredderMenu(playerInventory, windowId, getBlockPos());
@@ -305,7 +314,8 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
 
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (inputInv == getHandlerFromIndex(getIndexForSlot(slot)))
+            AmazingTrading.LOGGER.debug("Extracting {} items from slot {}, {}", amount, slot, simulate);
+            if (inputInv != getHandlerFromIndex(getIndexForSlot(slot)))
                 return ItemStack.EMPTY;
             return super.extractItem(slot, amount, simulate);
         }
