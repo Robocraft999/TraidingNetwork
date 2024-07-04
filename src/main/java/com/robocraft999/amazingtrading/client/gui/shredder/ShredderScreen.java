@@ -40,10 +40,10 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         super.init();
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        this.newButton = this.addRenderableWidget(Button.builder(Component.literal("New Button"), button -> {
+        this.newButton = this.addRenderableWidget(Button.builder(Component.literal("V"), button -> {
             // Logik für den neuen Knopf
             handleNewButtonPress();
-        }).bounds(x + 162, y + 10, 26, 6).build());
+        }).bounds(x + 162, y + 10, 10, 10).build());
     }
 
     private void handleNewButtonPress() {
