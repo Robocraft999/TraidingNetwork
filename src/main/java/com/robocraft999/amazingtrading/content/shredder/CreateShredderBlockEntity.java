@@ -275,6 +275,16 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         return Component.translatable(ATLang.KEY_SHREDDER_GUI_NAME);
     }
 
+    public void handleNewButtonPress() {
+        // Logik für den neuen Knopf
+        if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
+            ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
+            if (player != null) {
+                player.sendSystemMessage(Component.literal("New Button Pressed!"));
+            }
+        }
+    }
+
     private class ShredderInventoryHandler extends CombinedInvWrapper {
 
         public ShredderInventoryHandler() {

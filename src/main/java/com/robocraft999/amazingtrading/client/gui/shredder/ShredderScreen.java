@@ -6,6 +6,7 @@ import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlockEntit
 import com.robocraft999.amazingtrading.utils.UIHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import java.math.BigInteger;
 public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     private static final ResourceLocation TEXTURE = AmazingTrading.rl("textures/gui/shredder.png");
     private final ShredderInventory inv;
+    private Button newButton;
 
     public ShredderScreen(ShredderMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
@@ -31,6 +33,25 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         this.titleLabelY = 4;
         this.inventoryLabelX = 8;
         this.inventoryLabelY = 40;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+        this.newButton = this.addRenderableWidget(Button.builder(Component.literal("New Button"), button -> {
+            // Logik für den neuen Knopf
+            handleNewButtonPress();
+        }).bounds(x + 162, y + 10, 26, 6).build());
+    }
+
+    private void handleNewButtonPress() {
+        // Logik für den neuen Knopf
+        Level level = menu.getLevel();
+        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
+            blockEntity.handleNewButtonPress();
+        }
     }
 
     @Override
