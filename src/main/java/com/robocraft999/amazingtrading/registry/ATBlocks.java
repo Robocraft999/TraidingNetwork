@@ -2,6 +2,7 @@ package com.robocraft999.amazingtrading.registry;
 
 import com.robocraft999.amazingtrading.content.shop.ShopBlock;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlock;
+import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperBlock;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
@@ -18,6 +19,17 @@ import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 public class ATBlocks {
     public static final BlockEntry<CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.mapColor(MapColor.METAL))
+            .transform(pickaxeOnly())
+            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
+            .transform(BlockStressDefaults.setImpact(16))
+            .item()
+            .transform(customItemModel())
+            .register();
+
+    public static final BlockEntry<CreateShredderHopperBlock> CREATE_SHREDDER_HOPPER = REGISTRATE
+            .block("create_shredder_hopper", CreateShredderHopperBlock::new)
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))
             .transform(pickaxeOnly())

@@ -6,6 +6,9 @@ import com.robocraft999.amazingtrading.content.shop.ShopRenderer;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlockEntity;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderCogInstance;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderRenderer;
+import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperBlockEntity;
+import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperCogInstance;
+import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
@@ -19,14 +22,19 @@ public class ATBlockEntities {
             .renderer(() -> CreateShredderRenderer::new)
             .register();
 
+    public static final BlockEntityEntry<CreateShredderHopperBlockEntity> CREATE_SHREDDER_HOPPER = REGISTRATE
+            .blockEntity("create_shredder_hopper", CreateShredderHopperBlockEntity::new)
+            .instance(() -> CreateShredderHopperCogInstance::new)
+            .validBlocks(ATBlocks.CREATE_SHREDDER_HOPPER)
+            .renderer(() -> CreateShredderHopperRenderer::new)
+            .register();
+
     public static final BlockEntityEntry<ShopBlockEntity> SHOP = REGISTRATE
             .blockEntity("shop", ShopBlockEntity::new)
             .instance(() -> HalfShaftSmallCogInstance::new)
             .validBlocks(ATBlocks.SHOP)
             .renderer(() -> ShopRenderer::new)
             .register();
-
-
 
     public static void register(){}
 }
