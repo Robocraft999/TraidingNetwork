@@ -1,5 +1,6 @@
 {
   "block.amazingtrading.create_shredder": "Create Shredder",
+  "block.amazingtrading.create_shredder_hopper": "Create Shredder Hopper",
   "block.amazingtrading.shop": "Shop",
   "gui.amazingtrading.autofocus.sort.false": "Autofocus disabled",
   "gui.amazingtrading.autofocus.sort.true": "Autofocus enabled",
