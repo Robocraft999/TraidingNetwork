@@ -36,7 +36,7 @@ public class CreateShredderHopperBlock extends HorizontalKineticBlock implements
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return ATShapes.SHREDDER;
+        return ATShapes.SHREDDERHOPPER;
     }
 
     @Override

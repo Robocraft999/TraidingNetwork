@@ -4,9 +4,9 @@ import com.mojang.authlib.GameProfile;
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
-import com.robocraft999.amazingtrading.client.gui.shredder.ShredderMenu;
+import com.robocraft999.amazingtrading.client.gui.shredderhopper.ShredderHopperMenu;
 import com.robocraft999.amazingtrading.net.PacketHandler;
-import com.robocraft999.amazingtrading.net.packets.shredder.SyncOwnerNamePKT;
+import com.robocraft999.amazingtrading.net.packets.shredderhopper.SyncOwnerNamePKT;
 import com.robocraft999.amazingtrading.registry.ATBlocks;
 import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.registry.ATLang;
@@ -63,7 +63,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
     public CreateShredderHopperBlockEntity(BlockEntityType<? extends CreateShredderHopperBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         inputInv = new ItemStackHandler(1);
-        capability = LazyOptional.of(ShredderInventoryHandler::new);
+        capability = LazyOptional.of(ShredderHopperInventoryHandler::new);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
 
     @Override
     public AbstractContainerMenu createMenu(int windowId, @NotNull Inventory playerInventory, @NotNull Player player) {
-        return new ShredderMenu(playerInventory, windowId, getBlockPos());
+        return new ShredderHopperMenu(playerInventory, windowId, getBlockPos());
     }
 
     @NotNull
@@ -294,9 +294,9 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
         }
     }
 
-    private class ShredderInventoryHandler extends CombinedInvWrapper {
+    private class ShredderHopperInventoryHandler extends CombinedInvWrapper {
 
-        public ShredderInventoryHandler() {
+        public ShredderHopperInventoryHandler() {
             super(inputInv);
         }
 
