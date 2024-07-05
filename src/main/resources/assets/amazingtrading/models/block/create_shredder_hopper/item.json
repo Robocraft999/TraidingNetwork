@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
   "textures": {
-    "0": "amazingtrading:block/create_shredder/andesite_casing_short",
+    "0": "amazingtrading:block/create_shredder_hopper/andesite_casing_short",
     "1": "create:block/andesite_casing",
     "2": "create:block/fan_side",
-    "particle": "amazingtrading:block/create_shredder/andesite_casing_short",
+    "particle": "amazingtrading:block/create_shredder_hopper/andesite_casing_short",
     "1_0": "create:block/axis",
     "1_1": "create:block/axis_top"
   },
