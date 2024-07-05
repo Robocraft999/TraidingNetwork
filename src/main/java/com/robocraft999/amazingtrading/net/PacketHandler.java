@@ -7,6 +7,7 @@ import com.robocraft999.amazingtrading.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.amazingtrading.net.packets.shredder.SyncOwnerNamePKT;
+import com.robocraft999.amazingtrading.net.packets.shredderhopper.SyncOwnerNameHopperPKT;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.RPMappingHandler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
@@ -44,6 +45,7 @@ public class PacketHandler {
         registerServerToClient(SyncClientSettingsPKT.class, SyncClientSettingsPKT::decode);
 
         registerServerToClient(SyncOwnerNamePKT.class, SyncOwnerNamePKT::decode);
+        registerServerToClient(SyncOwnerNameHopperPKT.class, SyncOwnerNameHopperPKT::decode);
 
         registerClientToServer(SyncSettingsPKT.class, SyncSettingsPKT::decode);
         registerClientToServer(ShopRequestPKT.class, ShopRequestPKT::decode);

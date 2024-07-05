@@ -6,7 +6,7 @@ import com.robocraft999.amazingtrading.Config;
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
 import com.robocraft999.amazingtrading.client.gui.shredderhopper.ShredderHopperMenu;
 import com.robocraft999.amazingtrading.net.PacketHandler;
-import com.robocraft999.amazingtrading.net.packets.shredderhopper.SyncOwnerNamePKT;
+import com.robocraft999.amazingtrading.net.packets.shredderhopper.SyncOwnerNameHopperPKT;
 import com.robocraft999.amazingtrading.registry.ATBlocks;
 import com.robocraft999.amazingtrading.registry.ATCapabilities;
 import com.robocraft999.amazingtrading.registry.ATLang;
@@ -98,7 +98,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
             return;
         }
 
-        timer = Config.SHREDDER_PROCESS_TICKS.get();
+        timer = Config.SHREDDER_HOPPER_PROCESS_TICKS.get();
         if (!canProcess(stackInSlot) || stackInSlot.isEmpty())
             isProcessing = false;
     }
@@ -107,14 +107,14 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
         if(getLevel() == null) return;
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
-        if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
+        if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER_HOPPER.asItem())) return;
 
 
         if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
             if (player != null) {
                 player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-                    if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
+                    if (stackInSlot.is(ATBlocks.CREATE_SHREDDER_HOPPER.asItem())){
                         if (!cap.isSecretEnabled()) {
                             cap.enableSecret();
                         }
@@ -133,7 +133,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
                     }
                 });
             }
-            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
+            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER_HOPPER.asItem())){
                 stackInSlot.shrink(1);
                 return;
             }
@@ -244,7 +244,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
             MinecraftServer server = getLevel().getServer();
             if (server != null) {
                 this.cachedOwnerName = server.getProfileCache().get(ownerId).orElse(new GameProfile(UUID.randomUUID(), "fake")).getName();
-                PacketHandler.sendToNear(new SyncOwnerNamePKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
+                PacketHandler.sendToNear(new SyncOwnerNameHopperPKT(this.cachedOwnerName, getBlockPos()), getBlockPos(), getLevel());
             } else {
                 AmazingTrading.LOGGER.warn("Server is null while setting owner for CreateShredderHopperBlockEntity at position {}", getBlockPos());
             }
@@ -260,7 +260,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
     }
 
     public int getProcessingSpeed() {
-        return Mth.clamp((int) Math.abs(getSpeed() / Config.SHREDDER_RPM_TO_SPEED_QUOTIENT.get()), 1, 512);
+        return Mth.clamp((int) Math.abs(getSpeed() / Config.SHREDDER_HOPPER_RPM_TO_SPEED_QUOTIENT.get()), 1, 512);
     }
 
     public boolean canProcess(ItemStack stack) {
@@ -281,7 +281,7 @@ public class CreateShredderHopperBlockEntity extends KineticBlockEntity implemen
     @NotNull
     @Override
     public Component getDisplayName() {
-        return Component.translatable(ATLang.KEY_SHREDDER_GUI_NAME);
+        return Component.translatable(ATLang.KEY_SHREDDER_HOPPER_GUI_NAME);
     }
 
     public void handleNewButtonPress() {
