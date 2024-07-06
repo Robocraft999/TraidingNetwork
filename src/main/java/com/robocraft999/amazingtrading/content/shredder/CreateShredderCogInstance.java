@@ -50,7 +50,7 @@ public class CreateShredderCogInstance extends KineticBlockEntityInstance<Create
 
     @Override
     public void updateLight() {
-        this.relight(this.pos.above(), this.rotatingModel1, this.rotatingModel2, this.shaft);
+        this.relight(this.pos, this.rotatingModel1, this.rotatingModel2, this.shaft);
     }
 
     @Override

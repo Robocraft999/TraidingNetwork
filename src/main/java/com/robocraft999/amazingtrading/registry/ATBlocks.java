@@ -7,6 +7,7 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.material.MapColor;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
@@ -18,9 +19,9 @@ public class ATBlocks {
     public static final BlockEntry<CreateShredderBlock> CREATE_SHREDDER = REGISTRATE
             .block("create_shredder", CreateShredderBlock::new)
             .initialProperties(SharedProperties::stone)
-            .properties(p -> p.mapColor(MapColor.METAL))
+            .properties(p -> p.mapColor(MapColor.METAL).noOcclusion())
             .transform(pickaxeOnly())
-            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
+            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
             .transform(BlockStressDefaults.setImpact(16))
             .item()
             .transform(customItemModel())
@@ -32,7 +33,7 @@ public class ATBlocks {
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))
             .transform(pickaxeOnly())
-            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
+            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
             .transform(BlockStressDefaults.setImpact(16))
             .item()
             .transform(customItemModel())
