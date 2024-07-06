@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 public class ShopRenderer extends KineticBlockEntityRenderer<ShopBlockEntity> {
     public ShopRenderer(BlockEntityRendererProvider.Context context) {
@@ -21,12 +22,17 @@ public class ShopRenderer extends KineticBlockEntityRenderer<ShopBlockEntity> {
 
     @Override
     protected SuperByteBuffer getRotatedModel(ShopBlockEntity be, BlockState state) {
-        return CachedBufferer.partialFacing(AllPartialModels.SHAFTLESS_COGWHEEL, state).rotateToFace(state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise());
+        return switch (state.getValue(ShopBlock.HALF)){
+            case UPPER -> null;
+            case LOWER -> CachedBufferer.partialFacing(AllPartialModels.SHAFTLESS_COGWHEEL, state).rotateToFace(state.getValue(BlockStateProperties.HORIZONTAL_FACING).getClockWise());
+        };
     }
 
     @Override
     protected void renderSafe(ShopBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
         BlockState blockState = be.getBlockState();
+        if (blockState.getValue(ShopBlock.HALF) == DoubleBlockHalf.UPPER)
+            return;
         VertexConsumer vb = buffer.getBuffer(RenderType.solid());
         Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
 

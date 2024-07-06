@@ -1,19 +1,31 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,half=lower": {
       "model": "amazingtrading:block/shop/block"
     },
-    "facing=north": {
+    "facing=east,half=upper": {
+      "model": "amazingtrading:block/shop/block_dummy"
+    },
+    "facing=north,half=lower": {
       "model": "amazingtrading:block/shop/block",
       "y": 270
     },
-    "facing=south": {
+    "facing=north,half=upper": {
+      "model": "amazingtrading:block/shop/block_dummy"
+    },
+    "facing=south,half=lower": {
       "model": "amazingtrading:block/shop/block",
       "y": 90
     },
-    "facing=west": {
+    "facing=south,half=upper": {
+      "model": "amazingtrading:block/shop/block_dummy"
+    },
+    "facing=west,half=lower": {
       "model": "amazingtrading:block/shop/block",
       "y": 180
+    },
+    "facing=west,half=upper": {
+      "model": "amazingtrading:block/shop/block_dummy"
     }
   }
 }

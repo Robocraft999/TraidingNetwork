@@ -7,8 +7,22 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
@@ -44,7 +58,39 @@ public class ATBlocks {
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.noOcclusion().mapColor(MapColor.METAL))
             .transform(axeOnly())
-            .blockstate((c, p) -> p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90))
+            .blockstate((c, p) -> {
+                p.getVariantBuilder(c.getEntry()).forAllStates(state ->
+                        switch (state.getValue(ShopBlock.HALF)){
+                            case UPPER -> ConfiguredModel.builder()
+                                    .modelFile(AssetLookup.partialBaseModel(c, p, "dummy"))
+                                    .build();
+                            case LOWER -> ConfiguredModel.builder()
+                                    .modelFile(AssetLookup.partialBaseModel(c, p))
+                                    .rotationY(((int) state.getValue(BlockStateProperties.HORIZONTAL_FACING).toYRot() + 90) % 360)
+                                    .build();
+                        }
+                );
+                //p.horizontalBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p), 90)
+            })
+            .loot((t, e) -> t.add(e, new LootTable.Builder()
+                    /*.setParamSet(LootContextParamSet.builder()
+                            .required(LootContextParams.BLOCK_STATE)
+                            .build()
+                    )*/
+                    .withPool(LootPool.lootPool()
+                            .name("main")
+                            .add(LootItem
+                                    .lootTableItem(e.asItem())
+                                    .when(LootItemBlockStatePropertyCondition
+                                            .hasBlockStateProperties(e)
+                                            .setProperties(StatePropertiesPredicate.Builder
+                                                    .properties()
+                                                    .hasProperty(ShopBlock.HALF, DoubleBlockHalf.LOWER)
+                                            )
+                                    )
+                            )
+                    )
+            ))
             .transform(BlockStressDefaults.setImpact(16))
             .item()
             .transform(customItemModel())

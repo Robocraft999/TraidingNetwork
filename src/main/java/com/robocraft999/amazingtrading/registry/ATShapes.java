@@ -15,13 +15,13 @@ public class ATShapes {
         SHREDDER = shape(0,0,0,16,5,16).add(2,0,2,14,16,14).build();
     public static final VoxelShaper
         SHOP = shape(Stream.of(
-                Block.box(0, 0, 0, 16, 16, 16),
-                Block.box(0, 16, 7, 16, 32, 16),
-                Block.box(0, 16, 2, 16, 17, 7),
-                Block.box(0, 17, 3, 16, 18, 7),
-                Block.box(0, 18, 4, 16, 19, 7),
-                Block.box(0, 19, 5, 16, 20, 7),
-                Block.box(0, 20, 6, 16, 21, 7)
+                //Block.box(0, 0, 0, 16, 16, 16),
+                Block.box(0, 16-16, 7, 16, 32-16, 16),
+                Block.box(0, 16-16, 2, 16, 17-16, 7),
+                Block.box(0, 17-16, 3, 16, 18-16, 7),
+                Block.box(0, 18-16, 4, 16, 19-16, 7),
+                Block.box(0, 19-16, 5, 16, 20-16, 7),
+                Block.box(0, 20-16, 6, 16, 21-16, 7)
         ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get()).forDirectional(Direction.NORTH);
 
     private static AllShapes.Builder shape(VoxelShape shape) {

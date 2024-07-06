@@ -2,6 +2,7 @@ package com.robocraft999.amazingtrading.registry;
 
 import com.robocraft999.amazingtrading.api.kinetics.HalfShaftSmallCogInstance;
 import com.robocraft999.amazingtrading.content.shop.ShopBlockEntity;
+import com.robocraft999.amazingtrading.content.shop.ShopInstance;
 import com.robocraft999.amazingtrading.content.shop.ShopRenderer;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlockEntity;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderCogInstance;
@@ -29,7 +30,7 @@ public class ATBlockEntities {
 
     public static final BlockEntityEntry<ShopBlockEntity> SHOP = REGISTRATE
             .blockEntity("shop", ShopBlockEntity::new)
-            .instance(() -> HalfShaftSmallCogInstance::new)
+            .instance(() -> ShopInstance::new)
             .validBlocks(ATBlocks.SHOP)
             .renderer(() -> ShopRenderer::new)
             .register();
