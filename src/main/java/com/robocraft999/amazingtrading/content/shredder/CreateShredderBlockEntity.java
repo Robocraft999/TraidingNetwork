@@ -25,18 +25,16 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -113,17 +111,19 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (!canProcess(stackInSlot) && !stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())) return;
 
+        ItemStack extracted = inputInv.extractItem(0, 1, false);
+
 
         if (getLevel() != null && !getLevel().isClientSide && getOwnerId() != null) {
             ServerPlayer player = (ServerPlayer) getLevel().getPlayerByUUID(getOwnerId());
             if (player != null) {
                 player.getCapability(ATCapabilities.RESOURCE_POINT_CAPABILITY).ifPresent(cap -> {
-                    if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
+                    if (extracted.is(ATBlocks.CREATE_SHREDDER.asItem())){
                         if (!cap.isSecretEnabled()) {
                             cap.enableSecret();
                         }
                     } else {
-                        long rpValue = ResourcePointHelper.getRPSellValue(stackInSlot);
+                        long rpValue = ResourcePointHelper.getRPSellValue(extracted);
                         if (rpValue == 0) {
                             // 50% chance to get 1 resource point
                             if (RANDOM.nextBoolean()) {
@@ -137,21 +137,18 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
                     }
                 });
             }
-            if (stackInSlot.is(ATBlocks.CREATE_SHREDDER.asItem())){
-                stackInSlot.shrink(1);
+            if (extracted.is(ATBlocks.CREATE_SHREDDER.asItem())){
                 return;
             }
             getLevel().getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).ifPresent(cap2 -> {
-                if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(stackInSlot)){
+                if (cap2.getSlotsHandler() instanceof RItemStackHandler handler && !handler.hasFreeSlot(extracted)){
                     handler.enlarge();
                 }
-                ItemHandlerHelper.insertItemStacked(cap2.getSlotsHandler(), stackInSlot.copyWithCount(1), false);
+                ItemHandlerHelper.insertItemStacked(cap2.getSlotsHandler(), extracted, false);
                 cap2.sync();
             });
-            stackInSlot.shrink(1);
         }
 
-        inputInv.setStackInSlot(0, stackInSlot);
         sendData();
         setChanged();
     }

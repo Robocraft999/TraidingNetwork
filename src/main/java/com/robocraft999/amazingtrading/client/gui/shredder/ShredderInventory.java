@@ -4,7 +4,6 @@ import com.robocraft999.amazingtrading.api.capabilities.IResourcePointProvider;
 import com.robocraft999.amazingtrading.client.gui.menu.ATInventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.Collections;
 
