@@ -19,7 +19,7 @@ public class ShopInventory extends ATInventory {
         this.itemProvider = player.level().getCapability(ATCapabilities.RESOURCE_ITEM_CAPABILITY).orElseThrow(NullPointerException::new);
         if (isServer()){
             itemProvider.sync();
-            syncChangedSlots(Arrays.asList(1), IResourceItemProvider.TargetUpdateType.ALL);
+            //syncChangedSlots(Arrays.asList(1), IResourceItemProvider.TargetUpdateType.ALL);
         }
     }
 
