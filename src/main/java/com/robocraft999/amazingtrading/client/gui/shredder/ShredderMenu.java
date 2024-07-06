@@ -30,8 +30,6 @@ public class ShredderMenu extends ATContainerMenu {
     }
 
     protected void initSlots(){
-        addPlayerInventory(8, 51);
-
         if (getLevel() != null){
             var blockEntity = getLevel().getBlockEntity(blockPos);
             if (blockEntity != null) {
@@ -42,20 +40,12 @@ public class ShredderMenu extends ATContainerMenu {
                 });
             }
         }
+
+        addPlayerInventory(8, 51);
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int pIndex) {
-        Slot currentSlot = tryGetSlot(pIndex);
-        Slot inputSlot = this.inputSlots.get(0);
-
-        /*if (currentSlot != null && inputSlot instanceof SlotItemHandler slotItemHandler) {
-            ItemStack remaining = ItemHandlerHelper.insertItem(slotItemHandler.getItemHandler(), currentSlot.getItem(), false);
-            if (remaining.isEmpty()){
-                return ItemStack.EMPTY;
-            }
-        }*/
-
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = tryGetSlot(pIndex);
         if (slot != null && slot.hasItem()) {
@@ -65,6 +55,7 @@ public class ShredderMenu extends ATContainerMenu {
                 if (!this.moveItemStackTo(itemstack1, this.inputSlots.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
+
             } else if (!this.moveItemStackTo(itemstack1, 0, this.inputSlots.size(), false)) {
                 return ItemStack.EMPTY;
             }
