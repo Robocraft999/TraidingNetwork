@@ -19,9 +19,9 @@ public class ATLang {
     public static final String KEY_GUI_SEARCH_TOOLTIP_CLEAR = gui("fil.tooltip_clear"); //clear
     public static final String KEY_GUI_SHIFT = gui("shift");
 
-    public static final String KEY_SHREDDER_GUI_NAME = "gui." + AmazingTrading.MODID + ".shredder.name";
-    public static final String KEY_SHREDDER_HOPPER_GUI_NAME = "gui." + AmazingTrading.MODID + ".shredderhopper.name";
-    public static final String KEY_SHOP_GUI_NAME = "gui." + AmazingTrading.MODID + ".shop.name";
+    public static final String KEY_SHREDDER_GUI_NAME = gui("shredder.name");
+    public static final String KEY_SHREDDER_HOPPING_GUI_NAME = gui("shredder_hopping.name");
+    public static final String KEY_SHOP_GUI_NAME = gui("shop.name");
 
     public static final String NAME_CREATIVE_TAB = "amazing_trading";
 
@@ -39,7 +39,7 @@ public class ATLang {
         REGISTRATE.addRawLang(KEY_GUI_SHIFT, "Hold shift for more information");
 
         REGISTRATE.addRawLang(KEY_SHREDDER_GUI_NAME, "Shredder");
-        REGISTRATE.addRawLang(KEY_SHREDDER_HOPPER_GUI_NAME, "Shredder Hopper");
+        REGISTRATE.addRawLang(KEY_SHREDDER_HOPPING_GUI_NAME, "Hopping Shredder");
         REGISTRATE.addRawLang(KEY_SHOP_GUI_NAME, "Shop");
     }
 

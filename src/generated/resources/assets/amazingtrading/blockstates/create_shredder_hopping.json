@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "amazingtrading:block/create_shredder_hopping/block"
+    },
+    "facing=north": {
+      "model": "amazingtrading:block/create_shredder_hopping/block",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "amazingtrading:block/create_shredder_hopping/block",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "amazingtrading:block/create_shredder_hopping/block",
+      "y": 180
+    }
+  }
+}

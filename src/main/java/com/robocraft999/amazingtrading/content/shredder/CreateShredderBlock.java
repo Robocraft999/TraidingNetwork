@@ -26,22 +26,10 @@ import net.minecraftforge.network.NetworkHooks;
 
 import java.util.UUID;
 
-public class CreateShredderBlock extends HorizontalKineticBlock implements IBE<CreateShredderBlockEntity> {
-
-    protected UUID ownerId;
+public class CreateShredderBlock extends AbstractShredderBlock<CreateShredderBlockEntity> {
 
     public CreateShredderBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return ATShapes.SHREDDER;
-    }
-
-    @Override
-    public Direction.Axis getRotationAxis(BlockState blockState) {
-        return blockState.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
     }
 
     @Override
@@ -52,40 +40,5 @@ public class CreateShredderBlock extends HorizontalKineticBlock implements IBE<C
     @Override
     public BlockEntityType<? extends CreateShredderBlockEntity> getBlockEntityType() {
         return ATBlockEntities.CREATE_SHREDDER.get();
-    }
-
-    @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.setPlacedBy(worldIn, pos, state, placer, stack);
-        if (!worldIn.isClientSide && placer instanceof ServerPlayer player){
-            ownerId = player.getUUID();
-        }
-        BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-        if (!(blockEntity instanceof IOwnedBlockEntity obe))
-            return;
-
-        obe.setOwner(ownerId);
-    }
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-        if (!level.isClientSide){
-            CreateShredderBlockEntity blockEntity = getBlockEntity(level, pos);
-            NetworkHooks.openScreen((ServerPlayer) player, blockEntity, b -> {
-                b.writeBlockPos(pos);
-                b.writeBoolean(false);
-            });
-        }
-        return InteractionResult.sidedSuccess(level.isClientSide);
-    }
-
-    @Override
-    public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-        return face.getAxis() == state.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
-    }
-
-    @Override
-    public SpeedLevel getMinimumRequiredSpeedLevel() {
-        return SpeedLevel.MEDIUM;
     }
 }

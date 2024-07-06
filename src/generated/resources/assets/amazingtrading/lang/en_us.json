@@ -1,6 +1,6 @@
 {
   "block.amazingtrading.create_shredder": "Create Shredder",
-  "block.amazingtrading.create_shredder_hopper": "Create Shredder Hopper",
+  "block.amazingtrading.create_shredder_hopping": "Hopping Create Shredder",
   "block.amazingtrading.shop": "Shop",
   "gui.amazingtrading.autofocus.sort.false": "Autofocus disabled",
   "gui.amazingtrading.autofocus.sort.true": "Autofocus enabled",
@@ -15,5 +15,6 @@
   "gui.amazingtrading.shift": "Hold shift for more information",
   "gui.amazingtrading.shop.name": "Shop",
   "gui.amazingtrading.shredder.name": "Shredder",
+  "gui.amazingtrading.shredder_hopping.name": "Hopping Shredder",
   "itemGroup.amazingtrading.amazing_trading": "Amazing Trading"
 }

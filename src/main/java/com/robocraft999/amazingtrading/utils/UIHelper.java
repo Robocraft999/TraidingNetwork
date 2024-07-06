@@ -16,4 +16,12 @@ public class UIHelper {
     public static void drawCenteredString(@NotNull GuiGraphics graphics, Font font, Component component, int x, int y, int color){
         drawCenteredString(graphics, font, component, x, y, color, true);
     }
+
+    public static void drawScaledString(@NotNull GuiGraphics graphics, Font font, Component text, int x, int y, int color, float scale) {
+        graphics.pose().pushPose();
+        graphics.pose().translate(x, y, 0);
+        graphics.pose().scale(scale, scale, 1.0f);
+        graphics.drawString(font, text, 0, 0, color, false);
+        graphics.pose().popPose();
+    }
 }

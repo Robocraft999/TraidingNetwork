@@ -1,6 +1,6 @@
 {
   "block.amazingtrading.create_shredder": "ɹǝppǝɹɥS ǝʇɐǝɹƆ",
-  "block.amazingtrading.create_shredder_hopper": "ɹǝddoH ɹǝppǝɹɥS ǝʇɐǝɹƆ",
+  "block.amazingtrading.create_shredder_hopping": "ɹǝppǝɹɥS ǝʇɐǝɹƆ buıddoH",
   "block.amazingtrading.shop": "doɥS",
   "gui.amazingtrading.autofocus.sort.false": "pǝןqɐsıp snɔoɟoʇnⱯ",
   "gui.amazingtrading.autofocus.sort.true": "pǝןqɐuǝ snɔoɟoʇnⱯ",
@@ -15,5 +15,6 @@
   "gui.amazingtrading.shift": "uoıʇɐɯɹoɟuı ǝɹoɯ ɹoɟ ʇɟıɥs pןoH",
   "gui.amazingtrading.shop.name": "doɥS",
   "gui.amazingtrading.shredder.name": "ɹǝppǝɹɥS",
+  "gui.amazingtrading.shredder_hopping.name": "ɹǝppǝɹɥS buıddoH",
   "itemGroup.amazingtrading.amazing_trading": "buıpɐɹ⟘ buızɐɯⱯ"
 }

@@ -60,7 +60,7 @@ public class AmazingTrading {
                 .andThen(TooltipModifier.mapNull(KineticStats.create(item))));
     }
 
-    public static final RegistryEntry<CreativeModeTab> testcreativetab = REGISTRATE.object(ATLang.NAME_CREATIVE_TAB)
+    public static final RegistryEntry<CreativeModeTab> CREATIVE_TAB = REGISTRATE.object(ATLang.NAME_CREATIVE_TAB)
             .defaultCreativeTab(tab -> tab.withLabelColor(0xFF00AA00))
             .register();
 
@@ -94,7 +94,7 @@ public class AmazingTrading {
         }
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC, Config.COMMON_CONFIG_PATH);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

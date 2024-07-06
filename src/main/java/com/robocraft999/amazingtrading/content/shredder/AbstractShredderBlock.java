@@ -1,7 +1,6 @@
-package com.robocraft999.amazingtrading.content.shredderhopper;
+package com.robocraft999.amazingtrading.content.shredder;
 
 import com.robocraft999.amazingtrading.api.kinetics.blockentity.IOwnedBlockEntity;
-import com.robocraft999.amazingtrading.registry.ATBlockEntities;
 import com.robocraft999.amazingtrading.registry.ATShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
@@ -26,32 +25,22 @@ import net.minecraftforge.network.NetworkHooks;
 
 import java.util.UUID;
 
-public class CreateShredderHopperBlock extends HorizontalKineticBlock implements IBE<CreateShredderHopperBlockEntity> {
+public abstract class AbstractShredderBlock<T extends CreateShredderBlockEntity> extends HorizontalKineticBlock implements IBE<T> {
 
     protected UUID ownerId;
 
-    public CreateShredderHopperBlock(Properties properties) {
+    public AbstractShredderBlock(Properties properties) {
         super(properties);
     }
 
     @Override
     public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return ATShapes.SHREDDERHOPPER;
+        return ATShapes.SHREDDER;
     }
 
     @Override
     public Direction.Axis getRotationAxis(BlockState blockState) {
         return blockState.getValue(HORIZONTAL_FACING).getClockWise().getAxis();
-    }
-
-    @Override
-    public Class<CreateShredderHopperBlockEntity> getBlockEntityClass() {
-        return CreateShredderHopperBlockEntity.class;
-    }
-
-    @Override
-    public BlockEntityType<? extends CreateShredderHopperBlockEntity> getBlockEntityType() {
-        return ATBlockEntities.CREATE_SHREDDER_HOPPER.get();
     }
 
     @Override
@@ -70,7 +59,7 @@ public class CreateShredderHopperBlock extends HorizontalKineticBlock implements
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (!level.isClientSide){
-            CreateShredderHopperBlockEntity blockEntity = getBlockEntity(level, pos);
+            CreateShredderBlockEntity blockEntity = getBlockEntity(level, pos);
             NetworkHooks.openScreen((ServerPlayer) player, blockEntity, b -> {
                 b.writeBlockPos(pos);
                 b.writeBoolean(false);
@@ -88,4 +77,10 @@ public class CreateShredderHopperBlock extends HorizontalKineticBlock implements
     public SpeedLevel getMinimumRequiredSpeedLevel() {
         return SpeedLevel.MEDIUM;
     }
+
+    @Override
+    public abstract Class<T> getBlockEntityClass();
+
+    @Override
+    public abstract BlockEntityType<? extends T> getBlockEntityType();
 }

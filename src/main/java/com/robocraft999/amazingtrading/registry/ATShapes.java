@@ -12,8 +12,7 @@ import java.util.stream.Stream;
 
 public class ATShapes {
     public static final VoxelShape
-        SHREDDER = shape(0,0,0,16,5,16).add(2,0,2,14,16,14).build(),
-        SHREDDERHOPPER = shape(0,0,0,16,5,16).add(2,0,2,14,16,14).build();
+        SHREDDER = shape(0,0,0,16,5,16).add(2,0,2,14,16,14).build();
     public static final VoxelShaper
         SHOP = shape(Stream.of(
                 Block.box(0, 0, 0, 16, 16, 16),

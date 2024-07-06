@@ -1,0 +1,25 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "h",
+    "s"
+  ],
+  "key":
+  {
+    "h":
+    {
+      "item": "minecraft:hopper"
+    },
+    "s":
+    {
+      "item": "amazingtrading:create_shredder"
+    }
+  },
+  "result":
+  {
+    "item": "amazingtrading:create_shredder_hopping",
+    "count": 1
+  }
+}

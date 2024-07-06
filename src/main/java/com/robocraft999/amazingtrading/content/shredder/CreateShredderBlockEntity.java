@@ -54,7 +54,7 @@ import java.util.UUID;
 public class CreateShredderBlockEntity extends KineticBlockEntity implements IOwnedBlockEntity, MenuProvider {
     protected UUID ownerId;
     protected String cachedOwnerName;
-    private ItemStackHandler inputInv;
+    protected ItemStackHandler inputInv;
     public int timer;
     private LazyOptional<IItemHandler> capability;
     private static final Random RANDOM = new Random();
@@ -79,6 +79,7 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         if (!isSpeedRequirementFulfilled())
             return;
 
+        onTick();
 
         ItemStack stackInSlot = inputInv.getStackInSlot(0);
         if (stackInSlot.isEmpty())
@@ -100,6 +101,10 @@ public class CreateShredderBlockEntity extends KineticBlockEntity implements IOw
         timer = Config.SHREDDER_PROCESS_TICKS.get();
         if (!canProcess(stackInSlot) || stackInSlot.isEmpty())
             isProcessing = false;
+    }
+
+    protected void onTick(){
+
     }
 
     private void process() {

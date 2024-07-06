@@ -1,5 +1,5 @@
 {
-  "parent": "amazingtrading:block/create_shredder_hopper/item",
+  "parent": "amazingtrading:block/create_shredder_hopping/item",
   "display": {
     "gui": {
       "rotation": [ 30, 45, 0 ],

@@ -231,7 +231,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     @Override
     public void setDownwards(boolean val) {
-        AmazingTrading.LOGGER.info("Downwards new: " + val);
         provider.setDownwards(val);
     }
 
@@ -242,7 +241,6 @@ public class ShopScreen extends AbstractContainerScreen<ShopMenu> implements ISh
 
     @Override
     public void setSort(EnumSortType val) {
-        AmazingTrading.LOGGER.info("Sort new: " + val.name());
         provider.setSort(val);
     }
 

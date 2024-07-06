@@ -2,13 +2,11 @@ package com.robocraft999.amazingtrading.registry;
 
 import com.robocraft999.amazingtrading.content.shop.ShopBlock;
 import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlock;
-import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperBlock;
+import com.robocraft999.amazingtrading.content.shredder.hopping.CreateShredderHoppingBlock;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.world.level.material.MapColor;
 
 import static com.robocraft999.amazingtrading.AmazingTrading.REGISTRATE;
@@ -28,8 +26,9 @@ public class ATBlocks {
             .transform(customItemModel())
             .register();
 
-    public static final BlockEntry<CreateShredderHopperBlock> CREATE_SHREDDER_HOPPER = REGISTRATE
-            .block("create_shredder_hopper", CreateShredderHopperBlock::new)
+    public static final BlockEntry<CreateShredderHoppingBlock> CREATE_SHREDDER_HOPPING = REGISTRATE
+            .block("create_shredder_hopping", CreateShredderHoppingBlock::new)
+            .lang("Hopping Create Shredder")
             .initialProperties(SharedProperties::stone)
             .properties(p -> p.mapColor(MapColor.METAL))
             .transform(pickaxeOnly())
