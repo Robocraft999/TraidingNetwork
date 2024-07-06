@@ -2,10 +2,12 @@ package com.robocraft999.amazingtrading.net;
 
 import com.robocraft999.amazingtrading.AmazingTrading;
 import com.robocraft999.amazingtrading.net.SyncResourcePointPKT.ResourcePointPKTInfo;
+import com.robocraft999.amazingtrading.net.packets.shop.IncrementShopItemsPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.ShopRequestPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncClientSettingsPKT;
 import com.robocraft999.amazingtrading.net.packets.shop.SyncSettingsPKT;
 import com.robocraft999.amazingtrading.net.packets.shredder.SyncOwnerNamePKT;
+import com.robocraft999.amazingtrading.net.packets.shredderhopper.SyncOwnerNameHopperPKT;
 import com.robocraft999.amazingtrading.resourcepoints.mapper.RPMappingHandler;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
@@ -43,9 +45,11 @@ public class PacketHandler {
         registerServerToClient(SyncClientSettingsPKT.class, SyncClientSettingsPKT::decode);
 
         registerServerToClient(SyncOwnerNamePKT.class, SyncOwnerNamePKT::decode);
+        registerServerToClient(SyncOwnerNameHopperPKT.class, SyncOwnerNameHopperPKT::decode);
 
         registerClientToServer(SyncSettingsPKT.class, SyncSettingsPKT::decode);
         registerClientToServer(ShopRequestPKT.class, ShopRequestPKT::decode);
+        registerClientToServer(IncrementShopItemsPKT.class, IncrementShopItemsPKT::decode);
     }
 
     private static <MSG extends ITNPacket> void registerClientToServer(Class<MSG> type, Function<FriendlyByteBuf, MSG> decoder) {

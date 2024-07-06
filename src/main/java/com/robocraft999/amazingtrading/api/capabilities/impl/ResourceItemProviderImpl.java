@@ -110,7 +110,7 @@ public class ResourceItemProviderImpl {
         }
 
         @NotNull
-        public <T> LazyOptional<T> getCapabilityUnchecked(@NotNull Capability<T> capability, @Nullable Direction side) {
+        public <T> LazyOptional<T> getCapabilityUnchecked(@NotNull Capability<T> capability) {
             if (cachedCapability == null || !cachedCapability.isPresent()) {
                 //If the capability has not been retrieved yet or it is not valid then recreate it
                 cachedCapability = LazyOptional.of(supplier);
@@ -121,7 +121,7 @@ public class ResourceItemProviderImpl {
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
             if (capability == ATCapabilities.RESOURCE_ITEM_CAPABILITY){
-                return getCapabilityUnchecked(capability, direction);
+                return getCapabilityUnchecked(capability);
             }
             return LazyOptional.empty();
         }

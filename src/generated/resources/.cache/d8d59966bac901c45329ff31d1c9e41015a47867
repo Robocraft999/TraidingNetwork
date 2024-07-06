@@ -1,11 +1,14 @@
-// 1.20.1	2024-04-05T17:02:07.7350329	Registrate Provider for amazingtrading [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2024-07-05T21:27:15.3800387	Registrate Provider for amazingtrading [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 1b4cf7124e3c18a34146a47c2a057f1a943d832b assets/amazingtrading/blockstates/create_shredder.json
+d30dbdff302a8f2b1c6a6ec650a9e74c070410c5 assets/amazingtrading/blockstates/create_shredder_hopper.json
 b0c787ac53fcd28bb2fcb6aed9a237d961d934e8 assets/amazingtrading/blockstates/shop.json
-2edf00a88b06e55f0f385d98062e63ab0cec86fa assets/amazingtrading/lang/en_ud.json
-c2a78ab79cfcc50f1e4235d3048a1e32506fd448 assets/amazingtrading/lang/en_us.json
+c6b8aa3d3b479a7c469a53299319f0fe76baec1a assets/amazingtrading/lang/en_ud.json
+18588045c9c06fde06f849e16a52f1dfbcf20f88 assets/amazingtrading/lang/en_us.json
 9b98d81ec0fa03073a555ff424061815b0aea8ed assets/amazingtrading/models/item/create_shredder.json
+811d90a96d1c357b526a1606e70192edd8d47e80 assets/amazingtrading/models/item/create_shredder_hopper.json
 2757f917ade488ba1e983e8177f6f8470d7ac3ff assets/amazingtrading/models/item/shop.json
 b7b398be3501b0b40d431b6c10fe6f04695c8ce8 data/amazingtrading/loot_tables/blocks/create_shredder.json
+17c5384fa3636457981cd41e72d28592f20eea5c data/amazingtrading/loot_tables/blocks/create_shredder_hopper.json
 f95406f173b6e089f03f2121628300d900ad9aaa data/amazingtrading/loot_tables/blocks/shop.json
 635525d741d7358e827c42e4e0dd44a82ffea62d data/minecraft/tags/blocks/mineable/axe.json
-cb36d6f6e9d32a908ad4cacf716ebb6d333e0bbd data/minecraft/tags/blocks/mineable/pickaxe.json
+3a3c4b8d65bb5f725659e3cbd4d5942d087d92ba data/minecraft/tags/blocks/mineable/pickaxe.json

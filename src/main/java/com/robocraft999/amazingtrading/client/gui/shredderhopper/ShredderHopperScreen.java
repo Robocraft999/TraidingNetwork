@@ -1,9 +1,11 @@
-package com.robocraft999.amazingtrading.client.gui.shredder;
+package com.robocraft999.amazingtrading.client.gui.shredderhopper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.robocraft999.amazingtrading.AmazingTrading;
-import com.robocraft999.amazingtrading.content.shredder.CreateShredderBlockEntity;
-import com.robocraft999.amazingtrading.utils.UIHelper;
+import com.robocraft999.amazingtrading.client.gui.shredder.ShredderScreen;
+import com.robocraft999.amazingtrading.client.gui.shredderhopper.ShredderHopperInventory;
+import com.robocraft999.amazingtrading.client.gui.shredderhopper.ShredderHopperMenu;
+import com.robocraft999.amazingtrading.content.shredderhopper.CreateShredderHopperBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -14,19 +16,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
 
-public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
+public class ShredderHopperScreen extends AbstractContainerScreen<ShredderHopperMenu> {
     private static final ResourceLocation TEXTURE = AmazingTrading.rl("textures/gui/shredder.png");
-    private final ShredderInventory inv;
+    private final ShredderHopperInventory inv;
     private Button newButton;
 
-    public ShredderScreen(ShredderMenu menu, Inventory playerInv, Component component) {
+    public ShredderHopperScreen(ShredderHopperMenu menu, Inventory playerInv, Component component) {
         super(menu, playerInv, component);
-        this.inv = menu.shredderInventory;
+        this.inv = menu.shredderHopperInventory;
         this.imageWidth = 176;
         this.imageHeight = 132;
         this.titleLabelX = 4;
@@ -49,7 +50,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
     private void handleNewButtonPress() {
         // Logik für den neuen Knopf
         Level level = menu.getLevel();
-        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
+        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderHopperBlockEntity blockEntity) {
             blockEntity.handleNewButtonPress();
         }
     }
@@ -68,8 +69,8 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
 
     private void renderProcessingItem(@NotNull GuiGraphics graphics, int x, int y) {
         Level level = menu.getLevel();
-        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
-            ItemStack stackInSlot = menu.inputSlots.get(0).getItem();
+        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderHopperBlockEntity blockEntity) {
+            ItemStack stackInSlot = menu.getInputSlotsHopper().get(0).getItem();
             if (!stackInSlot.isEmpty() && blockEntity.isProcessing()) {
                 // Render the text above the item
                 Component shreddingText = Component.literal("now being shredded").withStyle(ChatFormatting.GRAY);
@@ -112,7 +113,7 @@ public class ShredderScreen extends AbstractContainerScreen<ShredderMenu> {
         graphics.drawString(this.font, points, 8, 30, 0xE4B763, false);
 
         Level level = menu.getLevel();
-        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderBlockEntity blockEntity) {
+        if (level != null && level.getBlockEntity(menu.blockPos) instanceof CreateShredderHopperBlockEntity blockEntity) {
             // TODO: Add translation
             var text = Component.literal("Owner: ").withStyle(ChatFormatting.GRAY)
                     .append(Component.literal(blockEntity.getOwnerName()));

@@ -1,16 +1,15 @@
-package com.robocraft999.amazingtrading.client.gui.shredder;
+package com.robocraft999.amazingtrading.client.gui.shredderhopper;
 
 import com.robocraft999.amazingtrading.api.capabilities.IResourcePointProvider;
 import com.robocraft999.amazingtrading.client.gui.menu.ATInventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.Collections;
 
-public class ShredderInventory extends ATInventory {
+public class ShredderHopperInventory extends ATInventory {
 
-    public ShredderInventory(Player player){
+    public ShredderHopperInventory(Player player){
         super(player);
         if (!isServer()) {
             updateClientTargets();
